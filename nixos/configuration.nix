@@ -76,7 +76,11 @@
     starship
     eza
     wget
+    cava
     google-chrome
+    slack
+    postman
+    zoom
   ];
 
   programs.light.enable = true;
