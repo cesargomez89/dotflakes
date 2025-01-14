@@ -76,11 +76,14 @@
     starship
     eza
     wget
+    btop
+    neofetch
     cava
     google-chrome
     slack
     postman
     zoom
+    dbeaver-bin
   ];
 
   programs.light.enable = true;
@@ -100,7 +103,10 @@
   stylix.enable = true;
   stylix.polarity = "dark";
   stylix.image = ./dandadan.png;
-  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+  stylix.opacity = {
+    desktop = 0.2;
+  };
 
   users.users = {
     cesar = {
