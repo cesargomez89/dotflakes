@@ -2,6 +2,7 @@
   # You can import other home-manager modules here
   imports = [
     ./waybar.nix
+    ./rofi.nix
   ];
 
   home = {
@@ -17,7 +18,6 @@
   # Enable home-manager and git
   programs.home-manager.enable = true;
   programs.git.enable = true;
-  programs.wofi.enable = true;
 
   services.dunst = {
     enable = true;
