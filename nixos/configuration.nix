@@ -97,6 +97,10 @@
     fira-code
   ];
 
+  stylix.enable = true;
+  stylix.polarity = "dark";
+  stylix.image = ./dandadan.png;
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
 
   users.users = {
     cesar = {

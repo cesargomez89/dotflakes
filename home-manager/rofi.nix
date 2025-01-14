@@ -3,7 +3,6 @@
 {
   programs.rofi = {
     enable = true;
-    font = "Fira Code 12";
     terminal = "kitty";
     extraConfig = {
       modi = "run,drun,window";

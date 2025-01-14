@@ -2,10 +2,8 @@
   description = "NixOS + Hyprland dotfiles";
 
   inputs = {
-    # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
-
-    # Home manager
+    stylix.url = "github:danth/stylix/release-24.11";
     home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -13,6 +11,7 @@
   outputs = {
     self,
     nixpkgs,
+    stylix,
     home-manager,
     ...
   } @ inputs: let
@@ -24,6 +23,7 @@
         # > Our main nixos configuration file <
         modules = [
           ./nixos/configuration.nix
+          stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
