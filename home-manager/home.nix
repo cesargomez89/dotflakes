@@ -27,7 +27,6 @@
   wayland.windowManager.hyprland.extraConfig = builtins.readFile ./hypr/hyprland.conf;
 
   stylix.targets.waybar.enable = true;
-  stylix.targets.waybar.enableCenterBackColors = true;
 
   home.sessionVariables.NIXOS_OZONE_WL = "1";
   systemd.user.startServices = "sd-switch";

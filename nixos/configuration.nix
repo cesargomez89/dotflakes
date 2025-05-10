@@ -36,6 +36,9 @@
   time.timeZone = "America/Mexico_City";
   i18n.defaultLocale = "en_US.UTF-8";
 
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
+
   services.xserver.xkb = {
     layout = "us";
     variant = "";
@@ -66,6 +69,7 @@
 
   environment.systemPackages = with pkgs; [
     gcc
+    go
     gnumake
     wl-clipboard
     python314
@@ -84,8 +88,11 @@
     postman
     zoom
     dbeaver-bin
+    telegram-desktop
+    aider-chat
   ];
 
+  programs.zsh.enable = true;
   programs.light.enable = true;
   programs.light.brightnessKeys.enable = true;
   programs.thunar.enable = true;
@@ -95,9 +102,10 @@
     xwayland.enable = true;
   };
 
+  virtualisation.docker.enable = true;
+
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "FiraCode" ]; })
-    fira-code
+    (nerdfonts.override { fonts = [ "CascadiaCode" ]; })
   ];
 
   stylix.enable = true;
@@ -108,6 +116,7 @@
     desktop = 0.2;
   };
 
+  users.defaultUserShell = pkgs.zsh;
   users.users = {
     cesar = {
       initialPassword = "password";
