@@ -105,7 +105,7 @@
   virtualisation.docker.enable = true;
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "CascadiaCode" ]; })
+    (nerdfonts.override { fonts = [ "CascadiaCode" "FiraCode" ]; })
   ];
 
   stylix.enable = true;
