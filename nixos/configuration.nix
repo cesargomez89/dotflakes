@@ -73,6 +73,7 @@
     gnumake
     wl-clipboard
     python314
+    swaynotificationcenter
     zsh
     kitty
     neovim
