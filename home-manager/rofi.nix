@@ -1,10 +1,4 @@
-{
-  config,
-  pkgs,
-  inputs,
-  personalDotfilesPath,
-  ...
-}:
+{ config, pkgs, inputs, ... }:
 
 let
   inherit (config.lib.formats.rasi) mkLiteral;

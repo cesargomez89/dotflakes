@@ -2,7 +2,7 @@
 
 {
   programs.waybar = {
-    systemd.enable = true;
+    enable = true;
     settings = {
       mainBar = {
         layer = "top";
@@ -99,7 +99,7 @@
         "custom/lock" = {
           format = "󰌾";
           tooltip = false;
-          on-click = "swaylock";
+          on-click = "hyprlock";
         };
 
         "custom/reboot" = {

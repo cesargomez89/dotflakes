@@ -44,14 +44,19 @@
     variant = "";
   };
 
+
   services.xserver.enable = true;
+  services.displayManager.defaultSession = "hyprland";
+
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
+    package = pkgs.kdePackages.sddm;
+    theme = "sddm-astronaut-theme";
+    extraPackages = with pkgs; [
+      kdePackages.qtsvg kdePackages.qtmultimedia kdePackages.qtvirtualkeyboard sddm-astronaut
+    ];
   };
-
-  services.displayManager.defaultSession = "hyprland";
-
   
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
@@ -69,11 +74,12 @@
 
   environment.systemPackages = with pkgs; [
     gcc
-    go
     gnumake
     wl-clipboard
-    python314
     swaynotificationcenter
+    sddm-astronaut
+    python314
+    go
     zsh
     kitty
     neovim
