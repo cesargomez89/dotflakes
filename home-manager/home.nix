@@ -1,60 +1,51 @@
-{ inputs, lib, config, pkgs, ...}: {
-  # You can import other home-manager modules here
-  imports = [
-    ./waybar.nix
-    ./rofi.nix
-  ];
+{ config, pkgs, ... }:
 
-  home = {
-    username = "cesar";
-    homeDirectory = "/home/cesar";
-    file = {
-      ".config/hypr/scripts/change-wallpaper.sh".source = builtins.path {
-        path = ./hypr/scripts/change-wallpaper.sh;
-        name = "change-wallpaper.sh";
-      };
-    };
-  };
+{
+  # Home Manager needs a bit of information about you and the
+  # paths it should manage.
+  home.username = "cesar";
+  home.homeDirectory = "/home/cesar";
+  home.stateVersion = "25.05";
+  programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
-    swaynotificationcenter
-    hypridle
-    hyprpaper
+    gnome-tweaks
+    dconf-editor
+    gnome-shell-extensions
+    gnomeExtensions.open-bar
+    gnomeExtensions.blur-my-shell
+    papirus-icon-theme
   ];
 
-  # Enable home-manager and git
-  programs.home-manager.enable = true;
-  programs.git.enable = true;
-  programs.hyprlock.enable = true;
-
-  services.hyprpaper.enable = true;
-  services.hypridle.enable = true;
-
-  services.hypridle.settings = {
-    general = {
-      after_sleep_cmd = "hyprctl dispatch dpms on";
-      ignore_dbus_inhibit = false;
-      lock_cmd = "hyprlock";
-    };
-
-    listener = [
-      {
-        timeout = 900;
-        on-timeout = "hyprlock";
-      }
-      {
-        timeout = 1200;
-        on-timeout = "hyprctl dispatch dpms off";
-        on-resume = "hyprctl dispatch dpms on";
-      }
-    ];
+  services.random-background = {
+    enable = true;
+    interval = "12h";
+    display = "fill";
+    imageDirectory = "%h/wallpapers";
   };
 
-  wayland.windowManager.hyprland.enable = true;
-  wayland.windowManager.hyprland.extraConfig = builtins.readFile ./hypr/hyprland.conf;
-
-  home.sessionVariables.NIXOS_OZONE_WL = "1";
-  systemd.user.startServices = "sd-switch";
-
-  home.stateVersion = "24.11";
+  dconf.enable = true;
+  dconf.settings = {
+    "org/gnome/desktop/input-sources" = {
+      xkb-options = [ "ctrl:swapcaps" ];
+    };
+    "org/gnome/shell" = {
+      enabled-extensions = [
+        "blur-my-shell@aunetx"
+        "open-bar@jeremywootten"
+      ];
+    };
+    "org/gnome/shell/extensions/blur-my-shell" = {
+      mode = "blur";
+    };
+    "org/gnome/shell/extensions/open-bar" = {
+      bar-style = "trilands";
+      accent-color-mode = "auto";
+      show-shadow = true;
+      panel-height = 36;
+      transparency = 0.6;
+      border-radius = 12;
+      blur = true;
+    };
+  };
 }

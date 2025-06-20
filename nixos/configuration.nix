@@ -44,22 +44,10 @@
     variant = "";
   };
 
-
   services.xserver.enable = true;
-  services.displayManager.defaultSession = "hyprland";
-
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
-    package = pkgs.kdePackages.sddm;
-    theme = "sddm-astronaut-theme";
-    extraPackages = with pkgs; [
-      kdePackages.qtsvg kdePackages.qtmultimedia kdePackages.qtvirtualkeyboard sddm-astronaut
-    ];
-  };
-  
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.defaultSession = "gnome";
 
   security.rtkit.enable = true;
   services.pipewire = {
@@ -67,17 +55,23 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    # jack.enable = true;
   };
+
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
+  services.blueman.enable = true;
 
   networking.networkmanager.enable = true;
   networking.hostName = "nixos";
 
+  hardware.enableAllFirmware = true;
+
   environment.systemPackages = with pkgs; [
     gcc
     gnumake
-    wl-clipboard
-    swaynotificationcenter
-    sddm-astronaut
     python314
     go
     zsh
@@ -99,29 +93,15 @@
     aider-chat
   ];
 
+  programs.git.enable = true;
   programs.zsh.enable = true;
-  programs.light.enable = true;
-  programs.light.brightnessKeys.enable = true;
-  programs.thunar.enable = true;
-
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-  };
 
   virtualisation.docker.enable = true;
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "CascadiaCode" "FiraCode" ]; })
+    nerd-fonts.caskaydia-cove
+    nerd-fonts.fira-code
   ];
-
-  stylix.enable = true;
-  stylix.polarity = "dark";
-  stylix.image = ./dandadan.png;
-  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
-  stylix.opacity = {
-    desktop = 0.2;
-  };
 
   users.defaultUserShell = pkgs.zsh;
   users.users = {
@@ -131,9 +111,9 @@
       openssh.authorizedKeys.keys = [
         # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
       ];
-      extraGroups = ["wheel" "networkmanager" "docker"];
+      extraGroups = ["wheel" "networkmanager" "audio" "bluetooth" "docker"];
     };
   };
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
 }
