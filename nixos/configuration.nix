@@ -35,6 +35,8 @@
 
   time.timeZone = "America/Mexico_City";
   i18n.defaultLocale = "en_US.UTF-8";
+  i18n.inputMethod.enabled = null;
+
 
   services.gvfs.enable = true;
   services.udisks2.enable = true;
@@ -49,13 +51,17 @@
   services.xserver.desktopManager.gnome.enable = true;
   services.displayManager.defaultSession = "gnome";
 
+  services.gnome = {
+    tracker.enable = false;
+    tracker-miners.enable = false;
+  };
+
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # jack.enable = true;
   };
 
   hardware.bluetooth = {
@@ -72,6 +78,8 @@
   environment.systemPackages = with pkgs; [
     gcc
     gnumake
+    wsdd
+    gnome-tweaks
     python314
     go
     zsh
