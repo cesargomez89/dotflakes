@@ -93,6 +93,9 @@
     gcc
     gnumake
     wsdd
+    wget
+    curl
+    unzip
     python314
     go
     zsh
@@ -101,7 +104,7 @@
     luarocks
     starship
     eza
-    wget
+    tmux
     btop
     neofetch
     google-chrome

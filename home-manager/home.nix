@@ -10,6 +10,7 @@
 
   home.packages = with pkgs; [
     gnomeExtensions.open-bar
+    gnomeExtensions.media-controls
     gnome-tweaks
     dconf-editor
     papirus-icon-theme
@@ -36,6 +37,20 @@
       NoDisplay=false
       X-GNOME-Autostart-enabled=true
       X-GNOME-Autostart-Delay=2
+    '';
+  };
+
+  home.file.".local/share/applications/random-wallpaper.desktop" = {
+    text = ''
+      [Desktop Entry]
+      Type=Application
+      Name=Random Wallpaper
+      Comment=Change wallpaper to a random image
+      Exec=${config.home.homeDirectory}/.local/bin/random-bg
+      Icon=preferences-desktop-wallpaper
+      Terminal=false
+      Categories=Utility;DesktopSettings;
+      StartupNotify=false
     '';
   };
 
@@ -74,13 +89,14 @@
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3" = {
       name = "Slack";
       command = "slack";
-      binding = "<Super>s";
+      binding = "<Super>c";
     };
     "org/gnome/shell" = {
       disabled-extensions = [];
       disable-user-extensions = false;
       enabled-extensions = [
         "openbar@neuromorph"
+        "mediacontrols@cliffniff.github.com"
       ];
       favorite-apps = [
         "kitty.desktop"
@@ -88,14 +104,16 @@
         "slack.desktop"
         "dbeaver.desktop"
         "postman.desktop"
+        "random-wallpaper.desktop"
       ];
     };
     "org/gnome/shell/extensions/openbar" = {
       autotheme-dark = "Dark";
       autotheme-light = "Dark";
+      bartype = "Islands";
+      dashdock-style = "Bar";
       autotheme-refresh = true;
       trigger-autotheme = true;
-      bartype = "Trilands";
       margin = 1.0;
       height = 35.0;
       isalpha = 0.60;

@@ -1,12 +1,29 @@
 # DotFlakes
 
-My personal NixOS + Home Manager + Gnome DM configuration using Flakes.
+A personal NixOS configuration featuring Home Manager and GNOME, built with flakes for reproducible system management.
 
-## Features
+## Philosophy
 
-- System configuration in `nixos/`
-- Home Manager configuration in `home-manager/`
-- Managed using Nix Flakes for reproducibility
+This configuration prioritizes OS-level system management while maintaining a balance between simplicity, visual appeal, and productivity. The focus is on creating a stable, declarative foundation for your desktop environment.
+
+## Architecture
+
+DotFlakes is designed as a system-level configuration manager that pairs seamlessly with [Kiddots](https://github.com/cesargomez89/kiddots) for application-specific dotfiles. This separation allows for:
+
+- **System stability**: Core OS configuration remains consistent
+- **Flexibility**: Application configs can evolve independently
+- **Maintainability**: Clear separation of concerns
+
+## What's Included
+
+- **NixOS**: Declarative system configuration
+- **Home Manager**: User environment management
+- **GNOME**: Polished desktop environment with thoughtful customizations
+- **Flakes**: Modern, reproducible Nix workflow
+
+## What's Not Included
+
+Terminal emulators, Neovim, tmux, and other frequently-changing application configurations are intentionally excluded. These are better managed through dedicated dotfiles like [Kiddots](https://github.com/cesargomez89/kiddots).
 
 ## Setup
 
@@ -38,11 +55,15 @@ git clone git@github.com:cesargomez89/wallpapers.git ~/wallpapers
 
 Desktop UI is being handled by GDM + GNOME Shell for simplicity.
 
-#### Wallpaper switcher
+#### Random Wallpaper
 
 The wallpaper switcher is configured to use the `random-bg` script in `~/.local/bin/`.
+There are 3 ways to change the wallpaper:
 
-To change the wallpaper, run `random-bg` from the command line.
+1. It gets replaced on login automatically
+2. Click on the random wallpaper icon in the dash
+3. Run `~/.local/bin/random-bg` from the command line
+
 This script reads the wallpapers from `~/wallpapers/`.
 
 You can create your own folder and paste your collection or feel free to use mine from this repo:
@@ -79,9 +100,10 @@ git clone git@github.com:cesargomez89/wallpapers.git ~/wallpapers
 | Extension | Description |
 | --- | --- |
 | Open Bar | Adds a bar to the top of the screen |
+| Media Controls | Adds media controls to the top of the screen |
 
 
-I only use the [Open Bar](https://extensions.gnome.org/extension/615/open-bar/) extension to add a bar to the top of the screen.
+I use the [Open Bar](https://extensions.gnome.org/extension/6580/open-bar/) extension to add a bar to the top of the screen.
 I went with it because it handles theme based on wallpaper and allows many customizations.
 
 #### Pre-installed packages
@@ -96,6 +118,7 @@ I went with it because it handles theme based on wallpaper and allows many custo
 | luarocks | Lua package manager |
 | starship | Shell prompt |
 | eza | Archive manager |
+| tmux | Terminal multiplexer |
 | wget | Download utility |
 | btop | Process monitor |
 | neofetch | System information |
@@ -114,3 +137,17 @@ I went with it because it handles theme based on wallpaper and allows many custo
 | --- | --- |
 | Caskaydia Cove | Nerd font |
 | Fira Code | Nerd font |
+
+## Screenshots
+
+![Screenshot](https://raw.githubusercontent.com/cesargomez89/dotflakes/master/screenshots/1.png)
+
+![Screenshot](https://raw.githubusercontent.com/cesargomez89/dotflakes/master/screenshots/3.png)
+
+![Screenshot](https://raw.githubusercontent.com/cesargomez89/dotflakes/master/screenshots/5.png)
+
+![Screenshot](https://raw.githubusercontent.com/cesargomez89/dotflakes/master/screenshots/6.png)
+
+## Contributing
+
+This is a personal configuration, but feel free to fork and adapt it to your needs. Pull requests, issues and suggestions are welcome.
