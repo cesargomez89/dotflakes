@@ -7,15 +7,11 @@
   home.homeDirectory = "/home/cesar";
   home.stateVersion = "25.05";
   programs.home-manager.enable = true;
-  programs.gnome-shell.enable = true;
-
 
   home.packages = with pkgs; [
+    gnomeExtensions.open-bar
     gnome-tweaks
     dconf-editor
-    gnome-shell-extensions
-    gnomeExtensions.blur-my-shell
-    gnomeExtensions.just-perfection
     papirus-icon-theme
   ];
 
@@ -48,12 +44,16 @@
     "org/gnome/desktop/input-sources" = {
       xkb-options = [ "ctrl:swapcaps" ];
     };
+    "org/gnome/desktop/interface" = {
+      icon-theme = "Papirus-Dark";
+      color-scheme = "prefer-dark";
+    };
     "org/gnome/settings-daemon/plugins/media-keys" = {
       custom-keybindings = [
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
-          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
-          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/"
-          "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/"
       ];
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
@@ -72,11 +72,15 @@
       binding = "<Super>Return";
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3" = {
+      name = "Slack";
+      command = "slack";
+      binding = "<Super>s";
     };
     "org/gnome/shell" = {
+      disabled-extensions = [];
+      disable-user-extensions = false;
       enabled-extensions = [
-        "blur-my-shell@aunetx"
-        "just-perfection@just-perfection"
+        "openbar@neuromorph"
       ];
       favorite-apps = [
         "kitty.desktop"
@@ -84,11 +88,17 @@
         "slack.desktop"
         "dbeaver.desktop"
         "postman.desktop"
-        "telegram.desktop"
       ];
     };
-    "org/gnome/shell/extensions/blur-my-shell" = {
-      mode = "blur";
+    "org/gnome/shell/extensions/openbar" = {
+      autotheme-dark = "Dark";
+      autotheme-light = "Dark";
+      autotheme-refresh = true;
+      trigger-autotheme = true;
+      bartype = "Trilands";
+      margin = 1.0;
+      height = 35.0;
+      isalpha = 0.60;
     };
   };
 }

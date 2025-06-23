@@ -52,9 +52,23 @@
   services.displayManager.defaultSession = "gnome";
 
   services.gnome = {
-    tracker.enable = false;
-    tracker-miners.enable = false;
+    tinysparql.enable = false;
+    localsearch.enable = false;
   };
+
+  environment.gnome.excludePackages = with pkgs; [
+    gnome-contacts
+    gnome-maps
+    gnome-music
+    gnome-terminal
+    gnome-tour
+    gnome-keyring
+    epiphany
+    totem
+    simple-scan
+    geary
+    yelp
+  ];
 
   security.rtkit.enable = true;
   services.pipewire = {
@@ -62,6 +76,8 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    wireplumber.enable = true;
+    jack.enable = true;
   };
 
   hardware.bluetooth = {
@@ -73,13 +89,10 @@
   networking.networkmanager.enable = true;
   networking.hostName = "nixos";
 
-  hardware.enableAllFirmware = true;
-
   environment.systemPackages = with pkgs; [
     gcc
     gnumake
     wsdd
-    gnome-tweaks
     python314
     go
     zsh
@@ -91,7 +104,6 @@
     wget
     btop
     neofetch
-    cava
     google-chrome
     slack
     postman
@@ -99,6 +111,7 @@
     dbeaver-bin
     telegram-desktop
     aider-chat
+    vlc
   ];
 
   programs.git.enable = true;
