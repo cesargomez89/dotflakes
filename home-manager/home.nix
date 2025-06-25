@@ -104,6 +104,7 @@
         "slack.desktop"
         "dbeaver.desktop"
         "postman.desktop"
+        "nautilus.desktop"
         "random-wallpaper.desktop"
       ];
     };
@@ -116,7 +117,7 @@
       trigger-autotheme = true;
       margin = 1.0;
       height = 35.0;
-      isalpha = 0.60;
+      isalpha = 0.71999999999999997;
     };
   };
 }

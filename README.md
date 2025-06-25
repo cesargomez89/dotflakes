@@ -131,6 +131,20 @@ I went with it because it handles theme based on wallpaper and allows many custo
 | aider-chat | AI assistant |
 | vlc | Video player |
 
+#### Services
+
+| Service | Description |
+| --- | --- |
+| zerotierone | ZeroTier networking |
+
+#### Programs
+
+| Program | Description |
+| --- | --- |
+| git | Version control system |
+| zsh | Shell |
+
+
 #### Pre-installed fonts
 
 | Font | Description |
