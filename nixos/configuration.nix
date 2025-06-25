@@ -102,6 +102,8 @@
     unzip
     python314
     go
+    ruby
+    fnm
     zsh
     kitty
     neovim

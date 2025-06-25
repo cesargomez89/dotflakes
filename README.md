@@ -112,6 +112,8 @@ I went with it because it handles theme based on wallpaper and allows many custo
 | --- | --- |
 | python314 | Python 3.14 |
 | go | Go programming language |
+| ruby | Ruby programming language |
+| fnm | Fast and simple Node.js version manager |
 | zsh | Z shell |
 | kitty | Terminal emulator |
 | neovim | Text editor |
