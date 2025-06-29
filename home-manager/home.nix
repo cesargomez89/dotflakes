@@ -9,6 +9,7 @@
   home.packages = with pkgs; [
     gnomeExtensions.open-bar
     gnomeExtensions.media-controls
+    gnomeExtensions.vitals
     gnome-tweaks
     dconf-editor
     papirus-icon-theme
@@ -58,8 +59,11 @@
       xkb-options = [ "ctrl:swapcaps" ];
     };
     "org/gnome/desktop/interface" = {
-      icon-theme = "Papirus-Dark";
       color-scheme = "prefer-dark";
+      icon-theme = "Papirus-Dark";
+      font-antialiasing = "rgba";
+      font-hinting = "slight";
+      enable-animations = true;
     };
     "org/gnome/settings-daemon/plugins/media-keys" = {
       custom-keybindings = [
@@ -95,6 +99,8 @@
       enabled-extensions = [
         "openbar@neuromorph"
         "mediacontrols@cliffniff.github.com"
+        "user-theme@gnome-shell-extensions.gcampax.github.com"
+        "Vitals@CoreCoding.com"
       ];
       favorite-apps = [
         "kitty.desktop"
@@ -103,6 +109,7 @@
         "dbeaver.desktop"
         "postman.desktop"
         "nautilus.desktop"
+        "com.github.th_ch.youtube_music.desktop"
         "random-wallpaper.desktop"
       ];
     };
@@ -116,6 +123,13 @@
       margin = 1.0;
       height = 35.0;
       isalpha = 0.71999999999999997;
+    };
+    "org/gnome/shell/extensions/vitals" = {
+      hot-sensors = ["_processor_usage_" "_memory_usage_" "_system_load_1m_"];
+      position-in-panel = 2;
+      use-higher-precision = false;
+      alphabetize = true;
+      hide-zeros = false;
     };
   };
 }

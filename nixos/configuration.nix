@@ -9,6 +9,8 @@
     ./hardware-configuration.nix
   ];
 
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
   nixpkgs = {
     overlays = [
     ];
@@ -113,10 +115,12 @@
     tmux
     btop
     neofetch
+    cava
     google-chrome
+    youtube-music
     slack
+    zoom-us
     postman
-    zoom
     dbeaver-bin
     telegram-desktop
     aider-chat
@@ -125,6 +129,15 @@
 
   programs.git.enable = true;
   programs.zsh.enable = true;
+  programs.obs-studio = {
+    enable = true;
+    plugins = with pkgs.obs-studio-plugins; [
+      wlrobs
+      input-overlay
+      obs-vaapi
+      obs-vkcapture
+    ];
+  };
 
   virtualisation.docker.enable = true;
 
