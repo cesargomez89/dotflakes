@@ -5,6 +5,7 @@
   home.homeDirectory = "/home/cesar";
   home.stateVersion = "25.05";
   programs.home-manager.enable = true;
+  dconf.enable = true;
 
   home.packages = with pkgs; [
     gnomeExtensions.open-bar
@@ -15,45 +16,10 @@
     papirus-icon-theme
   ];
 
-  home.file.".local/bin/random-bg" = {
-    text = ''
-      #!/usr/bin/env bash
-      WALLPAPER_DIR="${config.home.homeDirectory}/wallpapers"
-      WALLPAPER=$(find "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" \) | shuf -n 1)
-      gsettings set org.gnome.desktop.background picture-uri "file://$WALLPAPER"
-      gsettings set org.gnome.desktop.background picture-uri-dark "file://$WALLPAPER"
-    '';
-    executable = true;
-  };
+  imports = [
+    ./random-bg.nix
+  ];
 
-  home.file.".config/autostart/random-wallpaper.desktop" = {
-    text = ''
-      [Desktop Entry]
-      Type=Application
-      Name=Random Wallpaper
-      Exec=${config.home.homeDirectory}/.local/bin/random-bg
-      Hidden=false
-      NoDisplay=false
-      X-GNOME-Autostart-enabled=true
-      X-GNOME-Autostart-Delay=2
-    '';
-  };
-
-  home.file.".local/share/applications/random-wallpaper.desktop" = {
-    text = ''
-      [Desktop Entry]
-      Type=Application
-      Name=Random Wallpaper
-      Comment=Change wallpaper to a random image
-      Exec=${config.home.homeDirectory}/.local/bin/random-bg
-      Icon=preferences-desktop-wallpaper
-      Terminal=false
-      Categories=Utility;DesktopSettings;
-      StartupNotify=false
-    '';
-  };
-
-  dconf.enable = true;
   dconf.settings = {
     "org/gnome/desktop/input-sources" = {
       xkb-options = [ "ctrl:swapcaps" ];
@@ -72,6 +38,8 @@
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/"
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/"
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom5/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom6/"
       ];
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
@@ -98,6 +66,14 @@
       name = "Random Wallpaper";
       command = "${config.home.homeDirectory}/.local/bin/random-bg";
       binding = "<Super>r";
+    };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom5" = {
+      name = "Youtube Music";
+      command = "youtube-music";
+      binding = "<Super>y";
+    };
+    "org/gnome/desktop/wm/keybindings" = {
+      close = ["<Super>q"];
     };
     "org/gnome/shell" = {
       disabled-extensions = [];

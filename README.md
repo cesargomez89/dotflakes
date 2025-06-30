@@ -97,6 +97,8 @@ git clone git@github.com:cesargomez89/wallpapers.git ~/wallpapers
 | `<Super>Return` | Toggle Kitty |
 | `<Super>c` | Toggle Slack |
 | `<Super>r` | Change wallpaper |
+| `<Super>y` | Toggle Youtube Music |
+| `<Super>q` | Close window |
 
 
 #### Extensions
