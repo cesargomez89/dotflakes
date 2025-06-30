@@ -71,6 +71,7 @@
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/"
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4/"
       ];
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
@@ -93,6 +94,11 @@
       command = "slack";
       binding = "<Super>c";
     };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4" = {
+      name = "Random Wallpaper";
+      command = "${config.home.homeDirectory}/.local/bin/random-bg";
+      binding = "<Super>r";
+    };
     "org/gnome/shell" = {
       disabled-extensions = [];
       disable-user-extensions = false;
@@ -110,6 +116,7 @@
         "postman.desktop"
         "nautilus.desktop"
         "com.github.th_ch.youtube_music.desktop"
+        "org.telegram.desktop.desktop"
         "random-wallpaper.desktop"
       ];
     };

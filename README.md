@@ -82,6 +82,10 @@ git clone git@github.com:cesargomez89/wallpapers.git ~/wallpapers
 | Slack | Chat client |
 | Dbeaver | Database client |
 | Postman | API client |
+| Nautilus | File manager |
+| YouTube Music | Music player |
+| Telegram | Chat client |
+| Random Wallpaper | Change wallpaper |
 
 
 #### Keybindings
@@ -92,6 +96,7 @@ git clone git@github.com:cesargomez89/wallpapers.git ~/wallpapers
 | `<Super>e` | Toggle Nautilus |
 | `<Super>Return` | Toggle Kitty |
 | `<Super>c` | Toggle Slack |
+| `<Super>r` | Change wallpaper |
 
 
 #### Extensions
