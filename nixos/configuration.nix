@@ -40,8 +40,15 @@
   i18n.inputMethod.enabled = null;
 
 
+  services.printing.enable = true;
   services.gvfs.enable = true;
   services.udisks2.enable = true;
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
 
   services.xserver.xkb = {
     layout = "us";
