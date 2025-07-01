@@ -117,12 +117,15 @@
     kitty
     neovim
     luarocks
+    ripgrep
     starship
     eza
     tmux
+    lazydocker
     btop
     neofetch
     cava
+    fum
     google-chrome
     youtube-music
     slack
