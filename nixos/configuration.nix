@@ -94,6 +94,7 @@
     enable = true;
   };
 
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -137,6 +138,7 @@
     neofetch
     cava
     fum
+    gparted
     google-chrome
     youtube-music
     slack
