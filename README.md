@@ -165,11 +165,11 @@ I went with it because it handles theme based on wallpaper and allows many custo
 
 ![Screenshot](https://raw.githubusercontent.com/cesargomez89/dotflakes/master/screenshots/1.png)
 
+![Screenshot](https://raw.githubusercontent.com/cesargomez89/dotflakes/master/screenshots/2.png)
+
 ![Screenshot](https://raw.githubusercontent.com/cesargomez89/dotflakes/master/screenshots/3.png)
 
-![Screenshot](https://raw.githubusercontent.com/cesargomez89/dotflakes/master/screenshots/5.png)
-
-![Screenshot](https://raw.githubusercontent.com/cesargomez89/dotflakes/master/screenshots/6.png)
+![Screenshot](https://raw.githubusercontent.com/cesargomez89/dotflakes/master/screenshots/4.png)
 
 ## Contributing
 

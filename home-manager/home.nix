@@ -108,7 +108,7 @@
       isalpha = 0.71999999999999997;
     };
     "org/gnome/shell/extensions/vitals" = {
-      hot-sensors = ["_processor_usage_" "_memory_usage_" "_system_load_1m_"];
+      hot-sensors = ["_processor_usage_" "_memory_usage_"];
       position-in-panel = 2;
       use-higher-precision = false;
       alphabetize = true;
