@@ -125,13 +125,17 @@ I went with it because it handles theme based on wallpaper and allows many custo
 | kitty | Terminal emulator |
 | neovim | Text editor |
 | luarocks | Lua package manager |
+| ripgrep | Search tool |
 | starship | Shell prompt |
 | eza | Archive manager |
 | tmux | Terminal multiplexer |
 | wget | Download utility |
 | btop | Process monitor |
 | neofetch | System information |
+| cava | System information |
+| fum | Player TUI |
 | google-chrome | Web browser |
+| youtube-music | Music player |
 | slack | Chat client |
 | postman | API client |
 | zoom | Video conferencing |
