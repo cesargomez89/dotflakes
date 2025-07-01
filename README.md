@@ -40,6 +40,8 @@ Extra step for the wallpaper switcher:
 git clone git@github.com:cesargomez89/wallpapers.git ~/wallpapers
 ```
 
+Further details in the [INSTALL.md](./INSTALL.md) file.
+
 
 ## Structure
 
