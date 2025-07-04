@@ -9,7 +9,15 @@
     ./hardware-configuration.nix
   ];
 
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+    PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
+    OPENSSL_ROOT_DIR = "${pkgs.openssl.dev}";
+    USE_HTTPS = "OpenSSL";
+    GEM_HOME="$HOME/.local/share/gem/ruby/3.4.0";
+    GEM_PATH = "$HOME/.local/share/gem/ruby/3.4.0";
+    PATH = "$HOME/.local/bin:$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH";
+  };
 
   nixpkgs = {
     overlays = [
@@ -115,16 +123,25 @@
   networking.hostName = "nixos";
 
   environment.systemPackages = with pkgs; [
-    gcc
+    pkg-config
     gnumake
+    cmake
+    openssl.dev
+    libxml2
+    libxslt
+    zlib
+    libgit2
+    heimdal
+    krb5.dev
+    gcc
     wsdd
     wget
     curl
     unzip
     python314
     go
-    ruby
-    fnm
+    ruby_3_4
+    nodejs_24
     zsh
     kitty
     neovim
@@ -151,7 +168,18 @@
   ];
 
   programs.git.enable = true;
-  programs.zsh.enable = true;
+  programs.zsh = {
+    enable = true;
+    shellInit = ''
+      export PKG_CONFIG_PATH="${pkgs.openssl.dev}/lib/pkgconfig"
+      export OPENSSL_ROOT_DIR="${pkgs.openssl.dev}"
+      export USE_HTTPS="OpenSSL"
+      export GEM_HOME="$HOME/.local/share/gem/ruby/3.4.0";
+      export GEM_PATH="$HOME/.local/share/gem/ruby/3.4.0";
+      export PATH="$HOME/.local/bin:$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH";
+
+    '';
+  };
   programs.obs-studio = {
     enable = true;
     plugins = with pkgs.obs-studio-plugins; [
@@ -160,6 +188,10 @@
       obs-vaapi
       obs-vkcapture
     ];
+  };
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
   };
 
   virtualisation.docker.enable = true;
