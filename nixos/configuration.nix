@@ -14,9 +14,6 @@
     PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
     OPENSSL_ROOT_DIR = "${pkgs.openssl.dev}";
     USE_HTTPS = "OpenSSL";
-    GEM_HOME="$HOME/.local/share/gem/ruby/3.4.0";
-    GEM_PATH = "$HOME/.local/share/gem/ruby/3.4.0";
-    PATH = "$HOME/.local/bin:$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH";
   };
 
   nixpkgs = {
@@ -57,7 +54,6 @@
   time.timeZone = "America/Mexico_City";
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.inputMethod.enabled = null;
-
 
   services.printing.enable = true;
   services.gvfs.enable = true;
@@ -122,7 +118,9 @@
   networking.networkmanager.enable = true;
   networking.hostName = "nixos";
 
+  # System-wide packages (core system tools only)
   environment.systemPackages = with pkgs; [
+    # Build essentials
     pkg-config
     gnumake
     cmake
@@ -134,40 +132,29 @@
     heimdal
     krb5.dev
     gcc
+
+    # Core system utilities
     wsdd
     wget
     curl
     unzip
-    python314
-    go
-    ruby_3_4
-    nodejs_24
-    zsh
     kitty
-    neovim
-    luarocks
     ripgrep
-    starship
-    eza
-    tmux
-    lazydocker
     btop
     neofetch
-    cava
-    fum
-    gparted
-    google-chrome
-    youtube-music
-    slack
-    zoom-us
-    postman
-    dbeaver-bin
-    telegram-desktop
-    aider-chat
-    vlc
+
+    # Language Managers
+    nodejs_24
+    ruby_3_4
+    go
+    python314
   ];
 
-  programs.git.enable = true;
+  fonts.packages = with pkgs; [
+    nerd-fonts.caskaydia-cove
+    nerd-fonts.fira-code
+  ];
+
   programs.zsh = {
     enable = true;
     shellInit = ''
@@ -176,10 +163,10 @@
       export USE_HTTPS="OpenSSL"
       export GEM_HOME="$HOME/.local/share/gem/ruby/3.4.0";
       export GEM_PATH="$HOME/.local/share/gem/ruby/3.4.0";
-      export PATH="$HOME/.local/bin:$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH";
-
+      export PATH="$HOME/.local/bin:$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH"
     '';
   };
+
   programs.obs-studio = {
     enable = true;
     plugins = with pkgs.obs-studio-plugins; [
@@ -189,17 +176,13 @@
       obs-vkcapture
     ];
   };
+
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
   };
 
   virtualisation.docker.enable = true;
-
-  fonts.packages = with pkgs; [
-    nerd-fonts.caskaydia-cove
-    nerd-fonts.fira-code
-  ];
 
   users.defaultUserShell = pkgs.zsh;
   users.users = {
