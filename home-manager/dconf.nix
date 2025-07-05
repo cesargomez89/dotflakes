@@ -78,7 +78,7 @@
       trigger-autotheme = true;
       margin = 1.0;
       height = 35.0;
-      corner-radius = 5.0;
+      bradius = 5.0;
       isalpha = 0.71999999999999997;
     };
     "org/gnome/shell/extensions/vitals" = {
