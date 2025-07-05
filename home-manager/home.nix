@@ -27,6 +27,7 @@
     starship
     luarocks
     tmux
+    lazygit
     lazydocker
     eza
     cava
