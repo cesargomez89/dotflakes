@@ -46,6 +46,7 @@
 
   imports = [
     ./random-bg.nix
+    ./dconf.nix
   ];
 
   home.sessionVariables = {
