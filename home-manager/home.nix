@@ -39,6 +39,8 @@
     gnomeExtensions.media-controls
     gnomeExtensions.vitals
     gnomeExtensions.user-themes
+    gnomeExtensions.appindicator
+    gnomeExtensions.blur-my-shell
 
     # Icons and Themes
     papirus-icon-theme

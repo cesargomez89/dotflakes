@@ -56,6 +56,8 @@
         "mediacontrols@cliffniff.github.com"
         "user-theme@gnome-shell-extensions.gcampax.github.com"
         "Vitals@CoreCoding.com"
+        "appindicatorsupport@rgcjonas.gmail.com"
+        "blur-my-shell@aunetx"
       ];
       favorite-apps = [
         "kitty.desktop"
@@ -83,10 +85,24 @@
     };
     "org/gnome/shell/extensions/vitals" = {
       hot-sensors = ["_processor_usage_" "_memory_usage_"];
-      position-in-panel = 2;
+      position-in-panel = 0;
       use-higher-precision = false;
       alphabetize = true;
       hide-zeros = false;
+    };
+    "org/gnome/shell/extensions/blur-my-shell/applications" = {
+      blur = true;
+      brightness = 0.90;
+      sigma = 2;
+      opacity = 240;
+      enable-all = true;
+      blacklist = ["Plank" "com.desktop.ding" "Conky" "kitty" "dconf-editor"];
+    };
+    "org/gnome/shell/extensions/blur-my-shell/panel" = {
+      blur = false;
+    };
+    "org/gnome/desktop/wm/preferences" = {
+      button-layout = "appmenu:minimize,close";
     };
   };
 }
