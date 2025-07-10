@@ -45,11 +45,16 @@
 
     # Icons and Themes
     papirus-icon-theme
+
+    # Hyprland
+    hypridle
+    hyprpaper
   ];
 
   imports = [
     ./random-bg.nix
     ./dconf.nix
+    ./hypr.nix
   ];
 
   home.sessionVariables = {

@@ -154,6 +154,11 @@
     nerd-fonts.fira-code
   ];
 
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
+
   programs.zsh = {
     enable = true;
     shellInit = ''
