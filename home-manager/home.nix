@@ -41,6 +41,7 @@
     gnomeExtensions.user-themes
     gnomeExtensions.appindicator
     gnomeExtensions.blur-my-shell
+    gnomeExtensions.tiling-shell
 
     # Icons and Themes
     papirus-icon-theme

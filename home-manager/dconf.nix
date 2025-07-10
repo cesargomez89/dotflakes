@@ -58,6 +58,7 @@
         "Vitals@CoreCoding.com"
         "appindicatorsupport@rgcjonas.gmail.com"
         "blur-my-shell@aunetx"
+        "tilingshell@ferrarodomenico.com"
       ];
       favorite-apps = [
         "kitty.desktop"
@@ -101,6 +102,10 @@
     };
     "org/gnome/shell/extensions/blur-my-shell/panel" = {
       blur = false;
+    };
+    "org/gnome/shell/extensions/tilingshell" = {
+      inner-gaps = 12;
+      outer-gaps = 10;
     };
     "org/gnome/desktop/wm/preferences" = {
       button-layout = "appmenu:minimize,close";

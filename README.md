@@ -110,6 +110,10 @@ git clone git@github.com:cesargomez89/wallpapers.git ~/wallpapers
 | --- | --- |
 | Open Bar | Adds a bar to the top of the screen |
 | Media Controls | Adds media controls to the top of the screen |
+| Vitals | Adds a widget to the top of the screen |
+| AppIndicator | Handles tray icons |
+| Blur My Shell | Adds blur to multiple places |
+| Tiling Shell | Tiling manager |
 
 
 I use the [Open Bar](https://extensions.gnome.org/extension/6580/open-bar/) extension to add a bar to the top of the screen.
@@ -136,6 +140,9 @@ I went with it because it handles theme based on wallpaper and allows many custo
 | neofetch | System information |
 | cava | System information |
 | fum | Player TUI |
+| lazygit | Git TUI |
+| lazydocker | Docker TUI |
+| aider-chat | AI assistant |
 | google-chrome | Web browser |
 | youtube-music | Music player |
 | slack | Chat client |
@@ -143,8 +150,9 @@ I went with it because it handles theme based on wallpaper and allows many custo
 | zoom | Video conferencing |
 | dbeaver-bin | Database client |
 | telegram-desktop | Chat client |
-| aider-chat | AI assistant |
 | vlc | Video player |
+| pinta | Image editor |
+| gparted | Partition editor |
 
 #### Services
 
