@@ -2,17 +2,7 @@
 
 {
   home.file.".local/bin/random-bg" = {
-    text = ''
-      #!/usr/bin/env bash
-
-      WALLPAPER_DIR="${config.home.homeDirectory}/wallpapers"
-
-      WALLPAPER=$(rg --files --glob '*.jpg' --glob '*.png' "$WALLPAPER_DIR" \
-        | shuf -n 1)
-
-      gsettings set org.gnome.desktop.background picture-uri "file://$WALLPAPER"
-      gsettings set org.gnome.desktop.background picture-uri-dark "file://$WALLPAPER"
-    '';
+    source = ./random-bg.sh;
     executable = true;
   };
 
@@ -25,7 +15,7 @@
       Hidden=false
       NoDisplay=false
       X-GNOME-Autostart-enabled=true
-      X-GNOME-Autostart-Delay=1
+      X-GNOME-Autostart-Delay=6
     '';
   };
 

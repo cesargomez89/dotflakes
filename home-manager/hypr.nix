@@ -36,7 +36,7 @@
   home = {
     file = {
       ".config/hypr/random-bg.sh".source = builtins.path {
-        path = ./hypr/random-bg.sh;
+        path = ./random-bg.sh;
         name = "random-bg.sh";
       };
       ".config/hypr/default.jpg".source = builtins.path {
