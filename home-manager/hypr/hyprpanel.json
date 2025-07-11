@@ -1,0 +1,49 @@
+{
+  "bar.customModules.storage.paths": [
+    "/"
+  ],
+  "theme.font.name": "CaskaydiaCove Nerd Font",
+  "theme.font.label": "CaskaydiaCove Nerd Font Ultra-Light",
+  "theme.font.size": "1.1rem",
+  "bar.layouts": {
+    "0": {
+      "left": [
+        "power",
+        "workspaces",
+        "hyprsunset"
+      ],
+      "middle": [
+        "media",
+        "clock"
+      ],
+      "right": [
+        "systray",
+        "bluetooth",
+        "network",
+        "volume",
+        "battery",
+        "notifications"
+      ]
+    },
+    "1": {}
+  },
+  "theme.bar.floating": true,
+  "theme.bar.outer_spacing": "0.1em",
+  "theme.bar.transparent": true,
+  "theme.bar.opacity": 60,
+  "theme.bar.margin_top": "0.1em",
+  "bar.workspaces.show_numbered": true,
+  "bar.workspaces.monitorSpecific": false,
+  "bar.workspaces.numbered_active_indicator": "highlight",
+  "bar.network.label": false,
+  "bar.bluetooth.label": false,
+  "bar.clock.format": "%b %d  %I:%M %p",
+  "bar.customModules.power.icon": "󰤄",
+  "bar.notifications.show_total": true,
+  "bar.launcher.icon": " ",
+  "menus.clock.time.hideSeconds": true,
+  "menus.clock.weather.location": "Colima",
+  "menus.clock.weather.unit": "metric",
+  "theme.bar.buttons.y_margins": "0.2em",
+  "theme.bar.buttons.spacing": "0.2em"
+}
