@@ -45,10 +45,6 @@
 
     # Icons and Themes
     papirus-icon-theme
-
-    # Hyprland
-    hypridle
-    hyprpaper
   ];
 
   imports = [
