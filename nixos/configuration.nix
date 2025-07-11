@@ -131,6 +131,7 @@
     heimdal
     krb5.dev
     gcc
+    adwaita-qt
 
     # Core system utilities
     wsdd
@@ -153,6 +154,17 @@
     nerd-fonts.caskaydia-cove
     nerd-fonts.fira-code
   ];
+
+  stylix.enable = true;
+  stylix.targets.qt.platform = lib.mkForce "qtct";
+  stylix.targets.gnome.enable = false;
+  stylix.targets.gtk.enable = true;
+  stylix.polarity = "dark";
+  stylix.image = ../home-manager/hypr/default.jpg;
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+  stylix.opacity = {
+    desktop = 0.2;
+  };
 
   programs.hyprland = {
     enable = true;

@@ -4,8 +4,12 @@
   home.file.".local/bin/random-bg" = {
     text = ''
       #!/usr/bin/env bash
+
       WALLPAPER_DIR="${config.home.homeDirectory}/wallpapers"
-      WALLPAPER=$(find "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" \) | shuf -n 1)
+
+      WALLPAPER=$(rg --files --glob '*.jpg' --glob '*.png' "$WALLPAPER_DIR" \
+        | shuf -n 1)
+
       gsettings set org.gnome.desktop.background picture-uri "file://$WALLPAPER"
       gsettings set org.gnome.desktop.background picture-uri-dark "file://$WALLPAPER"
     '';

@@ -2,7 +2,8 @@
 
 WALLPAPER_DIR="$HOME/wallpapers/"
 CURRENT_WALL=$(hyprctl hyprpaper listloaded)
+CURRENT_BASENAME=$(basename "$CURRENT_WALL")
 
-WALLPAPER=$(find "$WALLPAPER_DIR" -type f ! -name "$(basename "$CURRENT_WALL")" | shuf -n 1)
+WALLPAPER=$(rg --files --iglob '*.jpg' --iglob '*.png' --hidden "$WALLPAPER_DIR" | shuf -n 1)
 
-hyprctl hyprpaper reload ,"$WALLPAPER"
+hyprctl hyprpaper reload "$WALLPAPER"

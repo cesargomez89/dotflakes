@@ -28,11 +28,11 @@
     ];
   };
 
-  services.hyprpaper.settings = {
-    preload = [ "~/.config/hypr/default.jpg" ];
-    wallpaper = [ ",~/.config/hypr/default.jpg" ];
-  };
-
+  # services.hyprpaper.settings = {
+  #   preload = [ "~/.config/hypr/default.jpg" ];
+  #   wallpaper = [ ",~/.config/hypr/default.jpg" ];
+  # };
+  #
   home = {
     file = {
       ".config/hypr/random-bg.sh".source = builtins.path {
