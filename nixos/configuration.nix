@@ -132,6 +132,7 @@
     krb5.dev
     gcc
     adwaita-qt
+    wl-clipboard
 
     # Core system utilities
     wsdd

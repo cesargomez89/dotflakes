@@ -15,7 +15,7 @@
       Hidden=false
       NoDisplay=false
       X-GNOME-Autostart-enabled=true
-      X-GNOME-Autostart-Delay=6
+      X-GNOME-Autostart-Delay=1
     '';
   };
 
