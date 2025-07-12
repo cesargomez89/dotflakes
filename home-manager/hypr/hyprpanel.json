@@ -41,6 +41,7 @@
   "bar.customModules.power.icon": "󰤄",
   "bar.notifications.show_total": true,
   "bar.launcher.icon": " ",
+  "bar.customModules.hyprsunset.temperature": "4000k",
   "menus.clock.time.hideSeconds": true,
   "menus.clock.weather.location": "Colima",
   "menus.clock.weather.unit": "metric",
