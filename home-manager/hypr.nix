@@ -9,11 +9,11 @@
     hyprlock
     hypridle
     hyprsunset
+    hyprshot
     walker
     swww
     brightnessctl
     power-profiles-daemon
-    grimblast
   ];
 
   home = {
