@@ -114,6 +114,13 @@
     powerOnBoot = true;
   };
 
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
+  systemd.packages = with pkgs; [ lact ];
+  systemd.services.lactd.wantedBy = ["multi-user.target"];
+
   networking.networkmanager.enable = true;
   networking.hostName = "nixos";
 
@@ -133,6 +140,7 @@
     gcc
     adwaita-qt
     wl-clipboard
+    lact
 
     # Core system utilities
     wsdd
