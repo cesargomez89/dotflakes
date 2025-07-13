@@ -8,7 +8,7 @@
   "bar.layouts": {
     "0": {
       "left": [
-        "power",
+        "dashboard",
         "workspaces",
         "hyprsunset"
       ],
@@ -46,5 +46,19 @@
   "menus.clock.weather.location": "Colima",
   "menus.clock.weather.unit": "metric",
   "theme.bar.buttons.y_margins": "0.2em",
-  "theme.bar.buttons.spacing": "0.2em"
+  "theme.bar.buttons.spacing": "0.2em",
+
+  "menus.dashboard.powermenu.avatar.name": "[NixOS]",
+  "menus.dashboard.powermenu.avatar.image": "~/.config/hypr/default.jpg",
+  "menus.dashboard.shortcuts.left.shortcut3.tooltip": "Slack",
+  "menus.dashboard.shortcuts.left.shortcut3.command": "slack",
+  "menus.dashboard.shortcuts.left.shortcut3.icon": "",
+  "menus.dashboard.shortcuts.left.shortcut2.tooltip": "Youtube Music",
+  "menus.dashboard.shortcuts.left.shortcut2.command": "youtube-music",
+  "menus.dashboard.shortcuts.left.shortcut2.icon": "",
+  "menus.dashboard.shortcuts.left.shortcut1.icon": "",
+  "menus.dashboard.shortcuts.left.shortcut1.command": "google-chrome-stable",
+  "menus.dashboard.shortcuts.left.shortcut1.tooltip": "Google Chrome",
+  "menus.dashboard.shortcuts.left.shortcut4.command": "walker",
+  "menus.dashboard.shortcuts.right.shortcut3.command": "hyprshot -m region"
 }
