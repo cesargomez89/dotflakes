@@ -13,6 +13,7 @@
     walker
     swww
     brightnessctl
+    playerctl
     power-profiles-daemon
   ];
 
