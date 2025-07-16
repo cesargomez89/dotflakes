@@ -114,6 +114,13 @@
     powerOnBoot = true;
   };
 
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
+  systemd.packages = with pkgs; [ lact ];
+  systemd.services.lactd.wantedBy = ["multi-user.target"];
+
   networking.networkmanager.enable = true;
   networking.hostName = "nixos";
 
@@ -131,6 +138,7 @@
     heimdal
     krb5.dev
     gcc
+    lact
 
     # Core system utilities
     wsdd
