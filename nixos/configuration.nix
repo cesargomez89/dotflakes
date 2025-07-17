@@ -151,6 +151,7 @@
     wsdd
     wget
     curl
+    zip
     unzip
     kitty
     ripgrep
@@ -158,6 +159,8 @@
     neofetch
     unstablePkgs.iwmenu
     unstablePkgs.bzmenu
+    terraform
+    awscli
 
     # Language Managers
     nodejs_24
