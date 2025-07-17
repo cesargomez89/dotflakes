@@ -3,6 +3,7 @@
   lib,
   config,
   pkgs,
+  unstablePkgs,
   ...
 }: {
   imports = [
@@ -14,25 +15,6 @@
     PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
     OPENSSL_ROOT_DIR = "${pkgs.openssl.dev}";
     USE_HTTPS = "OpenSSL";
-  };
-
-  nixpkgs = {
-    overlays = [
-      (final: prev: {
-        zerotierone = let
-          # Import pinned nixpkgs with unfree allowed for zerotier
-          zerotierPkgs = import inputs.nixpkgs-zerotier {
-            inherit (prev) system;
-            config.allowUnfree = true;
-            config.allowUnfreePredicate = pkg: pkg.pname == "zerotierone";
-          };
-        in zerotierPkgs.zerotierone;
-      })
-    ];
-    config = {
-      allowUnfree = true;
-      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) ["zerotierone"];
-    };
   };
 
   nix = let
@@ -80,20 +62,6 @@
     localsearch.enable = false;
   };
 
-  environment.gnome.excludePackages = with pkgs; [
-    gnome-contacts
-    gnome-maps
-    gnome-music
-    gnome-terminal
-    gnome-tour
-    gnome-keyring
-    epiphany
-    totem
-    simple-scan
-    geary
-    yelp
-  ];
-
   services.zerotierone = {
     enable = true;
   };
@@ -121,10 +89,47 @@
   systemd.packages = with pkgs; [ lact ];
   systemd.services.lactd.wantedBy = ["multi-user.target"];
 
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    wifi.backend = "iwd";
+  };
+  networking.wireless.enable = false;
+  networking.wireless.iwd.enable = true;
   networking.hostName = "nixos";
 
-  # System-wide packages (core system tools only)
+  environment.gnome.excludePackages = with pkgs; [
+    gnome-contacts
+    gnome-maps
+    gnome-music
+    gnome-terminal
+    gnome-tour
+    gnome-keyring
+    epiphany
+    totem
+    simple-scan
+    geary
+    yelp
+  ];
+
+  nixpkgs = {
+    overlays = [
+      (final: prev: {
+        zerotierone = let
+          # Import pinned nixpkgs with unfree allowed for zerotier
+          zerotierPkgs = import inputs.nixpkgs-zerotier {
+            inherit (prev) system;
+            config.allowUnfree = true;
+            config.allowUnfreePredicate = pkg: pkg.pname == "zerotierone";
+          };
+        in zerotierPkgs.zerotierone;
+      })
+    ];
+    config = {
+      allowUnfree = true;
+      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) ["zerotierone"];
+    };
+  };
+
   environment.systemPackages = with pkgs; [
     # Build essentials
     pkg-config
@@ -151,6 +156,8 @@
     ripgrep
     btop
     neofetch
+    unstablePkgs.iwmenu
+    unstablePkgs.bzmenu
 
     # Language Managers
     nodejs_24
@@ -169,7 +176,7 @@
   stylix.targets.gnome.enable = false;
   stylix.targets.gtk.enable = true;
   stylix.polarity = "dark";
-  stylix.image = ../home-manager/hypr/default.jpg;
+  # stylix.image = ../home-manager/hypr/default.jpg;
   stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
   stylix.opacity = {
     desktop = 0.2;

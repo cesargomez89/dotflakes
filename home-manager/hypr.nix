@@ -5,16 +5,15 @@
   wayland.windowManager.hyprland.extraConfig = builtins.readFile ./hypr/hyprland.conf;
 
   home.packages = with pkgs; [
-    hyprpanel
     hyprlock
     hypridle
     hyprsunset
     hyprshot
+    swaynotificationcenter
     walker
     swww
     brightnessctl
     playerctl
-    power-profiles-daemon
   ];
 
   home = {
@@ -31,9 +30,9 @@
         path = ./hypr/hypridle.conf;
         name = "hypridle.conf";
       };
-      ".config/hyprpanel/config.json".source = builtins.path {
-        path = ./hypr/hyprpanel.json;
-        name = "hyprpanel.json";
+      ".config/swaync/config.json".source = builtins.path {
+        path = ./hypr/swaync.json;
+        name = "config.json";
       };
       ".config/walker/config.toml".source = builtins.path {
         path = ./hypr/walker.toml;

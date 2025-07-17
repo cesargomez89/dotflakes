@@ -1,0 +1,11 @@
+{
+  "widgets": [
+    "mpris",
+    "dnd",
+    "title",
+    "notifications"
+  ],
+  "control-center-margin-top": 2,
+  "control-center-margin-bottom": 2,
+  "control-center-margin-right": 2,
+}
