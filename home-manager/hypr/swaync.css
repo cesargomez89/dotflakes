@@ -1,6 +1,6 @@
 * {
-    font-family: "DejaVu Sans";
-    font-size: 10pt;
+    font-family: "CaskaydiaCove NF";
+    font-size: 14pt;
 }
 
 @define-color base00 #1e1e2e; @define-color base01 #181825;
@@ -123,8 +123,9 @@ trough {
 
 .control-center {
   background: @base00;
-  border: 1px solid @base0D;
+  border: 2px solid @base0D;
   color: @base05;
+  padding: 0.5rem;
 }
 
 .control-center .notification-row .notification-background {
@@ -142,9 +143,13 @@ trough {
   color: @base05;
 }
 
+/* .widget-buttons-grid .text-button { */
+/*   color: @base00; */
+/*   background: @base0A; */
+/* } */
+
 .widget-title {
   color: @base05;
-  margin: 0.5rem;
 }
 
 .widget-title > button {
@@ -158,7 +163,7 @@ trough {
 }
 
 .widget-dnd {
-  color: @base05;
+  color: @base08;
 }
 
 .widget-dnd > switch {
@@ -171,7 +176,7 @@ trough {
 }
 
 .widget-dnd > switch:checked {
-  background: @base0F;
+  background: @base08;
 }
 
 .widget-dnd > switch slider {

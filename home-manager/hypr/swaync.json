@@ -1,15 +1,134 @@
 {
   "widgets": [
-    "inhibitors",
-    "title",
-    "dnd",
     "menubar",
     "buttons-grid",
     "volume",
     "mpris",
-    "notifications"
+    "title",
+    "notifications",
+    "dnd"
   ],
-  "control-center-margin-top": 0,
-  "control-center-margin-bottom": 0,
-  "control-center-margin-right": 0
+  "control-center-margin-top": 24,
+  "control-center-margin-bottom": 24,
+  "control-center-margin-right": 24,
+  "transition-time": 100,
+  "widget-config": {
+    "title": {
+      "text": "󰂚 Notifications",
+      "clear-all-button": true,
+      "button-text": "󰆴 Clear All"
+    },
+    "dnd": {
+      "text": "󱏩 Do Not Disturb"
+    },
+    "mpris": {
+      "image-size": 96,
+      "image-radius": 6
+    },
+    "volume": {
+      "label": " "
+    },
+    "menubar": {
+      "menu#power-buttons": {
+        "label": "", 
+        "position": "right",
+        "actions": [ 
+          {
+            "label": "   Reboot",
+            "command": "systemctl reboot"
+          },
+          {
+            "label": "   Lock",
+            "command": "hyprlock"
+          },
+          {
+            "label": "   Logout",
+            "command": "hyprctl dispatch exit"
+          },
+          {
+            "label": "   Shut down",
+            "command": "systemctl poweroff"
+          }
+        ]
+      },
+      "menu#powermode-buttons": {
+        "label": "󰠠", 
+        "position": "right",
+        "actions": [ 
+          {
+            "label": "Performance",
+            "command": "powerprofilesctl set performance"
+          },
+          {
+            "label": "Balanced",
+            "command": "powerprofilesctl set balanced"
+          },
+          {
+            "label": "Power-saver",
+            "command": "powerprofilesctl set power-saver"
+          }
+        ]
+      },
+      "menu#screenshot-buttons": {
+        "label": "",
+        "position": "left",
+        "actions": [
+          {
+            "label": "   Entire screen",
+            "command": "swaync-client -cp && sleep 0.5 && hyprshot -m output"
+          },
+          {
+            "label": "   Select a region",
+            "command": "swaync-client -cp && sleep 0.5 && hyprshot -m region"
+          },
+          {
+            "label": "󰉏   Open screenshot folder",
+            "command": "swaync-client -cp && nautilus $HYPRSHOT_DIR"
+          }
+        ]
+      },
+      "menu#sunset-buttons": {
+        "label": "󰓠",
+        "position": "left",
+        "actions": [
+          {
+            "label": "   4000K",
+            "command": "hyprctl hyprsunset temperature 4000"
+          },
+          {
+            "label": "   5000K",
+            "command": "hyprctl hyprsunset temperature 5000"
+          }
+        ]
+      }
+    },
+    "buttons-grid": {
+      "actions": [
+        {
+          "label": "󰖩",
+          "command": "swaync-client -cp && iwmenu -l walker"
+        },
+        {
+          "label": "󰂯",
+          "command": "swaync-client -cp && bzmenu -l walker"
+        },
+        {
+          "label": "",
+          "command": "swaync-client -cp && walker"
+        },
+        {
+          "label": "",
+          "command": "swaync-client -cp && walker -m clipboard"
+        },
+        {
+          "label": "",
+          "command": "swaync-client -cp && walker -m emojis"
+        },
+        {
+          "label": "󰋪",
+          "command": "~/.local/bin/random-bg"
+        }
+      ]
+    }
+  }
 }
