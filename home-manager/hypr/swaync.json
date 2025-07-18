@@ -29,43 +29,43 @@
       "label": " "
     },
     "menubar": {
-      "menu#power-buttons": {
-        "label": "", 
-        "position": "right",
-        "actions": [ 
-          {
-            "label": "   Reboot",
-            "command": "systemctl reboot"
-          },
-          {
-            "label": "   Lock",
-            "command": "hyprlock"
-          },
-          {
-            "label": "   Logout",
-            "command": "hyprctl dispatch exit"
-          },
-          {
-            "label": "   Shut down",
-            "command": "systemctl poweroff"
-          }
-        ]
-      },
       "menu#powermode-buttons": {
         "label": "󰠠", 
         "position": "right",
         "actions": [ 
           {
             "label": "Performance",
-            "command": "powerprofilesctl set performance"
+            "command": "swaync-client -cp && powerprofilesctl set performance"
           },
           {
             "label": "Balanced",
-            "command": "powerprofilesctl set balanced"
+            "command": "swaync-client -cp && powerprofilesctl set balanced"
           },
           {
             "label": "Power-saver",
-            "command": "powerprofilesctl set power-saver"
+            "command": "swaync-client -cp && powerprofilesctl set power-saver"
+          }
+        ]
+      },
+      "menu#power-buttons": {
+        "label": "", 
+        "position": "right",
+        "actions": [ 
+          {
+            "label": " Reboot",
+            "command": "systemctl reboot"
+          },
+          {
+            "label": " Lock",
+            "command": "hyprlock"
+          },
+          {
+            "label": " Logout",
+            "command": "hyprctl dispatch exit"
+          },
+          {
+            "label": " Shut down",
+            "command": "systemctl poweroff"
           }
         ]
       },
@@ -74,15 +74,15 @@
         "position": "left",
         "actions": [
           {
-            "label": "   Entire screen",
+            "label": " Entire screen",
             "command": "swaync-client -cp && sleep 0.5 && hyprshot -m output"
           },
           {
-            "label": "   Select a region",
+            "label": " Select a region",
             "command": "swaync-client -cp && sleep 0.5 && hyprshot -m region"
           },
           {
-            "label": "󰉏   Open screenshot folder",
+            "label": "󰉏 Open screenshot folder",
             "command": "swaync-client -cp && nautilus $HYPRSHOT_DIR"
           }
         ]
@@ -92,17 +92,18 @@
         "position": "left",
         "actions": [
           {
-            "label": "   4000K",
+            "label": " 4000K",
             "command": "hyprctl hyprsunset temperature 4000"
           },
           {
-            "label": "   5000K",
+            "label": " 5000K",
             "command": "hyprctl hyprsunset temperature 5000"
           }
         ]
       }
     },
     "buttons-grid": {
+      "buttons-per-row": 3,
       "actions": [
         {
           "label": "󰖩",
@@ -111,6 +112,10 @@
         {
           "label": "󰂯",
           "command": "swaync-client -cp && bzmenu -l walker"
+        },
+        {
+          "label": "󰋪",
+          "command": "~/.local/bin/random-bg"
         },
         {
           "label": "",
@@ -123,10 +128,6 @@
         {
           "label": "",
           "command": "swaync-client -cp && walker -m emojis"
-        },
-        {
-          "label": "󰋪",
-          "command": "~/.local/bin/random-bg"
         }
       ]
     }

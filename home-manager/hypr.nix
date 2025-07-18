@@ -12,6 +12,7 @@
     walker
     swww
     brightnessctl
+    pavucontrol
     playerctl
     impala
     bluetui

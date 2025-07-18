@@ -123,9 +123,10 @@ trough {
 
 .control-center {
   background: @base00;
-  border: 2px solid @base0D;
+  border: 0.1rem solid @base0D;
   color: @base05;
   padding: 0.5rem;
+  border-radius: 0.2rem;
 }
 
 .control-center .notification-row .notification-background {
@@ -143,10 +144,18 @@ trough {
   color: @base05;
 }
 
-/* .widget-buttons-grid .text-button { */
-/*   color: @base00; */
-/*   background: @base0A; */
-/* } */
+.widget-menubar-container > button {
+  background: @base02;
+  color: @base09;
+}
+
+.widget-buttons-grid {
+  border: 2px solid @base0D;
+}
+
+.widget-buttons-grid .text-button {
+  color: @base07;
+}
 
 .widget-title {
   color: @base05;
@@ -162,7 +171,7 @@ trough {
   background: @base01;
 }
 
-.widget-dnd {
+.widget-dnd > label {
   color: @base08;
 }
 
