@@ -40,6 +40,7 @@
   services.printing.enable = true;
   services.gvfs.enable = true;
   services.udisks2.enable = true;
+  services.dbus.enable = true;
 
   services.avahi = {
     enable = true;
@@ -157,10 +158,10 @@
     ripgrep
     btop
     neofetch
+    awscli
     unstablePkgs.iwmenu
     unstablePkgs.bzmenu
-    terraform
-    awscli
+    unstablePkgs.swaynotificationcenter
 
     # Language Managers
     nodejs_24

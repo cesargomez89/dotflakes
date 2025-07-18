@@ -9,11 +9,12 @@
     hypridle
     hyprsunset
     hyprshot
-    swaynotificationcenter
     walker
     swww
     brightnessctl
     playerctl
+    impala
+    bluetui
   ];
 
   home = {
@@ -33,6 +34,10 @@
       ".config/swaync/config.json".source = builtins.path {
         path = ./hypr/swaync.json;
         name = "config.json";
+      };
+      ".config/swaync/style.css".source = builtins.path {
+        path = ./hypr/swaync.css;
+        name = "style.css";
       };
       ".config/walker/config.toml".source = builtins.path {
         path = ./hypr/walker.toml;
