@@ -30,7 +30,7 @@
     },
     "menubar": {
       "menu#powermode-buttons": {
-        "label": "󰠠", 
+        "label": " 󰠠 ", 
         "position": "right",
         "actions": [ 
           {
@@ -48,7 +48,7 @@
         ]
       },
       "menu#power-buttons": {
-        "label": "", 
+        "label": "  ", 
         "position": "right",
         "actions": [ 
           {
@@ -60,7 +60,7 @@
             "command": "hyprlock"
           },
           {
-            "label": " Logout",
+            "label" : " Logout",
             "command": "hyprctl dispatch exit"
           },
           {
@@ -70,7 +70,7 @@
         ]
       },
       "menu#screenshot-buttons": {
-        "label": "",
+        "label": "  ",
         "position": "left",
         "actions": [
           {
@@ -88,7 +88,7 @@
         ]
       },
       "menu#sunset-buttons": {
-        "label": "󰓠",
+        "label": "  ",
         "position": "left",
         "actions": [
           {
@@ -106,27 +106,27 @@
       "buttons-per-row": 3,
       "actions": [
         {
-          "label": "󰖩",
+          "label": " 󰖩 ",
           "command": "swaync-client -cp && iwmenu -l walker"
         },
         {
-          "label": "󰂯",
+          "label": " 󰂯 ",
           "command": "swaync-client -cp && bzmenu -l walker"
         },
         {
-          "label": "󰋪",
+          "label": " 󰋪 ",
           "command": "~/.local/bin/random-bg"
         },
         {
-          "label": "",
+          "label": "  ",
           "command": "swaync-client -cp && walker"
         },
         {
-          "label": "",
+          "label": "  ",
           "command": "swaync-client -cp && walker -m clipboard"
         },
         {
-          "label": "",
+          "label": "  ",
           "command": "swaync-client -cp && walker -m emojis"
         }
       ]

@@ -9,6 +9,7 @@
     hypridle
     hyprsunset
     hyprshot
+    waybar
     walker
     swww
     brightnessctl
@@ -43,6 +44,14 @@
       ".config/walker/config.toml".source = builtins.path {
         path = ./hypr/walker.toml;
         name = "config.toml";
+      };
+      ".config/waybar/config.jsonc".source = builtins.path {
+        path = ./hypr/waybar.jsonc;
+        name = "config.jsonc";
+      };
+      ".config/waybar/style.css".source = builtins.path {
+        path = ./hypr/waybar.css;
+        name = "style.css";
       };
     };
   };
