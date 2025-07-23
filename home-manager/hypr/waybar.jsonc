@@ -8,7 +8,7 @@
     "clock"
   ],
   "modules-right": [
-    "tray",
+    "wlr/taskbar",
     "pulseaudio",
     "bluetooth",
     "network",
@@ -21,16 +21,26 @@
     }
   },
   "cpu": {
-    "format": " {usage}% ",
-    "tooltip": false
+    "format": " {usage}%",
+    "on-click": "gnome-system-monitor"
   },
   "memory": {
-    "format": " {}% "
+    "format": " {}%",
+    "on-click": "gnome-system-monitor"
   },
   "clock": {
     "format": " {:%R}",
     "tooltip-format": "{:%a %d %b %R}",
     "on-click": "gnome-calendar"
+  },
+  "wlr/taskbar": {
+    "format": "{icon}",
+    "icon-theme": "Papirus-Dark",
+    "tooltip-format": "{name}",
+    "on-click": "activate",
+    "on-click-middle": "close",
+    "ignore-list": [],
+    "rewrite": {}
   },
   "bluetooth": {
     "format": "󰂯 ",
