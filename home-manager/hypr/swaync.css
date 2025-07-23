@@ -23,7 +23,8 @@ trough {
 }
 
 .notification.low {
-  border: 1px solid @base03;
+  border: 0.125rem solid @base05;
+  border-radius: 0.2rem;
 }
 
 .notification.low progress {
@@ -31,7 +32,8 @@ trough {
 }
 
 .notification.normal {
-  border: 1px solid @base0D;
+  border: 0.125rem solid @base0D;
+  border-radius: 0.2rem;
 }
 
 .notification.normal progress {
@@ -39,7 +41,8 @@ trough {
 }
 
 .notification.critical {
-  border: 1px solid @base08;
+  border: 0.125rem solid @base08;
+  border-radius: 0.2rem;
 }
 
 .notification.critical progress {
@@ -90,7 +93,8 @@ trough {
 
 .notification-content {
   background: @base00;
-  border: 1px solid @base0D;
+  border: 0.125rem solid @base0D;
+  border-radius: 0.2rem;
 }
 
 .floating-notifications.background .notification-row .notification-background {
@@ -123,7 +127,7 @@ trough {
 
 .control-center {
   background: @base00;
-  border: 0.1rem solid @base0D;
+  border: 0.125rem solid @base0D;
   color: @base05;
   padding: 0.5rem;
   border-radius: 0.2rem;
@@ -150,11 +154,13 @@ trough {
 }
 
 .widget-buttons-grid {
-  border: 2px solid @base0D;
+  border: 0.125rem solid @base0D;
+  border-radius: 0.2rem;
 }
 
 .widget-buttons-grid .text-button {
   color: @base07;
+  border-radius: 0.2rem;
 }
 
 .widget-title {
@@ -163,7 +169,8 @@ trough {
 
 .widget-title > button {
   background: @base01;
-  border: 1px solid @base0D;
+  border: 0.125 solid @base0D;
+  border-radius: 0.2rem;
   color: @base05;
 }
 
@@ -177,7 +184,7 @@ trough {
 
 .widget-dnd > switch {
   background: @base01;
-  border: 1px solid @base0D;
+  border: 0.125rem solid @base0D;
 }
 
 .widget-dnd > switch:hover {
@@ -198,7 +205,8 @@ trough {
 
 .widget-mpris .widget-mpris-player {
   background: @base01;
-  border: 1px solid @base0D;
+  border: 0.125rem solid @base0C;
+  border-radius: 0.2rem;
 }
 
 .widget-mpris .widget-mpris-player button:hover {
@@ -206,10 +214,12 @@ trough {
 }
 
 .widget-mpris .widget-mpris-player > box > button {
-  border: 1px solid @base0D;
+  border: 0.125rem solid @base0C;
+  border-radius: 0.2rem;
 }
 
 .widget-mpris .widget-mpris-player > box > button:hover {
   background: @base01;
-  border: 1px solid @base0D;
+  border: 0.125rem solid @base0C;
+  border-radius: 0.2rem;
 }
