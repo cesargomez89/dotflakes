@@ -3,6 +3,7 @@
 
   inputs = {
     stylix.url = "github:danth/stylix/release-25.05";
+    walker.url = "github:abenz1267/walker";
     nixpkgs-zerotier.url = "github:nixos/nixpkgs/nixos-23.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
@@ -25,10 +26,6 @@
       nixos = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs outputs;
-
-          unstablePkgs = import inputs.nixpkgs-unstable {
-            system = "x86_64-linux";
-          };
         };
         modules = [
           ./nixos/configuration.nix
@@ -38,6 +35,13 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.cesar = import ./home-manager/home.nix;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+              unstablePkgs = import inputs.nixpkgs-unstable {
+                system = "x86_64-linux";
+              };
+              walker = inputs.walker.packages.x86_64-linux.walker;
+            };
           }
         ];
       };

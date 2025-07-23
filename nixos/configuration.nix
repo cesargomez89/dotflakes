@@ -3,7 +3,6 @@
   lib,
   config,
   pkgs,
-  unstablePkgs,
   ...
 }: {
   imports = [
@@ -115,6 +114,10 @@
   nixpkgs = {
     overlays = [
       (final: prev: {
+        unstable = import inputs.nixpkgs-unstable {
+          inherit (prev) system;
+          config = prev.config;
+        };
         zerotierone = let
           # Import pinned nixpkgs with unfree allowed for zerotier
           zerotierPkgs = import inputs.nixpkgs-zerotier {
@@ -159,9 +162,6 @@
     btop
     neofetch
     awscli
-    unstablePkgs.iwmenu
-    unstablePkgs.bzmenu
-    unstablePkgs.swaynotificationcenter
 
     # Language Managers
     nodejs_24

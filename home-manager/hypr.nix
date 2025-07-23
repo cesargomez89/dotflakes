@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, unstablePkgs, walker, ... }:
 
 {
   wayland.windowManager.hyprland.enable = true;
@@ -10,13 +10,16 @@
     hyprsunset
     hyprshot
     waybar
-    walker
     swww
     brightnessctl
     pavucontrol
     playerctl
     impala
     bluetui
+    unstablePkgs.iwmenu
+    unstablePkgs.bzmenu
+    unstablePkgs.swaynotificationcenter
+    walker
   ];
 
   home = {
