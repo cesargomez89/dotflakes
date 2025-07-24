@@ -89,12 +89,8 @@
   systemd.packages = with pkgs; [ lact ];
   systemd.services.lactd.wantedBy = ["multi-user.target"];
 
-  networking.networkmanager = {
-    enable = true;
-    wifi.backend = "iwd";
-  };
-  networking.wireless.enable = false;
-  networking.wireless.iwd.enable = true;
+  networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.backend = "iwd";
   networking.hostName = "nixos";
 
   environment.gnome.excludePackages = with pkgs; [
@@ -150,6 +146,7 @@
     adwaita-qt
     wl-clipboard
     lact
+    iwd
 
     # Core system utilities
     wsdd
