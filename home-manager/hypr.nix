@@ -20,6 +20,7 @@
     unstablePkgs.bzmenu
     unstablePkgs.swaynotificationcenter
     walker
+    morgen
   ];
 
   home = {

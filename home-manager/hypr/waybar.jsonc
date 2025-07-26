@@ -22,16 +22,16 @@
   },
   "cpu": {
     "format": " {usage}%",
-    "on-click": "gnome-system-monitor"
+    "on-click": "kitty -e btop"
   },
   "memory": {
     "format": " {}%",
-    "on-click": "gnome-system-monitor"
+    "on-click": "kitty -e btop"
   },
   "clock": {
     "format": " {:%R}",
     "tooltip-format": "{:%a %d %b %R}",
-    "on-click": "gnome-calendar"
+    "on-click": "morgen"
   },
   "wlr/taskbar": {
     "format": "{icon}",

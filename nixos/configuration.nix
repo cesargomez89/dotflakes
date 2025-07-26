@@ -4,7 +4,11 @@
   config,
   pkgs,
   ...
-}: {
+}@args: 
+let
+  enableHyprland = args.enableHyprland or false;
+  enableGnome    = args.enableGnome or false;
+in {
   imports = [
     ./hardware-configuration.nix
   ];
@@ -52,10 +56,17 @@
     variant = "";
   };
 
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  services.displayManager.defaultSession = "gnome";
+  services.xserver = {
+    enable = true;
+    desktopManager.gnome.enable = enableGnome;
+    displayManager = {
+      gdm.enable = true;
+      defaultSession = lib.mkDefault (
+        if enableHyprland then "hyprland"
+        else "gnome"
+      );
+    };
+  };
 
   services.gnome = {
     tinysparql.enable = false;
@@ -93,19 +104,17 @@
   networking.networkmanager.wifi.backend = "iwd";
   networking.hostName = "nixos";
 
-  environment.gnome.excludePackages = with pkgs; [
+  environment.gnome.excludePackages = lib.mkIf enableGnome (with pkgs; [
     gnome-contacts
     gnome-maps
     gnome-music
-    gnome-terminal
     gnome-tour
-    gnome-keyring
     epiphany
     totem
     simple-scan
     geary
     yelp
-  ];
+  ]);
 
   nixpkgs = {
     overlays = [
@@ -173,8 +182,13 @@
   ];
 
   programs.hyprland = {
-    enable = true;
+    enable = enableHyprland;
     xwayland.enable = true;
+  };
+
+  xdg.portal = lib.mkIf enableHyprland {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
   };
 
   programs.zsh = {
