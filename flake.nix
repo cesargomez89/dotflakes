@@ -29,14 +29,13 @@
         };
         modules = [
           ./nixos/configuration.nix
-          stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.cesar = import ./home-manager/home.nix;
             home-manager.extraSpecialArgs = {
-              inherit inputs;
+              inherit inputs stylix;
               unstablePkgs = import inputs.nixpkgs-unstable {
                 system = "x86_64-linux";
               };

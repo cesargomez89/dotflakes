@@ -7,7 +7,6 @@
     };
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
-      icon-theme = "Papirus-Dark";
       font-antialiasing = "rgba";
       font-hinting = "slight";
       enable-animations = true;
