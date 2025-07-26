@@ -44,6 +44,11 @@
       command = "youtube-music";
       binding = "<Super>y";
     };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom6" = {
+      name = "Log Out";
+      command = "gnome-session-quit --logout --no-prompt";
+      binding = "<Super>BackSpace";
+    };
     "org/gnome/desktop/wm/keybindings" = {
       close = ["<Super>q"];
     };

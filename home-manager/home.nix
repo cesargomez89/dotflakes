@@ -49,7 +49,7 @@
   ];
 
   imports = [
-    stylix.homeManagerModules.stylix
+    stylix.homeModules.stylix
     ./random-bg.nix
     ./dconf.nix
     ./hypr.nix
