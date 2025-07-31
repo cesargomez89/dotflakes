@@ -20,12 +20,15 @@
     home-manager,
     ...
   } @ inputs: let
+    
+    enableGnome = true;
+    enableHyprland = false;
     inherit (self) outputs;
   in {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         specialArgs = {
-          inherit inputs outputs;
+          inherit inputs outputs enableGnome enableHyprland;
         };
         modules = [
           ./nixos/configuration.nix
@@ -35,7 +38,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.cesar = import ./home-manager/home.nix;
             home-manager.extraSpecialArgs = {
-              inherit inputs stylix;
+              inherit inputs stylix enableGnome enableHyprland;
               unstablePkgs = import inputs.nixpkgs-unstable {
                 system = "x86_64-linux";
               };

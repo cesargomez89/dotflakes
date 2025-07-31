@@ -1,6 +1,22 @@
 { config, pkgs, lib, ... }:
 
 {
+  home.packages = with pkgs; [
+    gnome-tweaks
+    dconf-editor
+    gparted
+    # GNOME Extensions
+    gnomeExtensions.open-bar
+    gnomeExtensions.media-controls
+    gnomeExtensions.vitals
+    gnomeExtensions.user-themes
+    gnomeExtensions.appindicator
+    gnomeExtensions.blur-my-shell
+    gnomeExtensions.tiling-shell
+  ];
+
+  stylix.targets.gnome.enable = true;
+
   dconf.settings = {
     "org/gnome/desktop/input-sources" = {
       xkb-options = [ "ctrl:swapcaps" ];

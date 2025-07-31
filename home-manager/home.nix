@@ -1,5 +1,8 @@
-{ config, pkgs, stylix, lib, ... }:
-
+{ config, pkgs, stylix, lib, ... }@args:
+let
+  enableGnome = args.enableGnome or false;
+  enableHyprland = args.enableHyprland or false;
+in
 {
   home.username = "cesar";
   home.homeDirectory = "/home/cesar";
@@ -9,9 +12,6 @@
 
   home.packages = with pkgs; [
     # GUI Applications
-    gnome-tweaks
-    dconf-editor
-    gparted
     dbeaver-bin
     pinta
     google-chrome
@@ -34,15 +34,6 @@
     fum
     aider-chat
 
-    # GNOME Extensions
-    gnomeExtensions.open-bar
-    gnomeExtensions.media-controls
-    gnomeExtensions.vitals
-    gnomeExtensions.user-themes
-    gnomeExtensions.appindicator
-    gnomeExtensions.blur-my-shell
-    gnomeExtensions.tiling-shell
-
     # Icons and Themes
     papirus-icon-theme
     bibata-cursors
@@ -51,13 +42,14 @@
   imports = [
     stylix.homeModules.stylix
     ./random-bg.nix
-    ./dconf.nix
+  ] ++ lib.optionals enableGnome [
+    ./gnome.nix
+  ] ++ lib.optionals enableHyprland [
     ./hypr.nix
   ];
 
   stylix.enable = true;
   stylix.targets.qt.platform = lib.mkForce "qtct";
-  stylix.targets.gnome.enable = false;
   stylix.targets.gtk.enable = true;
   stylix.targets.qt.enable = true;
   stylix.polarity = "dark";
