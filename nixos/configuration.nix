@@ -174,6 +174,7 @@ in {
     ruby_3_4
     go
     python314
+    pnpm
   ];
 
   fonts.packages = with pkgs; [
