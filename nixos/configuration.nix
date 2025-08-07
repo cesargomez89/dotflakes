@@ -101,7 +101,6 @@ in {
   systemd.services.lactd.wantedBy = ["multi-user.target"];
 
   networking.networkmanager.enable = true;
-  networking.networkmanager.wifi.backend = "iwd";
   networking.hostName = "nixos";
 
   environment.gnome.excludePackages = lib.mkIf enableGnome (with pkgs; [
@@ -155,7 +154,6 @@ in {
     adwaita-qt
     wl-clipboard
     lact
-    iwd
 
     # Core system utilities
     wsdd

@@ -21,6 +21,7 @@ in
     telegram-desktop
     youtube-music
     vlc
+    obsidian
 
     # User-space Dev Tools
     neovim
