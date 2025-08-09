@@ -168,6 +168,7 @@ in {
     awscli
 
     # Language Managers
+    pnpm
     nodejs_24
     ruby_3_4
     go
