@@ -59,13 +59,14 @@ in {
   services.xserver = {
     enable = true;
     desktopManager.gnome.enable = enableGnome;
-    displayManager = {
-      gdm.enable = true;
-      defaultSession = lib.mkDefault (
-        if enableHyprland then "hyprland"
-        else "gnome"
-      );
-    };
+    displayManager.gdm.enable = true;
+  };
+
+  services.displayManager = {
+    defaultSession = lib.mkDefault (
+      if enableHyprland then "hyprland"
+      else "gnome"
+    );
   };
 
   services.gnome = {

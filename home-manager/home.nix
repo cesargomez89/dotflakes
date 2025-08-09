@@ -34,6 +34,7 @@ in
     cava
     fum
     aider-chat
+    vscode
 
     # Icons and Themes
     papirus-icon-theme
