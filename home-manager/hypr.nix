@@ -1,4 +1,4 @@
-{ config, pkgs, lib, unstablePkgs, walker, ... }:
+{ config, pkgs, lib, unstablePkgs, ... }:
 
 {
   wayland.windowManager.hyprland.enable = true;
@@ -19,7 +19,7 @@
     unstablePkgs.iwmenu
     unstablePkgs.bzmenu
     unstablePkgs.swaynotificationcenter
-    walker
+    unstablePkgs.walker
     morgen
   ];
 

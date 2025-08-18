@@ -103,6 +103,7 @@ in {
 
   networking.networkmanager.enable = true;
   networking.hostName = "nixos";
+  networking.wireless.iwd.enable = true;
 
   environment.gnome.excludePackages = lib.mkIf enableGnome (with pkgs; [
     gnome-contacts
