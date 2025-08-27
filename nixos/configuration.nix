@@ -33,8 +33,13 @@ in {
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
 
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/var/lib/sbctl";
+  };
 
   time.timeZone = "America/Mexico_City";
   i18n.defaultLocale = "en_US.UTF-8";
@@ -156,6 +161,7 @@ in {
     adwaita-qt
     wl-clipboard
     lact
+    sbctl
 
     # Core system utilities
     wsdd

@@ -6,6 +6,10 @@
     nixpkgs-zerotier.url = "github:nixos/nixpkgs/nixos-23.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.4.2";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,6 +20,7 @@
     self,
     nixpkgs,
     stylix,
+    lanzaboote,
     home-manager,
     ...
   } @ inputs: let
@@ -31,6 +36,7 @@
         };
         modules = [
           ./nixos/configuration.nix
+          lanzaboote.nixosModules.lanzaboote
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
