@@ -35,6 +35,7 @@ in {
 
   boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.initrd.kernelModules = [ "amdgpu" ];
 
   boot.lanzaboote = {
     enable = true;
@@ -65,6 +66,7 @@ in {
     enable = true;
     desktopManager.gnome.enable = enableGnome;
     displayManager.gdm.enable = true;
+    videoDrivers = [ "amdgpu" ];
   };
 
   services.displayManager = {
