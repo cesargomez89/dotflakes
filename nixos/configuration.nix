@@ -238,6 +238,8 @@ in {
     glxinfo
     powertop
     ngrok
+    glxinfo
+    powertop
 
     # Language Managers
     pnpm
