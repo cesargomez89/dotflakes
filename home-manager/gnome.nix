@@ -18,6 +18,9 @@
   stylix.targets.gnome.enable = true;
 
   dconf.settings = {
+    "org/gnome/mutter" = {
+        experimental-features = [ "scale-monitor-framebuffer" ];
+    };
     "org/gnome/desktop/input-sources" = {
       xkb-options = [ "ctrl:swapcaps" ];
     };
