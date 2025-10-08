@@ -18,6 +18,8 @@ in {
     PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
     OPENSSL_ROOT_DIR = "${pkgs.openssl.dev}";
     USE_HTTPS = "OpenSSL";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    GBM_BACKEND = "nvidia-drm";
   };
 
   nix = let
@@ -35,7 +37,6 @@ in {
 
   boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.kernelModules = [ "amdgpu" ];
 
   boot.lanzaboote = {
     enable = true;
@@ -66,8 +67,41 @@ in {
     enable = true;
     desktopManager.gnome.enable = enableGnome;
     displayManager.gdm.enable = true;
-    videoDrivers = [ "amdgpu" ];
+    videoDrivers = [ "modesetting" "nvidia" ];
   };
+
+  hardware.nvidia = {
+    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    open = true;
+    modesetting.enable = true;
+    nvidiaSettings = true;
+    powerManagement.enable = true;
+    prime = {
+      sync.enable = true;
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
+  };
+
+  boot.kernelParams = [ "nvidia-drm.modeset=1" ];
+
+  specialisation.on-the-go.configuration = {
+    system.nixos.tags = [ "on-the-go" ];
+    boot.kernelParams = [ "nvidia.NVreg_DynamicPowerManagement=0x02" ];
+    services.xserver.videoDrivers = lib.mkForce [ "modesetting" ];
+
+    hardware.nvidia = {
+      powerManagement.finegrained = lib.mkForce true;
+      prime = {
+        offload = {
+          enable = lib.mkForce true;
+          enableOffloadCmd = lib.mkForce true;
+        };
+        sync.enable = lib.mkForce false;
+      };
+    };
+  };
+
 
   services.displayManager = {
     defaultSession = lib.mkDefault (
@@ -79,6 +113,29 @@ in {
   services.gnome = {
     tinysparql.enable = false;
     localsearch.enable = false;
+  };
+  services.power-profiles-daemon.enable = false;
+  powerManagement.powertop.enable = true;
+
+  services.tlp = {
+    enable = true;
+    settings = {
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+      RUNTIME_PM_ON_AC = "on";
+      PCIE_ASPM_ON_AC = "default";
+      CPU_BOOST_ON_AC = 1;
+      USB_AUTOSUSPEND_ON_AC = 0;
+
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+      RUNTIME_PM_ON_BAT = "auto";
+      PCIE_ASPM_ON_BAT = "powersupersave";
+      CPU_BOOST_ON_BAT = 0;
+      SOUND_POWER_SAVE_ON_BAT = 1;
+      START_CHARGE_THRESH_BAT0 = 40;
+      STOP_CHARGE_THRESH_BAT0 = 85;
+    };
   };
 
   services.zerotierone = {
@@ -178,6 +235,8 @@ in {
     fastfetch
     awscli
     ngrok
+    glxinfo
+    powertop
 
     # Language Managers
     pnpm
