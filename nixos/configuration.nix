@@ -164,6 +164,7 @@ in {
     wl-clipboard
     lact
     sbctl
+    lsof
 
     # Core system utilities
     wsdd
@@ -176,11 +177,12 @@ in {
     btop
     fastfetch
     awscli
+    ngrok
 
     # Language Managers
     pnpm
     nodejs_24
-    ruby_3_4
+    (ruby_3_4.withPackages (p: [ p.ruby-lsp p.solargraph p.rubocop ]))
     go
     python314
     pnpm
