@@ -4,7 +4,11 @@
   config,
   pkgs,
   ...
-}: {
+}@args: 
+let
+  enableHyprland = args.enableHyprland or false;
+  enableGnome    = args.enableGnome or false;
+in {
   imports = [
     ./hardware-configuration.nix
   ];
@@ -14,25 +18,6 @@
     PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
     OPENSSL_ROOT_DIR = "${pkgs.openssl.dev}";
     USE_HTTPS = "OpenSSL";
-  };
-
-  nixpkgs = {
-    overlays = [
-      (final: prev: {
-        zerotierone = let
-          # Import pinned nixpkgs with unfree allowed for zerotier
-          zerotierPkgs = import inputs.nixpkgs-zerotier {
-            inherit (prev) system;
-            config.allowUnfree = true;
-            config.allowUnfreePredicate = pkg: pkg.pname == "zerotierone";
-          };
-        in zerotierPkgs.zerotierone;
-      })
-    ];
-    config = {
-      allowUnfree = true;
-      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) ["zerotierone"];
-    };
   };
 
   nix = let
@@ -48,8 +33,14 @@
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
 
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.initrd.kernelModules = [ "amdgpu" ];
+
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/var/lib/sbctl";
+  };
 
   time.timeZone = "America/Mexico_City";
   i18n.defaultLocale = "en_US.UTF-8";
@@ -58,6 +49,7 @@
   services.printing.enable = true;
   services.gvfs.enable = true;
   services.udisks2.enable = true;
+  services.dbus.enable = true;
 
   services.avahi = {
     enable = true;
@@ -70,29 +62,24 @@
     variant = "";
   };
 
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  services.displayManager.defaultSession = "gnome";
+  services.xserver = {
+    enable = true;
+    desktopManager.gnome.enable = enableGnome;
+    displayManager.gdm.enable = true;
+    videoDrivers = [ "amdgpu" ];
+  };
+
+  services.displayManager = {
+    defaultSession = lib.mkDefault (
+      if enableHyprland then "hyprland"
+      else "gnome"
+    );
+  };
 
   services.gnome = {
     tinysparql.enable = false;
     localsearch.enable = false;
   };
-
-  environment.gnome.excludePackages = with pkgs; [
-    gnome-contacts
-    gnome-maps
-    gnome-music
-    gnome-terminal
-    gnome-tour
-    gnome-keyring
-    epiphany
-    totem
-    simple-scan
-    geary
-    yelp
-  ];
 
   services.zerotierone = {
     enable = true;
@@ -123,8 +110,43 @@
 
   networking.networkmanager.enable = true;
   networking.hostName = "nixos";
+  networking.wireless.iwd.enable = true;
 
-  # System-wide packages (core system tools only)
+  environment.gnome.excludePackages = lib.mkIf enableGnome (with pkgs; [
+    gnome-contacts
+    gnome-maps
+    gnome-music
+    gnome-tour
+    epiphany
+    totem
+    simple-scan
+    geary
+    yelp
+  ]);
+
+  nixpkgs = {
+    overlays = [
+      (final: prev: {
+        unstable = import inputs.nixpkgs-unstable {
+          inherit (prev) system;
+          config = prev.config;
+        };
+        zerotierone = let
+          # Import pinned nixpkgs with unfree allowed for zerotier
+          zerotierPkgs = import inputs.nixpkgs-zerotier {
+            inherit (prev) system;
+            config.allowUnfree = true;
+            config.allowUnfreePredicate = pkg: pkg.pname == "zerotierone";
+          };
+        in zerotierPkgs.zerotierone;
+      })
+    ];
+    config = {
+      allowUnfree = true;
+      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) ["zerotierone"];
+    };
+  };
+
   environment.systemPackages = with pkgs; [
     # Build essentials
     pkg-config
@@ -138,23 +160,32 @@
     heimdal
     krb5.dev
     gcc
+    adwaita-qt
+    wl-clipboard
     lact
+    sbctl
+    lsof
 
     # Core system utilities
     wsdd
     wget
     curl
+    zip
     unzip
     kitty
     ripgrep
     btop
-    neofetch
+    fastfetch
+    awscli
+    ngrok
 
     # Language Managers
+    pnpm
     nodejs_24
-    ruby_3_4
+    (ruby.withPackages (p: [ p.ruby-lsp p.solargraph p.rubocop ]))
     go
     python314
+    pnpm
   ];
 
   fonts.packages = with pkgs; [
@@ -162,15 +193,25 @@
     nerd-fonts.fira-code
   ];
 
+  programs.hyprland = {
+    enable = enableHyprland;
+    xwayland.enable = true;
+  };
+
+  xdg.portal = lib.mkIf enableHyprland {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+  };
+
   programs.zsh = {
     enable = true;
     shellInit = ''
       export PKG_CONFIG_PATH="${pkgs.openssl.dev}/lib/pkgconfig"
       export OPENSSL_ROOT_DIR="${pkgs.openssl.dev}"
       export USE_HTTPS="OpenSSL"
-      export GEM_HOME="$HOME/.local/share/gem/ruby/3.4.0";
-      export GEM_PATH="$HOME/.local/share/gem/ruby/3.4.0";
-      export PATH="$HOME/.local/bin:$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH"
+      export GEM_HOME="$HOME/.local/share/gem/ruby/3.3.0";
+      export GEM_PATH="$HOME/.local/share/gem/ruby/3.3.0";
+      export PATH="$HOME/.local/bin:$HOME/.local/share/gem/ruby/3.3.0/bin:$PATH"
     '';
   };
 

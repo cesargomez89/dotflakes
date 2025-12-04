@@ -1,13 +1,28 @@
 { config, pkgs, lib, ... }:
 
 {
+  home.packages = with pkgs; [
+    gnome-tweaks
+    dconf-editor
+    gparted
+    # GNOME Extensions
+    gnomeExtensions.open-bar
+    gnomeExtensions.media-controls
+    gnomeExtensions.vitals
+    gnomeExtensions.user-themes
+    gnomeExtensions.appindicator
+    gnomeExtensions.blur-my-shell
+    gnomeExtensions.tiling-shell
+  ];
+
+  stylix.targets.gnome.enable = true;
+
   dconf.settings = {
     "org/gnome/desktop/input-sources" = {
       xkb-options = [ "ctrl:swapcaps" ];
     };
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
-      icon-theme = "Papirus-Dark";
       font-antialiasing = "rgba";
       font-hinting = "slight";
       enable-animations = true;
@@ -45,6 +60,11 @@
       command = "youtube-music";
       binding = "<Super>y";
     };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom6" = {
+      name = "Log Out";
+      command = "gnome-session-quit --logout --no-prompt";
+      binding = "<Super>BackSpace";
+    };
     "org/gnome/desktop/wm/keybindings" = {
       close = ["<Super>q"];
     };
@@ -69,6 +89,7 @@
         "nautilus.desktop"
         "com.github.th_ch.youtube_music.desktop"
         "org.telegram.desktop.desktop"
+        "obsidian.desktop"
         "random-wallpaper.desktop"
       ];
     };
