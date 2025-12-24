@@ -235,11 +235,8 @@ in {
     fastfetch
     awscli
     ngrok
-    glxinfo
     powertop
     ngrok
-    glxinfo
-    powertop
 
     # Language Managers
     pnpm
@@ -306,5 +303,5 @@ in {
     };
   };
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
 }
