@@ -6,7 +6,7 @@ in
 {
   home.username = "cesar";
   home.homeDirectory = "/home/cesar";
-  home.stateVersion = "25.05";
+  home.stateVersion = "25.11";
   programs.home-manager.enable = true;
   dconf.enable = true;
 
@@ -34,7 +34,7 @@ in
     cava
     fum
     aider-chat
-    vscode
+    antigravity
 
     # Icons and Themes
     papirus-icon-theme

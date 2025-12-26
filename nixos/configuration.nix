@@ -81,10 +81,6 @@ in {
     localsearch.enable = false;
   };
 
-  services.zerotierone = {
-    enable = true;
-  };
-
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -131,19 +127,10 @@ in {
           inherit (prev) system;
           config = prev.config;
         };
-        zerotierone = let
-          # Import pinned nixpkgs with unfree allowed for zerotier
-          zerotierPkgs = import inputs.nixpkgs-zerotier {
-            inherit (prev) system;
-            config.allowUnfree = true;
-            config.allowUnfreePredicate = pkg: pkg.pname == "zerotierone";
-          };
-        in zerotierPkgs.zerotierone;
       })
     ];
     config = {
       allowUnfree = true;
-      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) ["zerotierone"];
     };
   };
 

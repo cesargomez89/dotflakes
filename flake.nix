@@ -2,16 +2,15 @@
   description = "NixOS + Hyprland dotfiles";
 
   inputs = {
-    stylix.url = "github:danth/stylix/release-25.05";
-    nixpkgs-zerotier.url = "github:nixos/nixpkgs/nixos-23.11";
+    stylix.url = "github:danth/stylix/release-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.4.2";
+      url = "github:nix-community/lanzaboote/v1.0.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

@@ -154,11 +154,6 @@ I went with it because it handles theme based on wallpaper and allows many custo
 | pinta | Image editor |
 | gparted | Partition editor |
 
-#### Services
-
-| Service | Description |
-| --- | --- |
-| zerotierone | ZeroTier networking |
 
 #### Programs
 
