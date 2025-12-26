@@ -182,7 +182,7 @@ in {
     # Language Managers
     pnpm
     nodejs_24
-    (ruby.withPackages (p: [ p.ruby-lsp p.solargraph p.rubocop ]))
+    (ruby.withPackages (p: [ p.ruby-lsp p.solargraph p.rubocop p.rugged ]))
     go
     python314
     pnpm
