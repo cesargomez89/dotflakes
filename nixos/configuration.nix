@@ -22,17 +22,21 @@ in {
     GBM_BACKEND = "nvidia-drm";
   };
 
-  nix = let
-    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
-  in {
+  nix = {
     settings = {
       experimental-features = "nix-command flakes";
       flake-registry = "";
-      nix-path = config.nix.nixPath;
+      # Optimize storage
+      auto-optimise-store = true;
     };
 
-    registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
-    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
+    # This will add each flake input as a registry
+    # To make nix3 commands consistent with your flake
+    registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
+
+    # This will globally add your flake inputs to nix path
+    # Allows legacy nix commands to find your flake inputs
+    nixPath = lib.mapAttrsToList (key: value: "${key}=${value.toSourcePath or value}") inputs;
   };
 
   boot.loader.systemd-boot.enable = lib.mkForce false;
@@ -45,7 +49,14 @@ in {
 
   time.timeZone = "America/Mexico_City";
   i18n.defaultLocale = "en_US.UTF-8";
-  i18n.inputMethod.enabled = null;
+  i18n.inputMethod = {
+    enable = true;
+    type = "fcitx5";
+    fcitx5.addons = with pkgs; [
+      fcitx5-gtk
+      fcitx5-lua
+    ];
+  };
 
   services.printing.enable = true;
   services.gvfs.enable = true;
@@ -63,10 +74,9 @@ in {
     variant = "";
   };
 
+  services.desktopManager.gnome.enable = enableGnome;
   services.xserver = {
     enable = true;
-    desktopManager.gnome.enable = enableGnome;
-    displayManager.gdm.enable = true;
     videoDrivers = [ "modesetting" "nvidia" ];
   };
 
@@ -102,8 +112,8 @@ in {
     };
   };
 
-
   services.displayManager = {
+    gdm.enable = true;
     defaultSession = lib.mkDefault (
       if enableHyprland then "hyprland"
       else "gnome"
@@ -177,19 +187,6 @@ in {
     yelp
   ]);
 
-  nixpkgs = {
-    overlays = [
-      (final: prev: {
-        unstable = import inputs.nixpkgs-unstable {
-          inherit (prev) system;
-          config = prev.config;
-        };
-      })
-    ];
-    config = {
-      allowUnfree = true;
-    };
-  };
 
   environment.systemPackages = with pkgs; [
     # Build essentials
@@ -251,11 +248,6 @@ in {
 
   programs.zsh = {
     enable = true;
-    shellInit = ''
-      export PKG_CONFIG_PATH="${pkgs.openssl.dev}/lib/pkgconfig"
-      export OPENSSL_ROOT_DIR="${pkgs.openssl.dev}"
-      export USE_HTTPS="OpenSSL"
-    '';
   };
 
   programs.obs-studio = {
