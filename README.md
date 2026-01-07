@@ -1,187 +1,148 @@
-# DotFlakes
+# ❄️ DotFlakes
 
-A personal NixOS configuration featuring Home Manager and GNOME, built with flakes for reproducible system management.
+A premium, reproducible NixOS configuration featuring **Home Manager**, **GNOME**, and **Hyprland**, built with modern Nix Flakes.
 
-## Philosophy
+## 🎯 Philosophy
 
-This configuration prioritizes OS-level system management while maintaining a balance between simplicity, visual appeal, and productivity. The focus is on creating a stable, declarative foundation for your desktop environment.
+DotFlakes is designed to be a stable, aesthetic, and highly productive base system. It prioritizes system-level management while keeping the environment visually polished and functionally robust. It is built to complement application-specific configurations like [Kiddots](https://github.com/cesargomez89/kiddots).
 
-## Architecture
+## 🛠️ Technology Stack
 
-DotFlakes is designed as a system-level configuration manager that pairs seamlessly with [Kiddots](https://github.com/cesargomez89/kiddots) for application-specific dotfiles. This separation allows for:
+DotFlakes combines the best tools in the Nix community for a seamless experience:
 
-- **System stability**: Core OS configuration remains consistent
-- **Flexibility**: Application configs can evolve independently
-- **Maintainability**: Clear separation of concerns
+### Core System
+- **NixOS**: The foundation of the system.
+- **Flakes**: For reproducible and versioned configuration.
+- **Home Manager**: Declarative user environment management.
+- **Nix-Direnv**: Fast, automatic shell environments.
 
-## What's Included
+### Desktop Environments
+- **GNOME**: A polished, stable DE with customized extensions.
+- **Hyprland**: A dynamic tiling Wayland compositor for high productivity.
+- **Stylix**: Consistent system-wide theming.
 
-- **NixOS**: Declarative system configuration
-- **Home Manager**: User environment management
-- **GNOME**: Polished desktop environment with thoughtful customizations
-- **Flakes**: Modern, reproducible Nix workflow
+### Shell & Tools
+- **Zsh**: Enhanced with **Starship** prompt.
+- **Kitty**: Fast, GPU-accelerated terminal.
+- **Neovim / Tmux**: Core development tools.
+- **Lazygit / Lazydocker / OpenCode**: CLI productivity interfaces.
 
-## What's Not Included
+### Programming Languages
+- **Python 3.14**, **Go**, **Ruby**, **Node.js 24** (via pnpm).
 
-Terminal emulators, Neovim, tmux, and other frequently-changing application configurations are intentionally excluded. These are better managed through dedicated dotfiles like [Kiddots](https://github.com/cesargomez89/kiddots).
+---
 
-## Setup
+## 🚀 Setup & Installation
 
-1. Fork or clone this repository
-2. Build your hardware configuration `nixos-generate-config`
-3. Copy your hardware configuration to `nixos/hardware-configuration.nix`
-4. Commit the changes to your repository
-5. Build your system configuration `sudo nixos-rebuild switch --flake .#nixos`
+### For Existing NixOS Users
+If you already have NixOS installed and just want to switch to this configuration:
 
-Extra step for the wallpaper switcher:
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/cesargomez89/dotflakes ~/dotflakes
+   cd ~/dotflakes
+   ```
+2. **Setup Hardware**:
+   Generate your hardware config if you haven't already:
+   ```bash
+   nixos-generate-config --show-hardware-config > nixos/hardware-configuration.nix
+   ```
+3. **Apply Configuration**:
+   ```bash
+   sudo nixos-rebuild switch --flake .#nixos
+   ```
 
-```
+### For Fresh Installations
+See the detailed [INSTALL.md](./INSTALL.md) guide for instructions on installing from scratch using the NixOS ISO.
 
-git clone git@github.com:cesargomez89/wallpapers.git ~/wallpapers
-```
+---
 
-Further details in the [INSTALL.md](./INSTALL.md) file.
+## ⌨️ Shortcuts & Keybindings
 
+DotFlakes provides a consistent set of shortcuts across both GNOME and Hyprland where possible.
 
-## Structure
+### 🌐 Global & App Shortcuts
+These apply to both environments or are the primary app triggers.
 
-```
+| Key | Action |
+| :--- | :--- |
+| `<Super> + Return` | Open Terminal (Kitty) |
+| `<Super> + B` | Open Browser (Chrome) |
+| `<Super> + E` | Open File Manager (Nautilus) |
+| `<Super> + C` | Open Chat (Slack) |
+| `<Super> + Y` | Open Music (YouTube Music) |
+| `<Super> + R` | Change Wallpaper (Random) |
+| `<Super> + Q` | Close Window |
+| `<Super> + Backspace` | Log Out / Exit |
+
+### 🏠 GNOME Specific
+| Key | Action |
+| :--- | :--- |
+| `<Super>` | Overview / Activity search |
+| `<Super> + Tab` | Switch Applications |
+
+### ⚡ Hyprland Specific
+| Key | Action |
+| :--- | :--- |
+| `<Super> + Space` | App Launcher (Walker) |
+| `<Super> + P` | Notification Center (SwayNC) |
+| `<Super> + L` | Lock Screen (Hyprlock) |
+| `Print` | Take Screenshot (Hyprshot) |
+| `<Super> + [0-9]` | Switch Workspace |
+| `<Super> + V` | Toggle Floating |
+| `<Super> + Arrow Keys` | Move Focus |
+
+---
+
+## 🖼️ Features & Customization
+
+### 🏞️ Random Wallpaper Switcher
+The system includes a custom `random-bg` script that changes your wallpaper from `~/wallpapers/`.
+- **Auto-change**: Triggers every time you log in.
+- **Manual change**: Use `<Super> + R` or click the wallpaper icon in the dock/bar.
+- **Source**: Feel free to use my collection:
+  ```bash
+  git clone https://github.com/cesargomez89/wallpapers.git ~/wallpapers
+  ```
+
+### 🧩 GNOME Extensions
+The GNOME environment is enhanced with:
+- **Open Bar**: Beautifully customized top panel.
+- **Tiling Shell**: Optional tiling window management for GNOME.
+- **Blur My Shell**: Elegant blur effects.
+- **Vitals**: System monitoring in the panel.
+
+---
+
+## 📂 Project Structure
+
+```text
 .
-├── flake.nix         - Main flake configuration
-├── home-manager/     - User configuration
-├── nixos/            - System configuration
-└── README.md         - This file
+├── flake.nix           # Entry point and dependency management
+├── home-manager/       # User-level configuration (apps, shell, DEs)
+│   ├── gnome.nix       # GNOME settings & extensions
+│   ├── hypr.nix        # Hyprland configuration
+│   └── home.nix        # Main Home Manager entry
+├── nixos/              # System-level configuration
+│   ├── configuration.nix # Core system settings
+│   └── hardware-configuration.nix # Hardware specific settings
+└── README.md           # You are here
 ```
 
-## Usage
+## 📸 Screenshots
 
-Desktop UI is being handled by GDM + GNOME Shell for simplicity.
+![Desktop Overview](https://raw.githubusercontent.com/cesargomez89/dotflakes/master/screenshots/1.png)
+*A look at the clean, productive workspace.*
 
-#### Random Wallpaper
+<details>
+<summary>View More Screenshots</summary>
 
-The wallpaper switcher is configured to use the `random-bg` script in `~/.local/bin/`.
-There are 3 ways to change the wallpaper:
+![Screenshot 2](https://raw.githubusercontent.com/cesargomez89/dotflakes/master/screenshots/2.png)
+![Screenshot 3](https://raw.githubusercontent.com/cesargomez89/dotflakes/master/screenshots/3.png)
+![Screenshot 4](https://raw.githubusercontent.com/cesargomez89/dotflakes/master/screenshots/4.png)
+</details>
 
-1. It gets replaced on login automatically
-2. Click on the random wallpaper icon in the dash
-3. Run `~/.local/bin/random-bg` from the command line
+---
 
-This script reads the wallpapers from `~/wallpapers/`.
-
-You can create your own folder and paste your collection or feel free to use mine from this repo:
-
-```
-git clone git@github.com:cesargomez89/wallpapers.git ~/wallpapers
-```
-
-
-#### Favorite apps in dash
-
-| App | Description |
-| --- | --- |
-| Kitty | Terminal emulator |
-| Google Chrome | Web browser |
-| Slack | Chat client |
-| Dbeaver | Database client |
-| Postman | API client |
-| Nautilus | File manager |
-| YouTube Music | Music player |
-| Telegram | Chat client |
-| Random Wallpaper | Change wallpaper |
-
-
-#### Keybindings
-
-| Keybinding | Action |
-| --- | --- |
-| `<Super>b` | Toggle Chrome |
-| `<Super>e` | Toggle Nautilus |
-| `<Super>Return` | Toggle Kitty |
-| `<Super>c` | Toggle Slack |
-| `<Super>r` | Change wallpaper |
-| `<Super>y` | Toggle Youtube Music |
-| `<Super>q` | Close window |
-
-
-#### Extensions
-
-
-| Extension | Description |
-| --- | --- |
-| Open Bar | Adds a bar to the top of the screen |
-| Media Controls | Adds media controls to the top of the screen |
-| Vitals | Adds a widget to the top of the screen |
-| AppIndicator | Handles tray icons |
-| Blur My Shell | Adds blur to multiple places |
-| Tiling Shell | Tiling manager |
-
-
-I use the [Open Bar](https://extensions.gnome.org/extension/6580/open-bar/) extension to add a bar to the top of the screen.
-I went with it because it handles theme based on wallpaper and allows many customizations.
-
-#### Pre-installed packages
-
-| Package | Description |
-| --- | --- |
-| python314 | Python 3.14 |
-| go | Go programming language |
-| ruby | Ruby programming language |
-| pnpm | Fast, disk space efficient package manager |
-| zsh | Z shell |
-| kitty | Terminal emulator |
-| neovim | Text editor |
-| luarocks | Lua package manager |
-| ripgrep | Search tool |
-| starship | Shell prompt |
-| eza | Modern alternative to ls |
-| tmux | Terminal multiplexer |
-| wget | Download utility |
-| btop | Process monitor |
-| fastfetch | System information tool |
-| cava | Console-based Audio Visualizer |
-| fum | Player TUI |
-| lazygit | Git TUI |
-| lazydocker | Docker TUI |
-| aider-chat | AI assistant |
-| google-chrome | Web browser |
-| youtube-music | Music player |
-| slack | Chat client |
-| postman | API client |
-| zoom | Video conferencing |
-| dbeaver-bin | Database client |
-| telegram-desktop | Chat client |
-| vlc | Video player |
-| pinta | Image editor |
-| gparted | Partition editor |
-
-
-#### Programs
-
-| Program | Description |
-| --- | --- |
-| git | Version control system |
-| zsh | Shell |
-
-
-#### Pre-installed fonts
-
-| Font | Description |
-| --- | --- |
-| Caskaydia Cove | Nerd font |
-| Fira Code | Nerd font |
-
-## Screenshots
-
-![Screenshot](https://raw.githubusercontent.com/cesargomez89/dotflakes/master/screenshots/1.png)
-
-![Screenshot](https://raw.githubusercontent.com/cesargomez89/dotflakes/master/screenshots/2.png)
-
-![Screenshot](https://raw.githubusercontent.com/cesargomez89/dotflakes/master/screenshots/3.png)
-
-![Screenshot](https://raw.githubusercontent.com/cesargomez89/dotflakes/master/screenshots/4.png)
-
-![Screenshot](https://raw.githubusercontent.com/cesargomez89/dotflakes/master/screenshots/5.png)
-
-## Contributing
-
-This is a personal configuration, but feel free to fork and adapt it to your needs. Pull requests, issues and suggestions are welcome.
+## 🤝 Contributing
+This is my personal configuration, but I'm happy to accept suggestions, bug reports, or forks. Feel free to open an issue or a PR!

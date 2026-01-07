@@ -1,52 +1,71 @@
-# NixOS Installation Guide
+# 🛠️ NixOS Installation Guide
 
-## 1. Fresh Install Preparation
+This guide provides step-by-step instructions for a fresh NixOS installation using this flake.
+
+## 1. 🏗️ Preparation
+Boot from the NixOS installation ISO and prepare your environment.
+
 ```bash
-# From installation ISO after partitioning/mounting:
+# Switch to root
 sudo -i
+
+# Enable flakes and git
 nix-shell -p nixFlakes git
-nixos-generate-config --root /mnt  # Generate hardware config
+
+# Core hardware generation (from /mnt after partitioning/mounting)
+nixos-generate-config --root /mnt
 ```
 
-## 2. Repository Setup
+## 2. 📥 Repository Setup
+Clone the configuration and integrate your hardware settings.
+
 ```bash
-mv /mnt/etc/nixos /mnt/etc/nixos.original
-git clone https://github.com/yourusername/your-repo /mnt/etc/nixos
+# Backup default config
+mv /mnt/etc/nixos /mnt/etc/nixos.backup
 
-# Critical: Replace generated hardware config with yours
-cp /mnt/etc/nixos.original/hardware-configuration.nix /mnt/etc/nixos/nixos/
+# Clone this repository (replace with your fork if applicable)
+git clone https://github.com/cesargomez89/dotflakes /mnt/etc/nixos
+
+# IMPORTANT: Copy your generated hardware configuration
+cp /mnt/etc/nixos.backup/hardware-configuration.nix /mnt/etc/nixos/nixos/
 ```
 
-## 3. Configuration Validation
-Ensure these matches:
-```nix
-# flake.nix
-nixosConfigurations.nixos = ...  # ← This name
+## 3. 📝 Configuration Verification
+Before installing, ensure the following fields match your hardware and intended user:
 
-# configuration.nix
-networking.hostName = "nixos";  # ← Must match
+| File | Setting | Requirement |
+| :--- | :--- | :--- |
+| `flake.nix` | `nixosConfigurations.nixos` | Must match the target hostname |
+| `nixos/configuration.nix` | `networking.hostName` | Must match the flake configuration name |
+| `nixos/configuration.nix` | `users.users.cesar` | Rename to your preferred username if needed |
 
-# home.nix
-home.username = "cesar";  # ← Must match user creation
-```
+> [!IMPORTANT]
+> If you change the username, search and replace "cesar" across the entire repository (especially in `home.nix` and `gnome.nix`).
 
-## 4. Build & Activate
+## 4. 🚀 Installation
+Run the installation command using the flake.
+
 ```bash
 nixos-install --flake /mnt/etc/nixos#nixos --no-root-passwd
 ```
 
-## Post-Install Essentials
-```bash
-# As user 'cesar':
-mkdir -p ~/wallpapers  # Required for random-bg script
-chmod +x ~/.local/bin/random-bg
+## 5. 🏁 Post-Installation
+After rebooting and logging in as your user:
 
-# Set password for user
-passwd cesar
+```bash
+# Set your user password
+passwd
+
+# Ensure wallpaper directory exists
+mkdir -p ~/wallpapers
+
+# The random-bg script should be automatically linked to ~/.local/bin/
+# Verify it is executable
+ls -l ~/.local/bin/random-bg
 ```
 
-## Key Verification Points
-1. Home Manager integration is properly nested under `home-manager.users.cesar`
-2. `random-bg.nix` creates all required desktop entries and autostart
-3. ZeroTier overlay uses the pinned 23.11 nixpkgs correctly
-4. All GNOME extensions in `home.packages` exist in nixpkgs-unstable
+## ✅ Verification Checklist
+- [ ] **Home Manager**: Verify your user environment is active.
+- [ ] **Wallpaper**: Run `random-bg` to test the background switcher.
+- [ ] **Desktop**: Check that GNOME or Hyprland (depending on your choice) starts correctly.
+- [ ] **Stack**: Verify core tools like `kitty`, `zsh`, and `neovim` are available.
