@@ -126,19 +126,19 @@ I went with it because it handles theme based on wallpaper and allows many custo
 | python314 | Python 3.14 |
 | go | Go programming language |
 | ruby | Ruby programming language |
-| fnm | Fast and simple Node.js version manager |
+| pnpm | Fast, disk space efficient package manager |
 | zsh | Z shell |
 | kitty | Terminal emulator |
 | neovim | Text editor |
 | luarocks | Lua package manager |
 | ripgrep | Search tool |
 | starship | Shell prompt |
-| eza | Archive manager |
+| eza | Modern alternative to ls |
 | tmux | Terminal multiplexer |
 | wget | Download utility |
 | btop | Process monitor |
-| neofetch | System information |
-| cava | System information |
+| fastfetch | System information tool |
+| cava | Console-based Audio Visualizer |
 | fum | Player TUI |
 | lazygit | Git TUI |
 | lazydocker | Docker TUI |

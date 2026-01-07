@@ -23,6 +23,9 @@
     home-manager,
     ...
   } @ inputs: let
+    system = "x86_64-linux";
+    pkgs = nixpkgs.legacyPackages.${system};
+    unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
     
     enableGnome = true;
     enableHyprland = false;
@@ -30,22 +33,31 @@
   in {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
+        inherit system;
         specialArgs = {
-          inherit inputs outputs enableGnome enableHyprland;
+          inherit inputs outputs enableGnome enableHyprland unstablePkgs;
         };
         modules = [
+          inputs.stylix.nixosModules.stylix
           ./nixos/configuration.nix
           lanzaboote.nixosModules.lanzaboote
           home-manager.nixosModules.home-manager
           {
+            nixpkgs = {
+              overlays = [
+                (final: prev: {
+                  unstable = inputs.nixpkgs-unstable.legacyPackages.${prev.system};
+                })
+              ];
+              config = {
+                allowUnfree = true;
+              };
+            };
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.cesar = import ./home-manager/home.nix;
             home-manager.extraSpecialArgs = {
-              inherit inputs stylix enableGnome enableHyprland;
-              unstablePkgs = import inputs.nixpkgs-unstable {
-                system = "x86_64-linux";
-              };
+              inherit inputs stylix enableGnome enableHyprland unstablePkgs;
             };
           }
         ];
