@@ -138,10 +138,6 @@ in {
     };
   };
 
-  services.zerotierone = {
-    enable = true;
-  };
-
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -188,19 +184,10 @@ in {
           inherit (prev) system;
           config = prev.config;
         };
-        zerotierone = let
-          # Import pinned nixpkgs with unfree allowed for zerotier
-          zerotierPkgs = import inputs.nixpkgs-zerotier {
-            inherit (prev) system;
-            config.allowUnfree = true;
-            config.allowUnfreePredicate = pkg: pkg.pname == "zerotierone";
-          };
-        in zerotierPkgs.zerotierone;
       })
     ];
     config = {
       allowUnfree = true;
-      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) ["zerotierone"];
     };
   };
 
@@ -241,7 +228,7 @@ in {
     # Language Managers
     pnpm
     nodejs_24
-    (ruby.withPackages (p: [ p.ruby-lsp p.solargraph p.rubocop ]))
+    (ruby.withPackages (p: [ p.ruby-lsp p.solargraph p.rubocop p.rugged ]))
     go
     python314
     pnpm
@@ -268,9 +255,6 @@ in {
       export PKG_CONFIG_PATH="${pkgs.openssl.dev}/lib/pkgconfig"
       export OPENSSL_ROOT_DIR="${pkgs.openssl.dev}"
       export USE_HTTPS="OpenSSL"
-      export GEM_HOME="$HOME/.local/share/gem/ruby/3.3.0";
-      export GEM_PATH="$HOME/.local/share/gem/ruby/3.3.0";
-      export PATH="$HOME/.local/bin:$HOME/.local/share/gem/ruby/3.3.0/bin:$PATH"
     '';
   };
 

@@ -89,10 +89,10 @@
         "slack.desktop"
         "dbeaver.desktop"
         "postman.desktop"
-        "nautilus.desktop"
+        "antigravity.desktop"
+        "org.gnome.Nautilus.desktop"
         "com.github.th_ch.youtube_music.desktop"
         "org.telegram.desktop.desktop"
-        "obsidian.desktop"
         "random-wallpaper.desktop"
       ];
     };
