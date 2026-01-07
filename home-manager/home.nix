@@ -21,7 +21,6 @@ in
     telegram-desktop
     youtube-music
     vlc
-    obsidian
 
     # User-space Dev Tools
     neovim
@@ -33,7 +32,7 @@ in
     eza
     cava
     fum
-    aider-chat
+    opencode
     antigravity
 
     # Icons and Themes
@@ -78,14 +77,7 @@ in
     EDITOR = "nvim";
     VISUAL = "nvim";
     BROWSER = "google-chrome-stable";
-    GEM_HOME = "$HOME/.local/share/gem/ruby/3.4.0";
-    GEM_PATH = "$HOME/.local/share/gem/ruby/3.4.0";
   };
-
-  home.sessionPath = [
-    "$HOME/.local/bin"
-    "$HOME/.local/share/gem/ruby/3.4.0/bin"
-  ];
 
   programs.git = {
     enable = true;

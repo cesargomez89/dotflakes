@@ -196,9 +196,6 @@ in {
       export PKG_CONFIG_PATH="${pkgs.openssl.dev}/lib/pkgconfig"
       export OPENSSL_ROOT_DIR="${pkgs.openssl.dev}"
       export USE_HTTPS="OpenSSL"
-      export GEM_HOME="$HOME/.local/share/gem/ruby/3.3.0";
-      export GEM_PATH="$HOME/.local/share/gem/ruby/3.3.0";
-      export PATH="$HOME/.local/bin:$HOME/.local/share/gem/ruby/3.3.0/bin:$PATH"
     '';
   };
 
