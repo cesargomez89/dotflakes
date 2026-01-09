@@ -79,6 +79,7 @@
         "appindicatorsupport@rgcjonas.gmail.com"
         "blur-my-shell@aunetx"
         "tilingshell@ferrarodomenico.com"
+        "wengxt/gnome-shell-extension-kimpanel"
       ];
       favorite-apps = [
         "kitty.desktop"
