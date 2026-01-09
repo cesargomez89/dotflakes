@@ -142,6 +142,7 @@ in {
     openssl.dev
     libxml2
     libxslt
+    libyaml
     zlib
     libgit2
     heimdal
