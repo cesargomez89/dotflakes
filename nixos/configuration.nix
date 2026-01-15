@@ -26,16 +26,10 @@ in {
     settings = {
       experimental-features = "nix-command flakes";
       flake-registry = "";
-      # Optimize storage
       auto-optimise-store = true;
     };
 
-    # This will add each flake input as a registry
-    # To make nix3 commands consistent with your flake
     registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
-
-    # This will globally add your flake inputs to nix path
-    # Allows legacy nix commands to find your flake inputs
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.toSourcePath or value}") inputs;
   };
 
@@ -49,6 +43,7 @@ in {
 
   time.timeZone = "America/Mexico_City";
   i18n.defaultLocale = "en_US.UTF-8";
+
   i18n.inputMethod = {
     enable = true;
     type = "fcitx5";
@@ -75,6 +70,7 @@ in {
   };
 
   services.desktopManager.gnome.enable = enableGnome;
+
   services.xserver = {
     enable = true;
     videoDrivers = [ "modesetting" "nvidia" ];
@@ -85,7 +81,11 @@ in {
     open = true;
     modesetting.enable = true;
     nvidiaSettings = true;
-    powerManagement.enable = true;
+
+    # CRITICAL: prevent PCIe root + USB from sleeping
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+
     prime = {
       sync.enable = true;
       intelBusId = "PCI:0:2:0";
@@ -124,8 +124,8 @@ in {
     tinysparql.enable = false;
     localsearch.enable = false;
   };
+
   services.power-profiles-daemon.enable = false;
-  powerManagement.powertop.enable = true;
 
   services.tlp = {
     enable = true;
@@ -139,10 +139,13 @@ in {
 
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
       CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-      RUNTIME_PM_ON_BAT = "auto";
-      PCIE_ASPM_ON_BAT = "powersupersave";
+      RUNTIME_PM_ON_BAT = "on";
+      PCIE_ASPM_ON_BAT = "default";
       CPU_BOOST_ON_BAT = 0;
       SOUND_POWER_SAVE_ON_BAT = 1;
+
+      USB_AUTOSUSPEND = 0;
+
       START_CHARGE_THRESH_BAT0 = 40;
       STOP_CHARGE_THRESH_BAT0 = 85;
     };
@@ -150,6 +153,7 @@ in {
 
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -168,6 +172,7 @@ in {
     enable = true;
     enable32Bit = true;
   };
+
   systemd.packages = with pkgs; [ lact ];
   systemd.services.lactd.wantedBy = ["multi-user.target"];
 
@@ -187,49 +192,11 @@ in {
     yelp
   ]);
 
-
   environment.systemPackages = with pkgs; [
-    # Build essentials
-    pkg-config
-    gnumake
-    cmake
-    openssl.dev
-    libxml2
-    libxslt
-    libyaml
-    zlib
-    libgit2
-    heimdal
-    krb5.dev
-    gcc
-    adwaita-qt
-    wl-clipboard
-    lact
-    sbctl
-    lsof
-
-    # Core system utilities
-    wsdd
-    wget
-    curl
-    zip
-    unzip
-    kitty
-    ripgrep
-    btop
-    fastfetch
-    awscli
-    ngrok
-    powertop
-    ngrok
-
-    # Language Managers
-    pnpm
-    nodejs_24
-    (ruby.withPackages (p: [ p.ruby-lsp p.solargraph p.rubocop p.rugged ]))
-    go
-    python314
-    pnpm
+    pkg-config gnumake cmake openssl.dev libxml2 libxslt libyaml zlib libgit2 heimdal krb5.dev gcc
+    adwaita-qt wl-clipboard lact sbctl lsof
+    wsdd wget curl zip unzip kitty ripgrep btop fastfetch awscli ngrok powertop
+    pnpm nodejs_24 (ruby.withPackages (p: [ p.ruby-lsp p.solargraph p.rubocop p.rugged ])) go python314 pnpm
   ];
 
   fonts.packages = with pkgs; [
@@ -247,9 +214,7 @@ in {
     extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
   };
 
-  programs.zsh = {
-    enable = true;
-  };
+  programs.zsh.enable = true;
 
   programs.obs-studio = {
     enable = true;
@@ -269,13 +234,12 @@ in {
   virtualisation.docker.enable = true;
 
   users.defaultUserShell = pkgs.zsh;
+
   users.users = {
     cesar = {
       initialPassword = "password";
       isNormalUser = true;
-      openssh.authorizedKeys.keys = [
-        # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
-      ];
+      openssh.authorizedKeys.keys = [];
       extraGroups = ["wheel" "networkmanager" "audio" "bluetooth" "docker"];
     };
   };
