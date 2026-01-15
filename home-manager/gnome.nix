@@ -13,6 +13,7 @@
     gnomeExtensions.appindicator
     gnomeExtensions.blur-my-shell
     gnomeExtensions.tiling-shell
+    gnomeExtensions.kimpanel
   ];
 
   stylix.targets.gnome.enable = true;
@@ -79,7 +80,7 @@
         "appindicatorsupport@rgcjonas.gmail.com"
         "blur-my-shell@aunetx"
         "tilingshell@ferrarodomenico.com"
-        "wengxt/gnome-shell-extension-kimpanel"
+        "kimpanel@kde.org"
       ];
       favorite-apps = [
         "kitty.desktop"
