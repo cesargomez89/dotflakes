@@ -32,7 +32,7 @@ in
     eza
     cava
     fum
-    opencode
+    unstable.opencode
     antigravity
 
     # Icons and Themes
