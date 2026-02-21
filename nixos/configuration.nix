@@ -193,11 +193,25 @@ in {
     yelp
   ]);
 
+  services.gnome = {
+    core-developer-tools.enable = true; # ensures proper runtime env
+  };
+
+  environment.sessionVariables = {
+    GST_PLUGIN_SYSTEM_PATH_1_0 =
+      "${pkgs.gst_all_1.gst-plugins-base}/lib/gstreamer-1.0:" +
+      "${pkgs.gst_all_1.gst-plugins-good}/lib/gstreamer-1.0:" +
+      "${pkgs.gst_all_1.gst-plugins-bad}/lib/gstreamer-1.0:" +
+      "${pkgs.gst_all_1.gst-plugins-ugly}/lib/gstreamer-1.0:" +
+      "${pkgs.gst_all_1.gst-libav}/lib/gstreamer-1.0";
+  };
+
   environment.systemPackages = with pkgs; [
     pkg-config gnumake cmake openssl.dev libxml2 libxslt libyaml zlib libgit2 heimdal krb5.dev gcc
     adwaita-qt wl-clipboard lact sbctl lsof
-    wsdd wget curl zip unzip kitty ripgrep btop fastfetch awscli ngrok powertop
-    pnpm nodejs_24 (ruby.withPackages (p: [ p.ruby-lsp p.solargraph p.rubocop p.rugged ])) go python314 pnpm
+    wsdd wget curl zip unzip kitty ripgrep btop fastfetch awscli ngrok powertop sqlite
+    pnpm nodejs_24 (ruby.withPackages (p: [ p.ruby-lsp p.solargraph p.rubocop p.rugged ]))
+    go golangci-lint python314 pnpm
   ];
 
   fonts.packages = with pkgs; [
@@ -243,6 +257,25 @@ in {
       openssh.authorizedKeys.keys = [];
       extraGroups = ["wheel" "networkmanager" "audio" "bluetooth" "docker"];
     };
+  };
+
+  fileSystems."/mnt/nas" = {
+    device = "//192.168.31.250/Storage";
+    fsType = "cifs";
+    options = [
+      "credentials=/etc/nixos/secrets/nas-smb"
+      "x-systemd.automount"
+      "noatime"
+      "rw"
+      "vers=3.1.1"
+      "serverino"
+      "uid=1000"
+      "gid=1000"
+      "file_mode=0775"
+      "dir_mode=0775"
+      "soft"
+      "_netdev"
+    ];
   };
 
   system.stateVersion = "25.11";

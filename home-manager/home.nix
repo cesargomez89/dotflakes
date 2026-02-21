@@ -33,6 +33,7 @@ in
     cava
     fum
     unstable.opencode
+    unstable.feishin
     antigravity
 
     # Icons and Themes
