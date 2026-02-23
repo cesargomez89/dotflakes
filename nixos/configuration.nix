@@ -33,7 +33,7 @@ in {
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.toSourcePath or value}") inputs;
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages;
   boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.loader.efi.canTouchEfiVariables = true;
 

@@ -24,8 +24,13 @@
     ...
   } @ inputs: let
     system = "x86_64-linux";
+    
     pkgs = nixpkgs.legacyPackages.${system};
-    unstablePkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
+    
+    unstablePkgs = import inputs.nixpkgs-unstable {
+      inherit system;
+      config.allowUnfree = true;
+    };
     
     enableGnome = true;
     enableHyprland = false;
@@ -46,7 +51,10 @@
             nixpkgs = {
               overlays = [
                 (final: prev: {
-                  unstable = inputs.nixpkgs-unstable.legacyPackages.${prev.system};
+                  unstable = import inputs.nixpkgs-unstable {
+                    inherit (prev) system;
+                    config.allowUnfree = true;
+                  };
                 })
               ];
               config = {

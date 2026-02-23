@@ -34,7 +34,7 @@ in
     fum
     unstable.opencode
     unstable.feishin
-    antigravity
+    unstable.antigravity
 
     # Icons and Themes
     papirus-icon-theme
