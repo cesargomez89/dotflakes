@@ -67,5 +67,5 @@ ls -l ~/.local/bin/random-bg
 ## ✅ Verification Checklist
 - [ ] **Home Manager**: Verify your user environment is active.
 - [ ] **Wallpaper**: Run `random-bg` to test the background switcher.
-- [ ] **Desktop**: Check that GNOME or Hyprland (depending on your choice) starts correctly.
+- [ ] **Desktop**: Check that GNOME starts correctly.
 - [ ] **Stack**: Verify core tools like `kitty`, `zsh`, and `neovim` are available.

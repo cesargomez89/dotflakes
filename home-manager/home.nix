@@ -1,7 +1,6 @@
-{ config, pkgs, stylix, lib, ... }@args:
+{ config, pkgs, stylix, lib, antigravity-nix, ... }@args:
 let
   enableGnome = args.enableGnome or false;
-  enableHyprland = args.enableHyprland or false;
 in
 {
   home.username = "cesar";
@@ -34,7 +33,7 @@ in
     fum
     unstable.opencode
     unstable.feishin
-    unstable.antigravity
+    antigravity-nix.packages.x86_64-linux.default
 
     # Icons and Themes
     papirus-icon-theme
@@ -46,8 +45,6 @@ in
     ./random-bg.nix
   ] ++ lib.optionals enableGnome [
     ./gnome.nix
-  ] ++ lib.optionals enableHyprland [
-    ./hypr.nix
   ];
 
   stylix.enable = true;
@@ -55,7 +52,7 @@ in
   stylix.targets.gtk.enable = true;
   stylix.targets.qt.enable = true;
   stylix.polarity = "dark";
-# stylix.image = ../home-manager/hypr/default.jpg;
+
   stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
   stylix.opacity = {
     desktop = 0.2;

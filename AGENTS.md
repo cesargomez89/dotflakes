@@ -6,29 +6,47 @@ Welcome! This repository contains a NixOS configuration built with Flakes and Ho
 
 - `flake.nix`: Entry point. Manages dependencies (inputs) and system configurations (outputs).
 - `nixos/`: System-level configuration (drivers, services, networking).
-  - `configuration.nix`: Core system settings.
-  - `hardware-configuration.nix`: Hardware-specific settings (**DO NOT EDIT MANUALLY** unless necessary).
+  - `base.nix`: Shared configuration for all machines.
+  - `nvidia.nix`: NVIDIA-specific settings (conditional).
+  - `options.nix`: Custom option definitions.
+  - `machines/`: Machine-specific configurations.
+    - `desktop-amd/`: AMD desktop configuration.
+    - `laptop-nvidia/`: Laptop with NVIDIA (includes specialization for power-saving mode).
 - `home-manager/`: User-level configuration (dotfiles, app settings, shell).
   - `home.nix`: Main Home Manager entry point.
-  - `gnome.nix` / `hypr.nix`: Desktop environment specifics.
+  - `gnome.nix`: GNOME settings & extensions.
 
 ## 🛠️ Build, Lint & Verification Commands
 
 This is a NixOS configuration repository - no traditional unit tests exist.
 
+### Available Configurations
+```bash
+nix flake show                              # Show all flake outputs
+```
+
 ### Syntax Validation
 ```bash
-nix flake check                                    # Check flake syntax
-nix flake show                                    # Show all flake outputs
-nix eval .#nixosConfigurations.nixos.config.system.build.toplevel.drv.outPath  # Evaluate config
+nix flake check                                          # Check flake syntax
+nix eval .#nixosConfigurations.desktop-amd.config.system.build.toplevel.drv.outPath  # Evaluate config
 ```
 
 ### Dry Run & Apply
 ```bash
-sudo nixos-rebuild dry-activate --flake .#nixos  # Validate without applying
-sudo nixos-rebuild switch --flake .#nixos         # Apply changes (after dry run)
-sudo nixos-rebuild build --flake .#nixos          # Build but don't switch
+# Desktop (AMD)
+sudo nixos-rebuild dry-activate --flake .#desktop-amd
+sudo nixos-rebuild switch --flake .#desktop-amd
+
+# Laptop with NVIDIA
+sudo nixos-rebuild dry-activate --flake .#laptop-nvidia
+sudo nixos-rebuild switch --flake .#laptop-nvidia
 ```
+
+### Specialization (NVIDIA Power-Saving)
+The laptop-nvidia config has a specialization for power-saving mode:
+- Build once: `sudo nixos-rebuild switch --flake .#laptop-nvidia`
+- On reboot, select "NixOS, with on-the-go" from bootloader for NVIDIA offload mode
+- No rebuild needed to switch between modes
 
 ### Home Manager
 ```bash
@@ -39,7 +57,7 @@ home-manager dry-run --flake .   # Dry run home-manager
 ### Debugging
 ```bash
 nix develop                                      # Enter Nix shell with dependencies
-sudo NIX_SHOW_TRACE=1 nixos-rebuild dry-activate --flake .#nixos  # Show trace on errors
+sudo NIX_SHOW_TRACE=1 nixos-rebuild dry-activate --flake .#desktop-amd  # Show trace on errors
 ```
 
 ## 📝 Code Style Guidelines
@@ -47,8 +65,7 @@ sudo NIX_SHOW_TRACE=1 nixos-rebuild dry-activate --flake .#nixos  # Show trace o
 ### Module Arguments
 ```nix
 { config, pkgs, lib, inputs, ... }@args:  # Standard signature
-
-{ config, pkgs, lib, stylix, unstablePkgs, enableGnome, enableHyprland, ... }:  # With custom args
+{ config, pkgs, lib, stylix, unstablePkgs, enableGnome, ... }:  # With custom args
 ```
 
 ### Indentation & Attributes
@@ -63,11 +80,14 @@ sudo NIX_SHOW_TRACE=1 nixos-rebuild dry-activate --flake .#nixos  # Show trace o
 
 ### Conditionals
 ```nix
-# Conditional imports
-imports = [ ./base.nix ] ++ lib.optionals enableGnome [ ./gnome.nix ];
+# Conditional imports (single condition)
+imports = [ ./base.nix ] ++ lib.optional config.enableNvidia ./nvidia.nix;
+
+# Conditional imports (multiple conditions)
+imports = [ ./base.nix ] ++ lib.optionals config.enableNvidia [ ./nvidia.nix ];
 
 # Conditional attributes
-services.gnome = lib.mkIf enableGnome { enable = true; };
+hardware.nvidia = lib.mkIf config.enableNvidia { enable = true; };
 
 # Force override
 boot.loader.systemd-boot.enable = lib.mkForce false;
@@ -75,6 +95,9 @@ boot.loader.systemd-boot.enable = lib.mkForce false;
 # Default value
 desktopManager.gnome.enable = lib.mkDefault true;
 ```
+
+### Custom Options
+Custom options are defined in `nixos/options.nix` (e.g., `enableNvidia`, `enableNvidiaOffload`). Import this file in machine configs to use them.
 
 ### Package Lists
 ```nix
@@ -94,7 +117,7 @@ home.packages = with pkgs; [ neovim starship ] ++ [ unstablePkgs.opencode ];
 ## 🏗️ Common Tasks
 
 ### Add System Package
-Edit `nixos/configuration.nix`, add to `environment.systemPackages`:
+Edit `nixos/base.nix`, add to `environment.systemPackages`:
 ```nix
 environment.systemPackages = with pkgs; [ existing-package new-package ];
 ```
@@ -105,12 +128,28 @@ Edit `home-manager/home.nix`, add to `home.packages`:
 home.packages = with pkgs; [ existing-package new-package ];
 ```
 
-### Toggle Desktop Environment
-In `flake.nix`:
+### Add Machine-Specific Package
+Add to the appropriate `nixos/machines/<machine>/configuration.nix`:
 ```nix
-enableGnome = true;      # or false
-enableHyprland = false;  # or true
+environment.systemPackages = with pkgs; [ package-name ];
 ```
+
+### Add New Machine
+1. Create directory: `nixos/machines/<name>/`
+2. Generate hardware config: `sudo nixos-generate-config --show-hardware-config > nixos/machines/<name>/hardware-configuration.nix`
+3. Create configuration.nix:
+```nix
+{ lib, ... }:
+
+{
+  imports = [
+    ../../base.nix
+    ../../options.nix
+    ./hardware-configuration.nix
+  ];
+}
+```
+4. Add to flake.nix under `nixosConfigurations`
 
 ## 🔐 Secrets Handling
 
@@ -123,8 +162,8 @@ enableHyprland = false;  # or true
 ## 🧪 Testing Changes
 
 1. Run `nix flake check` to validate syntax
-2. Run `sudo nixos-rebuild dry-activate --flake .#nixos` to test
-3. Only run `sudo nixos-rebuild switch --flake .#nixos` after dry run succeeds
+2. Run `sudo nixos-rebuild dry-activate --flake .#desktop-amd` to test
+3. Only run `sudo nixos-rebuild switch --flake .#desktop-amd` after dry run succeeds
 
 ## ⚠️ Critical Rules
 
