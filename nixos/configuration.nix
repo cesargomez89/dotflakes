@@ -83,10 +83,6 @@ in {
     modesetting.enable = true;
     nvidiaSettings = true;
 
-    # CRITICAL: prevent PCIe root + USB from sleeping
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
-
     prime = {
       sync.enable = true;
       intelBusId = "PCI:0:2:0";
@@ -102,7 +98,6 @@ in {
     services.xserver.videoDrivers = lib.mkForce [ "modesetting" ];
 
     hardware.nvidia = {
-      powerManagement.finegrained = lib.mkForce true;
       prime = {
         offload = {
           enable = lib.mkForce true;
@@ -124,32 +119,6 @@ in {
   services.gnome = {
     tinysparql.enable = false;
     localsearch.enable = false;
-  };
-
-  services.power-profiles-daemon.enable = false;
-
-  services.tlp = {
-    enable = true;
-    settings = {
-      CPU_SCALING_GOVERNOR_ON_AC = "performance";
-      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-      RUNTIME_PM_ON_AC = "on";
-      PCIE_ASPM_ON_AC = "default";
-      CPU_BOOST_ON_AC = 1;
-      USB_AUTOSUSPEND_ON_AC = 0;
-
-      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-      RUNTIME_PM_ON_BAT = "on";
-      PCIE_ASPM_ON_BAT = "default";
-      CPU_BOOST_ON_BAT = 0;
-      SOUND_POWER_SAVE_ON_BAT = 1;
-
-      USB_AUTOSUSPEND = 0;
-
-      START_CHARGE_THRESH_BAT0 = 40;
-      STOP_CHARGE_THRESH_BAT0 = 85;
-    };
   };
 
   services.pulseaudio.enable = false;
@@ -197,19 +166,10 @@ in {
     core-developer-tools.enable = true; # ensures proper runtime env
   };
 
-  environment.sessionVariables = {
-    GST_PLUGIN_SYSTEM_PATH_1_0 =
-      "${pkgs.gst_all_1.gst-plugins-base}/lib/gstreamer-1.0:" +
-      "${pkgs.gst_all_1.gst-plugins-good}/lib/gstreamer-1.0:" +
-      "${pkgs.gst_all_1.gst-plugins-bad}/lib/gstreamer-1.0:" +
-      "${pkgs.gst_all_1.gst-plugins-ugly}/lib/gstreamer-1.0:" +
-      "${pkgs.gst_all_1.gst-libav}/lib/gstreamer-1.0";
-  };
-
   environment.systemPackages = with pkgs; [
     pkg-config gnumake cmake openssl.dev libxml2 libxslt libyaml zlib libgit2 heimdal krb5.dev gcc
     adwaita-qt wl-clipboard lact sbctl lsof
-    wsdd wget curl zip unzip kitty ripgrep btop fastfetch awscli ngrok powertop sqlite
+    wsdd wget curl zip unzip kitty ripgrep btop fastfetch awscli ngrok sqlite
     pnpm nodejs_24 (ruby.withPackages (p: [ p.ruby-lsp p.solargraph p.rubocop p.rugged ]))
     go golangci-lint python314 pnpm
   ];
