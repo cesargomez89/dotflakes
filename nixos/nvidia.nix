@@ -10,6 +10,12 @@ lib.mkIf config.enableNvidia {
     GBM_BACKEND = "nvidia-drm";
   };
 
+  boot.extraModprobeConfig = ''
+    options nvidia_modeset vblank_sem_control=0
+  '';
+
+  systemd.services.systemd-suspend.environment.SYSTEMD_SLEEP_FREEZE_USER_SESSIONS = "false";
+
   boot.kernelParams = [ "nvidia-drm.modeset=1" ]
     ++ lib.optionals enableNvidiaOffload [ "nvidia.NVreg_DynamicPowerManagement=0x02" ];
 
@@ -20,6 +26,7 @@ lib.mkIf config.enableNvidia {
     open = true;
     modesetting.enable = true;
     nvidiaSettings = true;
+    powerManagement.enable = true;
   } // (if !enableNvidiaOffload then {
     prime = {
       sync.enable = true;
