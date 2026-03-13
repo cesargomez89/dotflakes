@@ -17,7 +17,7 @@ in
     zoom-us
     postman
     slack
-    telegram-desktop
+    #telegram-desktop
     youtube-music
     vlc
 
