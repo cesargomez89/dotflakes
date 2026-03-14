@@ -19,7 +19,7 @@ lib.mkIf config.enableNvidia {
   boot.kernelParams = [ "nvidia-drm.modeset=1" ]
     ++ lib.optionals enableNvidiaOffload [ "nvidia.NVreg_DynamicPowerManagement=0x02" ];
 
-  services.xserver.videoDrivers = if enableNvidiaOffload then [ "modesetting" ] else [ "modesetting" "nvidia" ];
+  services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
 
   hardware.nvidia = {
     package = config.boot.kernelPackages.nvidiaPackages.beta;

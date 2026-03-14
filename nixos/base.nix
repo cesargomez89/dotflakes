@@ -28,7 +28,7 @@
 
   boot.kernelPackages = pkgs.linuxPackages;
   boot.loader.systemd-boot.enable = lib.mkForce false;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.efi.canTouchEfiVariables = lib.mkDefault true;
 
   boot.lanzaboote = {
     enable = true;
@@ -137,16 +137,6 @@
 
   programs.zsh.enable = true;
 
-  programs.obs-studio = {
-    enable = true;
-    plugins = with pkgs.obs-studio-plugins; [
-      wlrobs
-      input-overlay
-      obs-vaapi
-      obs-vkcapture
-    ];
-  };
-
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
@@ -162,25 +152,6 @@
       openssh.authorizedKeys.keys = [];
       extraGroups = ["wheel" "networkmanager" "audio" "bluetooth" "docker"];
     };
-  };
-
-  fileSystems."/mnt/nas" = {
-    device = "//192.168.31.250/Storage";
-    fsType = "cifs";
-    options = [
-      "credentials=/etc/nixos/secrets/nas-smb"
-      "x-systemd.automount"
-      "noatime"
-      "rw"
-      "vers=3.1.1"
-      "serverino"
-      "uid=1000"
-      "gid=1000"
-      "file_mode=0775"
-      "dir_mode=0775"
-      "soft"
-      "_netdev"
-    ];
   };
 
   system.stateVersion = "25.11";

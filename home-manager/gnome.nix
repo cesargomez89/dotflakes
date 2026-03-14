@@ -2,7 +2,6 @@
 
 {
   home.packages = with pkgs; [
-    gnome-tweaks
     dconf-editor
     gparted
     # GNOME Extensions

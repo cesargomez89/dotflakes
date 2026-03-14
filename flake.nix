@@ -55,17 +55,7 @@
     };
 
     homeManagerModule = {
-      nixpkgs = {
-        overlays = [
-          (final: prev: {
-            unstable = import inputs.nixpkgs-unstable {
-              inherit (prev) system;
-              config.allowUnfree = true;
-            };
-          })
-        ];
-        config.allowUnfree = true;
-      };
+      nixpkgs.config.allowUnfree = true;
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
       home-manager.users.cesar = import ./home-manager/home.nix;
