@@ -1,7 +1,7 @@
-{ pkgs, antigravity-nix, ... }:
+{ pkgs, unstablePkgs, antigravity-nix, ... }:
 
 {
-  home.packages = with pkgs; [
+  home.packages = (with pkgs; [
     dbeaver-bin
     pinta
     google-chrome
@@ -20,12 +20,13 @@
     eza
     cava
     fum
-    unstable.opencode
-    unstable.feishin
-    antigravity-nix.packages.x86_64-linux.default
     papirus-icon-theme
     bibata-cursors
-  ];
+    antigravity-nix.packages.x86_64-linux.default
+  ]) ++ (with unstablePkgs; [
+    opencode
+    feishin
+  ]);
 
   programs.obs-studio = {
     enable = true;

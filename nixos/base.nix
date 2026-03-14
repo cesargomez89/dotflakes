@@ -1,13 +1,15 @@
 {
-  inputs,
   lib,
   config,
   pkgs,
   enableGnome,
+  inputs,
   ...
 }:
 
 {
+  nixpkgs.config.allowUnfree = true;
+
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
@@ -35,8 +37,8 @@
     pkiBundle = "/var/lib/sbctl";
   };
 
-  time.timeZone = "America/Mexico_City";
-  i18n.defaultLocale = "en_US.UTF-8";
+  time.timeZone = lib.mkDefault "America/Mexico_City";
+  i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
 
   i18n.inputMethod = {
     enable = true;
@@ -107,7 +109,7 @@
   systemd.services.lactd.wantedBy = ["multi-user.target"];
 
   networking.networkmanager.enable = true;
-  networking.hostName = "nixos";
+  networking.hostName = lib.mkDefault "nixos";
   networking.wireless.iwd.enable = true;
 
   environment.gnome.excludePackages = lib.mkIf enableGnome (with pkgs; [
@@ -154,5 +156,5 @@
     };
   };
 
-  system.stateVersion = "25.11";
+  system.stateVersion = lib.mkDefault "25.11";
 }

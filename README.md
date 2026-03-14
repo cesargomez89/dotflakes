@@ -1,10 +1,37 @@
 # ❄️ DotFlakes
 
+[![NixOS](https://img.shields.io/badge/NixOS-25.11-blue?style=flat-square&logo=nixos)](https://nixos.org)
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
+
 A premium, reproducible NixOS configuration featuring **Home Manager** and **GNOME**, built with modern Nix Flakes.
 
 ## 🎯 Philosophy
 
 DotFlakes is designed to be a stable, aesthetic, and highly productive base system. It prioritizes system-level management while keeping the environment visually polished and functionally robust.
+
+## ⚡ Quick Start
+
+Ready to try it? Follow the [Installation Guide](./INSTALL.md) or:
+
+```bash
+# 1. Clone this repository
+git clone https://github.com/cesargomez89/dotflakes /etc/nixos
+
+# 2. Copy your hardware configuration
+cp /etc/nixos.backup/hardware-configuration.nix /etc/nixos/nixos/machines/<your-machine>/
+
+# 3. Update hostname in flake.nix and configuration.nix
+
+# 4. Install
+sudo nixos-install --flake /etc/nixos#<your-machine> --no-root-passwd
+```
+
+## 📋 Prerequisites
+
+- **NixOS 25.11** or newer
+- **Flakes enabled** (`experimental-features = flakes nix-command` in `/etc/nix/nix.conf`)
+- **Git** installed
+- **UEFI** boot system
 
 ## 🛠️ Technology Stack
 
@@ -47,6 +74,69 @@ The laptop has a specialization for power-saving mode:
 
 ---
 
+## 🍴 How to Fork & Customize
+
+### 1. Rename the Username
+
+The username `cesar` is hardcoded throughout. To use your own username:
+
+```bash
+# Search and replace all occurrences
+cd /path/to/dotflakes
+grep -rl "cesar" . | xargs sed -i 's/cesar/yourusername/g'
+```
+
+Files to check manually:
+- `home-manager/home.nix` (user name, home directory)
+- `home-manager/gnome.nix` (user paths)
+- `flake.nix` (if referenced)
+
+### 2. Add a New Machine
+
+```bash
+# Create machine directory
+mkdir -p nixos/machines/<your-machine>
+
+# Generate hardware config (on target machine)
+sudo nixos-generate-config --show-hardware-config > nixos/machines/<your-machine>/hardware-configuration.nix
+
+# Create configuration.nix:
+```
+
+```nix
+{ lib, ... }:
+
+{
+  imports = [
+    ../../base.nix
+    ../../options.nix
+    ./hardware-configuration.nix
+  ];
+
+  # Set your hostname
+  networking.hostName = "your-machine";
+
+  # Your username
+  users.users.yourusername = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "networkmanager" ];
+  };
+}
+```
+
+Add to `flake.nix` under `nixosConfigurations`:
+```nix
+your-machine = makeNixosConfiguration "your-machine" ./nixos/machines/your-machine/configuration.nix;
+```
+
+### 3. Customize Packages
+
+- **System packages**: Edit `nixos/base.nix` → `environment.systemPackages`
+- **User packages**: Edit `home-manager/home.nix` → `home.packages`
+- **Machine-specific**: Edit `nixos/machines/<machine>/configuration.nix`
+
+---
+
 ## ⌨️ Shortcuts
 
 | Key | Action |
@@ -83,6 +173,8 @@ The system includes a custom `random-bg` script that changes your wallpaper from
 ```
 .
 ├── flake.nix                    # Entry point
+├── INSTALL.md                   # Installation guide
+├── LICENSE                      # MIT License
 ├── nixos/
 │   ├── base.nix                 # Shared configuration
 │   ├── nvidia.nix               # NVIDIA-specific settings
@@ -101,6 +193,49 @@ The system includes a custom `random-bg` script that changes your wallpaper from
 
 ---
 
+## 🔧 Troubleshooting
+
+###flakes not enabled
+
+Add to `/etc/nix/nix.conf`:
+```
+experimental-features = flakes nix-command
+```
+
+### Home Manager not applying
+
+```bash
+home-manager switch --flake .
+```
+
+### Build fails with permission error
+
+Ensure you're using `sudo` for system-level changes:
+```bash
+sudo nixos-rebuild switch --flake .#<machine>
+```
+
+### NVIDIA issues
+
+Check that `enableNvidia` is set in your machine config:
+```nix
+enableNvidia = true;  # in nixos/machines/<machine>/configuration.nix
+```
+
+### Wallpaper script not working
+
+```bash
+mkdir -p ~/wallpapers
+# Add images to this directory
+random-bg  # test manually
+```
+
+---
+
 ## 🤝 Contributing
 
 This is my personal configuration, but I'm happy to accept suggestions, bug reports, or forks. Feel free to open an issue or a PR!
+
+## 📜 License
+
+MIT License - See [LICENSE](LICENSE) for details.

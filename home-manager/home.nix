@@ -1,4 +1,4 @@
-{ config, pkgs, lib, stylix, antigravity-nix, ... }@args:
+{ config, pkgs, lib, stylix, unstablePkgs, antigravity-nix, ... }@args:
 
 let
   enableGnome = args.enableGnome or false;

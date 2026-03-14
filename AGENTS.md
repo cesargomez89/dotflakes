@@ -5,6 +5,7 @@ Welcome! This repository contains a NixOS configuration built with Flakes and Ho
 ## 📂 Repository Structure
 
 - `flake.nix`: Entry point. Manages dependencies (inputs) and system configurations (outputs).
+- `INSTALL.md`: Step-by-step installation guide for fresh NixOS setups.
 - `nixos/`: System-level configuration (drivers, services, networking).
   - `base.nix`: Shared configuration for all machines.
   - `nvidia.nix`: NVIDIA-specific settings (conditional).
@@ -15,6 +16,19 @@ Welcome! This repository contains a NixOS configuration built with Flakes and Ho
 - `home-manager/`: User-level configuration (dotfiles, app settings, shell).
   - `home.nix`: Main Home Manager entry point.
   - `gnome.nix`: GNOME settings & extensions.
+
+## ⚠️ Critical: Hardcoded Username
+
+The username **`cesar`** is hardcoded throughout this repository. Before deploying:
+
+1. **Search and replace** all occurrences of `cesar` with your desired username
+2. Key files to update:
+   - `home-manager/home.nix` - user name and home directory path
+   - `home-manager/gnome.nix` - user-specific paths
+   - `flake.nix` - home-manager users.cesar → users.yourname
+   - `nixos/machines/*/configuration.nix` - users.users.cesar
+
+Use: `grep -rl "cesar" . | xargs sed -i 's/cesar/yourusername/g'`
 
 ## 🛠️ Build, Lint & Verification Commands
 
@@ -113,6 +127,7 @@ home.packages = with pkgs; [ neovim starship ] ++ [ unstablePkgs.opencode ];
 - Reference flake inputs via `inputs` attribute set
 - Use `unstablePkgs` (passed from flake.nix) for packages from nixos-unstable
 - Use Stylix for theming - avoid hardcoding colors
+- **antigravity-nix**: Adds "Antigravity" desktop app for file search (see `home-manager/apps.nix`)
 
 ## 🏗️ Common Tasks
 

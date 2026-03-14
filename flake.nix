@@ -55,7 +55,6 @@
     };
 
     homeManagerModule = {
-      nixpkgs.config.allowUnfree = true;
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
       home-manager.users.cesar = import ./home-manager/home.nix;
