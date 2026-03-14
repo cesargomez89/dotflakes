@@ -127,7 +127,7 @@
     adwaita-qt wl-clipboard lact sbctl lsof
     wsdd wget curl zip unzip kitty ripgrep btop fastfetch awscli ngrok sqlite
     pnpm nodejs_24 (ruby.withPackages (p: [ p.ruby-lsp p.solargraph p.rubocop p.rugged ]))
-    go golangci-lint python314
+    go golangci-lint python3
   ];
 
   fonts.packages = with pkgs; [
