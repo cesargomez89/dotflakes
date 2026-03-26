@@ -152,7 +152,7 @@
     cesar = {
       isNormalUser = true;
       openssh.authorizedKeys.keys = [];
-      extraGroups = ["wheel" "networkmanager" "audio" "bluetooth" "docker"];
+      extraGroups = ["wheel" "networkmanager" "audio" "bluetooth" "docker" "video" "render"];
     };
   };
 
