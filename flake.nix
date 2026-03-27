@@ -17,6 +17,15 @@
       url = "github:jacopone/antigravity-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+  };
+
+  nixConfig = {
+    extra-substituters = [ "https://noctalia.cachix.org" ];
+    extra-trusted-public-keys = [ "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4=" ];
   };
 
   outputs = {
@@ -26,6 +35,7 @@
     lanzaboote,
     home-manager,
     antigravity-nix,
+    noctalia,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -38,12 +48,11 @@
       config.allowUnfree = true;
     };
 
-    enableGnome = true;
 
     makeNixosConfiguration = name: configPath: nixpkgs.lib.nixosSystem {
       inherit system;
       specialArgs = {
-        inherit inputs enableGnome unstablePkgs;
+        inherit inputs unstablePkgs;
       };
       modules = [
         inputs.stylix.nixosModules.stylix
@@ -54,18 +63,21 @@
       ];
     };
 
-    homeManagerModule = {
+    homeManagerModule = { config, ... }: {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
       home-manager.users.cesar = import ./home-manager/home.nix;
       home-manager.extraSpecialArgs = {
-        inherit inputs stylix enableGnome unstablePkgs antigravity-nix;
+        inherit inputs stylix unstablePkgs antigravity-nix;
+        desktopEnv = config.desktopEnv;
       };
     };
   in {
     nixosConfigurations = {
       desktop-amd = makeNixosConfiguration "desktop-amd" ./nixos/machines/desktop-amd/configuration.nix;
       laptop-nvidia = makeNixosConfiguration "laptop-nvidia" ./nixos/machines/laptop-nvidia/configuration.nix;
+      desktop-amd-niri = makeNixosConfiguration "desktop-amd-niri" ./nixos/machines/desktop-amd-niri/configuration.nix;
+      laptop-nvidia-niri = makeNixosConfiguration "laptop-nvidia-niri" ./nixos/machines/laptop-nvidia-niri/configuration.nix;
     };
   };
 }
