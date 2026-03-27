@@ -133,5 +133,5 @@
 
   system.stateVersion = lib.mkDefault "25.11";
 
-  imports = [ ./gnome.nix ];
+  imports = [] ++ lib.optional enableGnome ./gnome.nix;
 }
