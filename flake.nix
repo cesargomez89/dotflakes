@@ -76,6 +76,8 @@
     nixosConfigurations = {
       desktop-amd = makeNixosConfiguration "desktop-amd" ./nixos/machines/desktop-amd/configuration.nix;
       laptop-nvidia = makeNixosConfiguration "laptop-nvidia" ./nixos/machines/laptop-nvidia/configuration.nix;
+      desktop-amd-niri = makeNixosConfiguration "desktop-amd-niri" ./nixos/machines/desktop-amd-niri/configuration.nix;
+      laptop-nvidia-niri = makeNixosConfiguration "laptop-nvidia-niri" ./nixos/machines/laptop-nvidia-niri/configuration.nix;
     };
   };
 }

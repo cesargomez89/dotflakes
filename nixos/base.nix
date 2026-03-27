@@ -133,5 +133,6 @@
 
   system.stateVersion = lib.mkDefault "25.11";
 
-  imports = [] ++ lib.optional (desktopEnv == "gnome") ./gnome.nix;
+  imports = [] ++ lib.optional (desktopEnv == "gnome") ./gnome.nix
+    ++ lib.optional (desktopEnv == "niri") ./niri.nix;
 }
