@@ -2,7 +2,7 @@
   lib,
   config,
   pkgs,
-  enableGnome,
+  desktopEnv,
   inputs,
   ...
 }:
@@ -133,5 +133,5 @@
 
   system.stateVersion = lib.mkDefault "25.11";
 
-  imports = [] ++ lib.optional enableGnome ./gnome.nix;
+  imports = [] ++ lib.optional (desktopEnv == "gnome") ./gnome.nix;
 }

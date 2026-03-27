@@ -17,6 +17,15 @@
       url = "github:jacopone/antigravity-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+  };
+
+  nixConfig = {
+    extra-substituters = [ "https://noctalia.cachix.org" ];
+    extra-trusted-public-keys = [ "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4=" ];
   };
 
   outputs = {
@@ -26,6 +35,7 @@
     lanzaboote,
     home-manager,
     antigravity-nix,
+    noctalia,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -38,12 +48,12 @@
       config.allowUnfree = true;
     };
 
-    enableGnome = true;
+    desktopEnv = "gnome";
 
     makeNixosConfiguration = name: configPath: nixpkgs.lib.nixosSystem {
       inherit system;
       specialArgs = {
-        inherit inputs enableGnome unstablePkgs;
+        inherit inputs desktopEnv unstablePkgs;
       };
       modules = [
         inputs.stylix.nixosModules.stylix
@@ -59,7 +69,7 @@
       home-manager.useUserPackages = true;
       home-manager.users.cesar = import ./home-manager/home.nix;
       home-manager.extraSpecialArgs = {
-        inherit inputs stylix enableGnome unstablePkgs antigravity-nix;
+        inherit inputs stylix desktopEnv unstablePkgs antigravity-nix;
       };
     };
   in {

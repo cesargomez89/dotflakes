@@ -1,14 +1,14 @@
-{ config, pkgs, lib, stylix, unstablePkgs, antigravity-nix, ... }@args:
+{ config, pkgs, lib, stylix, unstablePkgs, antigravity-nix, desktopEnv, ... }@args:
 
 let
-  enableGnome = args.enableGnome or false;
+  isGnome = desktopEnv == "gnome";
 in
 
 {
   imports = [
     ./apps.nix
     ./themes.nix
-  ] ++ lib.optionals enableGnome [
+  ] ++ lib.optionals isGnome [
     ./gnome.nix
     ./random-bg.nix
   ];
