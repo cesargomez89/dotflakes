@@ -1,6 +1,6 @@
-{ lib, config, pkgs, ... }:
+{ lib, pkgs, ... }:
 
-lib.mkIf config.enableGnome {
+{
   services.desktopManager.gnome.enable = true;
 
   services.displayManager = {
