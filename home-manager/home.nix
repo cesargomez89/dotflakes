@@ -8,6 +8,7 @@ in
   imports = [
     ./apps.nix
     ./themes.nix
+    ./niri.nix
   ] ++ lib.optionals isGnome [
     ./gnome.nix
     ./random-bg.nix
