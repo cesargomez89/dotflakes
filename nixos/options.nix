@@ -17,5 +17,10 @@
       default = false;
       description = "Enable GNOME desktop environment";
     };
+    enableNiri = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Enable Niri Wayland compositor";
+    };
   };
 }
