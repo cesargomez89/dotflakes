@@ -65,22 +65,9 @@
     variant = "";
   };
 
-  services.desktopManager.gnome.enable = enableGnome;
-
   services.xserver = {
     enable = true;
     videoDrivers = [ "modesetting" ];
-  };
-
-  services.displayManager = {
-    gdm.enable = true;
-    defaultSession = lib.mkDefault "gnome";
-  };
-
-  services.gnome = {
-    tinysparql.enable = false;
-    localsearch.enable = false;
-    core-developer-tools.enable = true;
   };
 
   services.pulseaudio.enable = false;
@@ -111,18 +98,6 @@
   networking.networkmanager.enable = true;
   networking.hostName = lib.mkDefault "nixos";
   networking.wireless.iwd.enable = true;
-
-  environment.gnome.excludePackages = lib.mkIf enableGnome (with pkgs; [
-    gnome-contacts
-    gnome-maps
-    gnome-music
-    gnome-tour
-    epiphany
-    totem
-    simple-scan
-    geary
-    yelp
-  ]);
 
   environment.systemPackages = with pkgs; [
     pkg-config gnumake cmake openssl.dev libxml2 libxslt libyaml zlib libgit2 heimdal krb5.dev gcc
@@ -157,4 +132,6 @@
   };
 
   system.stateVersion = lib.mkDefault "25.11";
+
+  imports = [ ./gnome.nix ];
 }
