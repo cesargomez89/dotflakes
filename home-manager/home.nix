@@ -23,6 +23,8 @@ in
   dconf.enable = true;
 
   home.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+    XDG_SESSION_TYPE = "wayland";
     EDITOR = "nvim";
     VISUAL = "nvim";
     BROWSER = "google-chrome-stable";

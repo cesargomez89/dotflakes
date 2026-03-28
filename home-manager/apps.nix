@@ -2,6 +2,7 @@
 
 {
   home.packages = (with pkgs; [
+    nautilus
     dbeaver-bin
     pinta
     google-chrome
@@ -22,6 +23,7 @@
     fum
     papirus-icon-theme
     bibata-cursors
+    swww
     antigravity-nix.packages.x86_64-linux.default
   ]) ++ (with unstablePkgs; [
     opencode

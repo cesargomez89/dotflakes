@@ -11,6 +11,7 @@
 
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
+    XDG_SESSION_TYPE = "wayland";
     PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
     OPENSSL_ROOT_DIR = "${pkgs.openssl.dev}";
     USE_HTTPS = "OpenSSL";

@@ -1,0 +1,59 @@
+{
+  "general": {
+    "lockOnSuspend": true
+  },
+  "colorSchemes": {
+    "predefinedScheme": "Catppuccin"
+  },
+  "ui": {
+    "panelBackgroundOpacity": 0.9
+  },
+  "bar": {
+    "density": "default",
+    "widgets": {
+      "left": [
+        {
+          "id": "Launcher"
+        },
+        {
+          "id": "Workspace",
+          "hideUnoccupied": true,
+          "labelMode": "none"
+        }
+      ],
+      "center": [
+        {
+          "id": "NotificationHistory"
+        },
+        {
+          "id": "Tray"
+        },
+        {
+          "id": "Clock",
+          "formatHorizontal": "HH:mm",
+          "formatVertical": "HH mm",
+          "useMonospacedFont": true,
+          "usePrimaryColor": true
+        }
+      ],
+      "right": [
+        {
+          "id": "Network"
+        },
+        {
+          "id": "Bluetooth"
+        },
+        {
+          "id": "Battery",
+          "alwaysShowPercentage": false,
+          "warningThreshold": 30
+        },
+        {
+          "id": "ControlCenter",
+          "useDistroLogo": true
+        }
+      ]
+    }
+  },
+  "plugins": {}
+}

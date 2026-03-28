@@ -21,6 +21,10 @@
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   nixConfig = {
@@ -67,6 +71,7 @@
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
       home-manager.users.cesar = import ./home-manager/home.nix;
+      home-manager.sharedModules = [ inputs.niri.homeModules.niri ];
       home-manager.extraSpecialArgs = {
         inherit inputs stylix unstablePkgs antigravity-nix;
         desktopEnv = config.desktopEnv;
