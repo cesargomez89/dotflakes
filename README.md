@@ -157,7 +157,7 @@ your-machine = makeNixosConfiguration "your-machine" ./nixos/machines/your-machi
 ## 🖼️ Features
 
 ### Random Wallpaper Switcher
-The system includes a custom `random-bg` script that changes your wallpaper from `~/wallpapers/`.
+The system includes a custom `random-bg` script that changes your wallpaper from `~/Pictures/Wallpapers/`.
 - **Manual change**: Use `<Super> + R`
 
 ### GNOME Extensions
@@ -225,7 +225,7 @@ enableNvidia = true;  # in nixos/machines/<machine>/configuration.nix
 ### Wallpaper script not working
 
 ```bash
-mkdir -p ~/wallpapers
+mkdir -p ~/Pictures/Wallpapers
 # Add images to this directory
 random-bg  # test manually
 ```

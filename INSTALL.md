@@ -57,7 +57,7 @@ After rebooting and logging in as your user:
 passwd
 
 # Ensure wallpaper directory exists
-mkdir -p ~/wallpapers
+mkdir -p ~/Pictures/Wallpapers
 
 # The random-bg script should be automatically linked to ~/.local/bin/
 # Verify it is executable

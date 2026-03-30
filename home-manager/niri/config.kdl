@@ -66,8 +66,6 @@ animations {
 
 // ===== WINDOW RULES =====
 window-rule {
-    open-maximized true;
-    opacity 0.9;
     geometry-corner-radius 3;
 
     default-column-width {
@@ -75,6 +73,15 @@ window-rule {
     }
 }
 
+window-rule {
+    match is-active=true
+    opacity 0.95
+}
+
+window-rule {
+    match is-active=false
+    opacity 0.75
+}
 
 // ===== KEYBINDS =====
 binds {
@@ -85,7 +92,8 @@ binds {
     Mod+E { spawn "nautilus"; }
     Mod+C { spawn "slack"; }
     Mod+Y { spawn "youtube-music"; }
-    Mod+R { spawn "/home/cesar/.local/bin/random-bg"; }
+    Mod+R { spawn-sh "noctalia-shell ipc call wallpaper random"; }
+    Mod+W { spawn-sh "noctalia-shell ipc call wallpaper toggle"; }
 
     // --- system ---
     Mod+Q { close-window; }
