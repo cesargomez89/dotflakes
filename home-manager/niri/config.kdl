@@ -83,6 +83,12 @@ window-rule {
     opacity 0.75
 }
 
+window-rule {
+    match app-id="kitty"
+    match app-id="chrome"
+    open-maximized true
+}
+
 // ===== KEYBINDS =====
 binds {
 
