@@ -112,6 +112,9 @@ binds {
     Mod+R { spawn-sh "noctalia-shell ipc call wallpaper random"; }
     Mod+W { spawn-sh "noctalia-shell ipc call wallpaper toggle"; }
 
+    // --- plugins ---
+    Mod+F1 { spawn "qs -c noctalia-shell ipc call plugin:keybind-cheatsheet toggle"; }
+
     // --- system ---
     Mod+Q { close-window; }
     Mod+Shift+E { quit; }

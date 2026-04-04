@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, pkgsCuda, ... }:
 
 {
   imports = [
@@ -12,6 +12,10 @@
   config = {
     desktopEnv = "niri";
     enableNvidia = true;
+
+    environment.systemPackages = with pkgs; [
+      pkgsCuda.llama-cpp
+    ];
 
     specialisation.on-the-go.configuration = {
       enableNvidiaOffload = lib.mkForce true;

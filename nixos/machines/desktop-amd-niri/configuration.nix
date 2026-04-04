@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, pkgsRocm, ... }:
 
 {
   imports = [
@@ -10,5 +10,9 @@
 
   config = {
     desktopEnv = "niri";
+
+    environment.systemPackages = with pkgs; [
+      pkgsRocm.llama-cpp
+    ];
   };
 }

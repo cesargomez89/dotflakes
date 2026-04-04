@@ -25,6 +25,10 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    llama-cpp = {
+      url = "github:ggml-org/llama.cpp";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   nixConfig = {
@@ -50,13 +54,28 @@
     unstablePkgs = import inputs.nixpkgs-unstable {
       inherit system;
       config.allowUnfree = true;
+      overlays = [ inputs.llama-cpp.overlays.default ];
+    };
+
+    pkgsCuda = import inputs.nixpkgs-unstable {
+      inherit system;
+      config.allowUnfree = true;
+      config.cudaSupport = true;
+      overlays = [ inputs.llama-cpp.overlays.default ];
+    };
+
+    pkgsRocm = import inputs.nixpkgs-unstable {
+      inherit system;
+      config.allowUnfree = true;
+      config.rocmSupport = true;
+      overlays = [ inputs.llama-cpp.overlays.default ];
     };
 
 
     makeNixosConfiguration = name: configPath: nixpkgs.lib.nixosSystem {
       inherit system;
       specialArgs = {
-        inherit inputs unstablePkgs;
+        inherit inputs unstablePkgs pkgsCuda pkgsRocm;
       };
       modules = [
         inputs.stylix.nixosModules.stylix
