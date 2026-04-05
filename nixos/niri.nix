@@ -10,6 +10,7 @@
 
   services.power-profiles-daemon.enable = true;
   services.upower.enable = true;
+  security.pam.services.greetd.enableGnomeKeyring = true;
 
   services.greetd = {
     enable = true;

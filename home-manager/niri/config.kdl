@@ -64,6 +64,7 @@ layout {
 spawn-at-startup "swww-daemon";
 spawn-at-startup "noctalia-shell";
 spawn-at-startup "xwaylandvideobridge";
+spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets"
 
 
 // ===== GENERAL =====
