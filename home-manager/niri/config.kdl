@@ -110,8 +110,8 @@ binds {
     Mod+E { spawn "nautilus"; }
     Mod+C { spawn "slack"; }
     Mod+Y { spawn "youtube-music"; }
-    Mod+R { spawn-sh "noctalia-shell ipc call wallpaper random"; }
-    Mod+W { spawn-sh "noctalia-shell ipc call wallpaper toggle"; }
+    Mod+W { spawn-sh "noctalia-shell ipc call wallpaper random"; }
+    Mod+Shift+W { spawn-sh "noctalia-shell ipc call wallpaper toggle"; }
 
     // --- plugins ---
     Mod+F1 { spawn "qs -c noctalia-shell ipc call plugin:keybind-cheatsheet toggle"; }
