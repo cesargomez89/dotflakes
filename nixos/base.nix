@@ -104,7 +104,7 @@
   environment.systemPackages = with pkgs; [
     pkg-config gnumake cmake openssl.dev libxml2 libxslt libyaml zlib libgit2 heimdal krb5.dev gcc
     adwaita-qt wl-clipboard lact sbctl lsof stylua lua-language-server
-    wsdd wget curl zip unzip kitty ripgrep btop fastfetch awscli ngrok sqlite
+    wsdd wget curl zip unzip kitty ripgrep btop fastfetch awscli ngrok sqlite gh
     pnpm nodejs_24 (ruby.withPackages (p: [ p.ruby-lsp p.solargraph p.rubocop p.rugged ]))
     go golangci-lint python3
   ];

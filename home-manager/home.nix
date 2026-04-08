@@ -1,4 +1,4 @@
-{ config, pkgs, lib, stylix, unstablePkgs, antigravity-nix, desktopEnv, ... }@args:
+{ config, pkgs, lib, stylix, unstablePkgs, antigravity-nix, desktopEnv, pkgsWithClaude, ... }@args:
 
 let
   isGnome = desktopEnv == "gnome";
@@ -37,6 +37,10 @@ in
       pull.rebase = true;
     };
   };
+
+  home.packages = with pkgsWithClaude; [
+    claude-code
+  ];
 
   services.gpg-agent = {
     enable = true;

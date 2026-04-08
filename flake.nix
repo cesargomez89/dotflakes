@@ -29,6 +29,10 @@
       url = "github:ggml-org/llama.cpp";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    claude-code = {
+      url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   nixConfig = {
@@ -44,6 +48,7 @@
     home-manager,
     antigravity-nix,
     noctalia,
+    claude-code,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -54,7 +59,7 @@
     unstablePkgs = import inputs.nixpkgs-unstable {
       inherit system;
       config.allowUnfree = true;
-      overlays = [ inputs.llama-cpp.overlays.default ];
+      overlays = [ inputs.llama-cpp.overlays.default claude-code.overlays.default ];
     };
 
     pkgsCuda = import inputs.nixpkgs-unstable {
@@ -94,6 +99,11 @@
       home-manager.extraSpecialArgs = {
         inherit inputs stylix unstablePkgs antigravity-nix;
         desktopEnv = config.desktopEnv;
+        pkgsWithClaude = import inputs.nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+          overlays = [ claude-code.overlays.default ];
+        };
       };
     };
   in {
