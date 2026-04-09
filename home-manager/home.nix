@@ -22,6 +22,8 @@ in
   programs.home-manager.enable = true;
   dconf.enable = true;
 
+  home.sessionPath = [ "$HOME/.local/bin" ];
+
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     XDG_SESSION_TYPE = "wayland";
