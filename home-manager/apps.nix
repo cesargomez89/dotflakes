@@ -28,7 +28,7 @@
     open-webui
   ]) ++ (with unstablePkgs; [
     opencode
-    feishin
+    supersonic-wayland
   ]);
 
   programs.obs-studio = {
