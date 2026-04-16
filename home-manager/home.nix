@@ -42,7 +42,9 @@ in
 
   home.packages = with pkgsWithClaude; [
     claude-code
-  ];
+  ] ++ (with unstablePkgs; [
+    llama-cpp
+  ]);
 
   services.gpg-agent = {
     enable = true;

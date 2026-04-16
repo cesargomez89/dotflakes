@@ -25,10 +25,6 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    llama-cpp = {
-      url = "github:ggml-org/llama.cpp";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
     claude-code = {
       url = "github:sadjow/claude-code-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -59,21 +55,19 @@
     unstablePkgs = import inputs.nixpkgs-unstable {
       inherit system;
       config.allowUnfree = true;
-      overlays = [ inputs.llama-cpp.overlays.default claude-code.overlays.default ];
+      overlays = [ claude-code.overlays.default ];
     };
 
     pkgsCuda = import inputs.nixpkgs-unstable {
       inherit system;
       config.allowUnfree = true;
       config.cudaSupport = true;
-      overlays = [ inputs.llama-cpp.overlays.default ];
     };
 
     pkgsRocm = import inputs.nixpkgs-unstable {
       inherit system;
       config.allowUnfree = true;
       config.rocmSupport = true;
-      overlays = [ inputs.llama-cpp.overlays.default ];
     };
 
 

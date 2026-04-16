@@ -13,7 +13,6 @@
     enableNvidia = true;
 
     environment.systemPackages = with pkgs; [
-      pkgsCuda.llama-cpp
     ];
 
     specialisation.on-the-go.configuration = {

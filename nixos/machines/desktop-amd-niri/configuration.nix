@@ -10,9 +10,5 @@
 
   config = {
     desktopEnv = "niri";
-
-    environment.systemPackages = with pkgs; [
-      pkgsRocm.llama-cpp
-    ];
   };
 }
