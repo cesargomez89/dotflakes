@@ -29,6 +29,10 @@
       url = "github:sadjow/claude-code-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    llama-cpp = {
+      url = "github:ggml-org/llama.cpp";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   nixConfig = {
@@ -50,7 +54,11 @@
     system = "x86_64-linux";
     stdenvHostPlatform = { system = "x86_64-linux"; };
 
-    pkgs = nixpkgs.legacyPackages.${system};
+
+    pkgs = import nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+    };
 
     unstablePkgs = import inputs.nixpkgs-unstable {
       inherit system;
@@ -62,6 +70,7 @@
       inherit system;
       config.allowUnfree = true;
       config.cudaSupport = true;
+      config.cudaCapabilities = [ "10.0" ];
     };
 
     pkgsRocm = import inputs.nixpkgs-unstable {
@@ -70,11 +79,29 @@
       config.rocmSupport = true;
     };
 
+    llama-cpp-packages = inputs.llama-cpp.outputs.packages.${system};
+
+    llama-cpp-amd = llama-cpp-packages.rocm.overrideAttrs (oldAttrs: {
+      cmakeFlags = (oldAttrs.cmakeFlags or []) ++ [ 
+        "-DGGML_HIP=ON"
+        "-DAMDGPU_TARGETS=gfx1201" 
+        "-DGGML_HIP_UMA=OFF"
+      ];
+    });
+
+    llama-cpp-nvidia = llama-cpp-packages.cuda.overrideAttrs (oldAttrs: {
+      cmakeFlags = (oldAttrs.cmakeFlags or []) ++ [ 
+        "-DGGML_CUDA=ON"
+        "-DGGML_CUDA_F16=ON"
+        "-DCMAKE_CUDA_ARCHITECTURES=100"
+      ];
+    });
+
 
     makeNixosConfiguration = name: configPath: nixpkgs.lib.nixosSystem {
       inherit system;
       specialArgs = {
-        inherit inputs unstablePkgs pkgsCuda pkgsRocm;
+        inherit inputs unstablePkgs pkgsCuda pkgsRocm llama-cpp-amd llama-cpp-nvidia;
       };
       modules = [
         inputs.stylix.nixosModules.stylix
@@ -91,7 +118,7 @@
       home-manager.users.cesar = import ./home-manager/home.nix;
       home-manager.sharedModules = [ inputs.niri.homeModules.niri ];
       home-manager.extraSpecialArgs = {
-        inherit inputs stylix unstablePkgs antigravity-nix;
+        inherit inputs stylix unstablePkgs antigravity-nix llama-cpp-amd llama-cpp-nvidia;
         desktopEnv = config.desktopEnv;
         pkgsWithClaude = import inputs.nixpkgs {
           inherit system;

@@ -1,4 +1,4 @@
-{ lib, pkgs, pkgsCuda, ... }:
+{ lib, pkgs, pkgsCuda, llama-cpp-nvidia, ... }:
 
 {
   imports = [
@@ -14,7 +14,7 @@
     enableNvidia = true;
 
     environment.systemPackages = with pkgs; [
-    ];
+  ] ++ [ llama-cpp-nvidia ];
 
     specialisation.on-the-go.configuration = {
       enableNvidiaOffload = lib.mkForce true;

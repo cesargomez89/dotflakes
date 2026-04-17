@@ -1,4 +1,4 @@
-{ lib, pkgs, pkgsRocm, ... }:
+{ lib, pkgs, pkgsRocm, llama-cpp-amd, ... }:
 
 {
   imports = [
@@ -10,5 +10,7 @@
 
   config = {
     desktopEnv = "niri";
+
+    environment.systemPackages = [ llama-cpp-amd ];
   };
 }

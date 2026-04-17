@@ -1,4 +1,4 @@
-{ lib, pkgs, pkgsRocm, ... }:
+{ lib, pkgs, pkgsRocm, llama-cpp-amd, ... }:
 
 {
   imports = [
@@ -18,5 +18,5 @@
   environment.systemPackages = with pkgs; [
     amdgpu_top
     nvtopPackages.amd
-  ];
+  ] ++ [ llama-cpp-amd ];
 }
