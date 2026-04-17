@@ -84,6 +84,13 @@
     jack.enable = true;
   };
 
+  services.openvpn.servers.expressvpn = {
+    config = ''
+      config /etc/openvpn/expressvpn/los_angeles_3.ovpn
+      '';
+    autoStart = false;
+  };
+
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;

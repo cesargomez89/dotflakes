@@ -26,18 +26,9 @@
     swww
     antigravity-nix.packages.x86_64-linux.default
     open-webui
+    llama-cpp
   ]) ++ (with unstablePkgs; [
     opencode
     supersonic-wayland
   ]);
-
-  programs.obs-studio = {
-    enable = true;
-    plugins = with pkgs.obs-studio-plugins; [
-      wlrobs
-      input-overlay
-      obs-vaapi
-      obs-vkcapture
-    ];
-  };
 }

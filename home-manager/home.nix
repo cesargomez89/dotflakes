@@ -40,11 +40,15 @@ in
     };
   };
 
-  home.packages = with pkgsWithClaude; [
-    claude-code
-  ] ++ (with unstablePkgs; [
-    llama-cpp
-  ]);
+  programs.obs-studio = {
+    enable = true;
+    plugins = with pkgs.obs-studio-plugins; [
+      wlrobs
+      input-overlay
+      obs-vaapi
+      obs-vkcapture
+    ];
+  };
 
   services.gpg-agent = {
     enable = true;
@@ -52,4 +56,8 @@ in
     enableSshSupport = true;
     pinentry.package = pkgs.pinentry-gnome3;
   };
+
+  home.packages = with pkgsWithClaude; [
+    claude-code
+  ];
 }
