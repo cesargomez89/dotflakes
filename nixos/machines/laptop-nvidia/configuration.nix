@@ -10,6 +10,7 @@
   ];
 
   config = {
+    desktopEnv = "gnome";
     enableNvidia = true;
 
     environment.systemPackages = with pkgs; [

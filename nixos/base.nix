@@ -107,6 +107,15 @@
   networking.networkmanager.enable = true;
   networking.hostName = lib.mkDefault "nixos";
   networking.wireless.iwd.enable = true;
+  networking.nftables.enable = true;
+  networking.firewall = {
+    enable = true;
+
+    allowPing = true;
+
+    allowedTCPPorts = [ 22 ];
+      allowedUDPPorts = [ ];
+  };
 
   environment.systemPackages = with pkgs; [
     pkg-config gnumake cmake openssl.dev libxml2 libxslt libyaml zlib libgit2 heimdal krb5.dev gcc

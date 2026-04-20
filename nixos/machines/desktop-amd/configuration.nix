@@ -19,4 +19,6 @@
     amdgpu_top
     nvtopPackages.amd
   ] ++ [ llama-cpp-amd ];
+
+  desktopEnv = "gnome";
 }
