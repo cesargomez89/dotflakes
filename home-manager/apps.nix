@@ -28,6 +28,6 @@
     open-webui
   ]) ++ (with unstablePkgs; [
     opencode
-    supersonic-wayland
+    feishin
   ]);
 }

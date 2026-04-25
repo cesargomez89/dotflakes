@@ -75,6 +75,21 @@
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
 
+  security.pam.loginLimits = [
+    {
+      domain = "*";
+      type = "soft";
+      item = "memlock";
+      value = "unlimited";
+    }
+    {
+      domain = "*";
+      item = "memlock";
+      type = "hard";
+      value = "unlimited";
+    }
+  ];
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
