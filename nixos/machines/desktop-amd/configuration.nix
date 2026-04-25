@@ -1,4 +1,4 @@
-{ lib, pkgs, pkgsRocm, llama-cpp-amd, ... }:
+{ lib, pkgs, unstablePkgs, llama-cpp-amd, ... }:
 
 {
   imports = [
@@ -10,8 +10,11 @@
 
   hardware.graphics = {
     enable = true;
-    extraPackages = with pkgs; [
+    extraPackages = with unstablePkgs; [
       rocmPackages.clr.icd
+      rocmPackages.rocm-smi 
+      rocmPackages.miopen
+      rocmPackages.hipblas
     ];
   };
 

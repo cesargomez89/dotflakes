@@ -1,4 +1,4 @@
-{ lib, pkgs, pkgsCuda, llama-cpp-nvidia, ... }:
+{ lib, pkgs, llama-cpp-nvidia, ... }:
 
 {
   imports = [

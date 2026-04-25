@@ -1,4 +1,4 @@
-{ lib, pkgs, pkgsRocm, llama-cpp-amd, ... }:
+{ lib, unstablePkgs, llama-cpp-amd, ... }:
 
 {
   imports = [
@@ -10,6 +10,17 @@
 
   config = {
     desktopEnv = "niri";
+
+    hardware.graphics = {
+      enable = true;
+      extraPackages = with unstablePkgs; [
+      rocmPackages.clr.icd
+      rocmPackages.clr.icd
+      rocmPackages.rocm-smi 
+      rocmPackages.miopen
+      rocmPackages.hipblas
+      ];
+    };
 
     environment.systemPackages = [ llama-cpp-amd ];
   };

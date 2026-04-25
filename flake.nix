@@ -66,26 +66,23 @@
       overlays = [ claude-code.overlays.default ];
     };
 
-    pkgsCuda = import inputs.nixpkgs-unstable {
-      inherit system;
-      config.allowUnfree = true;
-      config.cudaSupport = true;
-      config.cudaCapabilities = [ "10.0" ];
-    };
-
-    pkgsRocm = import inputs.nixpkgs-unstable {
-      inherit system;
-      config.allowUnfree = true;
-      config.rocmSupport = true;
-    };
-
     llama-cpp-packages = inputs.llama-cpp.outputs.packages.${system};
 
     llama-cpp-amd = llama-cpp-packages.rocm.overrideAttrs (oldAttrs: {
       cmakeFlags = (oldAttrs.cmakeFlags or []) ++ [ 
-        "-DGGML_HIP=ON"
         "-DAMDGPU_TARGETS=gfx1201" 
+        "-DGGML_HIP=ON"
         "-DGGML_HIP_UMA=OFF"
+        "-DGGML_HIP_GRAPHS=ON"
+        "-DGGML_CUDA_FORCE_MMQ=ON"
+        "-DGGML_CUDA_FA=ON"
+        "-DGGML_NATIVE=ON"
+        "-DGGML_LTO=ON"
+        "-DGGML_OPENMP=ON"
+        "-DGGML_AVX=ON"
+        "-DGGML_AVX2=ON"
+        "-DGGML_AVX_VNNI=ON"
+        "-DCMAKE_BUILD_TYPE=Release"
       ];
     });
 
@@ -93,15 +90,17 @@
       cmakeFlags = (oldAttrs.cmakeFlags or []) ++ [ 
         "-DGGML_CUDA=ON"
         "-DGGML_CUDA_F16=ON"
-        "-DCMAKE_CUDA_ARCHITECTURES=100"
+        "-DCMAKE_CUDA_ARCHITECTURES=120"
+        "-DGGML_CUDA_FORCE_CUBLAS=ON"
+        "-DGGML_CUDA_FA_ALL_QUANTS=ON"
+        "-DCMAKE_BUILD_TYPE=Release"
       ];
     });
-
 
     makeNixosConfiguration = name: configPath: nixpkgs.lib.nixosSystem {
       inherit system;
       specialArgs = {
-        inherit inputs unstablePkgs pkgsCuda pkgsRocm llama-cpp-amd llama-cpp-nvidia;
+        inherit inputs unstablePkgs llama-cpp-amd llama-cpp-nvidia;
       };
       modules = [
         inputs.stylix.nixosModules.stylix
