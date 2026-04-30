@@ -70,19 +70,22 @@
 
     llama-cpp-amd = llama-cpp-packages.rocm.overrideAttrs (oldAttrs: {
       cmakeFlags = (oldAttrs.cmakeFlags or []) ++ [ 
-        "-DAMDGPU_TARGETS=gfx1201" 
+        "-DAMDGPU_TARGETS=gfx1201"
         "-DGGML_HIP=ON"
         "-DGGML_HIP_UMA=OFF"
         "-DGGML_HIP_GRAPHS=ON"
-        "-DGGML_CUDA_FORCE_MMQ=ON"
-        "-DGGML_CUDA_FA=ON"
         "-DGGML_NATIVE=ON"
-        "-DGGML_LTO=ON"
+        # "-DGGML_LTO=ON"
         "-DGGML_OPENMP=ON"
-        "-DGGML_AVX=ON"
-        "-DGGML_AVX2=ON"
-        "-DGGML_AVX_VNNI=ON"
+        "-DGGML_CUDA_FORCE_MMQ=ON"
+        "-DGGML_FLASH_ATTN=ON"
+        # "-DGGML_AVX=ON"
+        # "-DGGML_AVX2=ON"
+        # "-DGGML_AVX_VNNI=ON"
         "-DCMAKE_BUILD_TYPE=Release"
+        "-DBUILD_SHARED_LIBS=ON"
+        "-DLLAMA_BUILD_TESTS=OFF"
+        "-DLLAMA_CURL=OFF"
       ];
     });
 
@@ -94,6 +97,7 @@
         "-DGGML_CUDA_FORCE_CUBLAS=ON"
         "-DGGML_CUDA_FA_ALL_QUANTS=ON"
         "-DCMAKE_BUILD_TYPE=Release"
+        "-DGGML_FLASH_ATTN=ON"
       ];
     });
 

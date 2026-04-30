@@ -16,6 +16,7 @@
     PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
     OPENSSL_ROOT_DIR = "${pkgs.openssl.dev}";
     USE_HTTPS = "OpenSSL";
+    HSA_OVERRIDE_GFX_VERSION = "12.0.1";
   };
 
   nix = {
@@ -29,7 +30,7 @@
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.toSourcePath or value}") inputs;
   };
 
-  boot.kernelPackages = pkgs.linuxPackages;
+  boot.kernelPackages = pkgs.linuxPackages_6_19;
   boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.loader.efi.canTouchEfiVariables = lib.mkDefault true;
 

@@ -15,7 +15,6 @@
       enable = true;
       extraPackages = with unstablePkgs; [
       rocmPackages.clr.icd
-      rocmPackages.clr.icd
       rocmPackages.rocm-smi 
       rocmPackages.miopen
       rocmPackages.hipblas
