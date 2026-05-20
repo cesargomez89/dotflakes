@@ -25,9 +25,8 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    claude-code = {
-      url = "github:sadjow/claude-code-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
     };
     llama-cpp = {
       url = "github:ggml-org/llama.cpp";
@@ -48,7 +47,6 @@
     home-manager,
     antigravity-nix,
     noctalia,
-    claude-code,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -60,16 +58,17 @@
       config.allowUnfree = true;
     };
 
+    llmAgentsPkgs = inputs.llm-agents.packages.${system};
+
     unstablePkgs = import inputs.nixpkgs-unstable {
       inherit system;
       config.allowUnfree = true;
-      overlays = [ claude-code.overlays.default ];
     };
 
     llama-cpp-packages = inputs.llama-cpp.outputs.packages.${system};
 
     llama-cpp-amd = llama-cpp-packages.rocm.overrideAttrs (oldAttrs: {
-      cmakeFlags = (oldAttrs.cmakeFlags or []) ++ [ 
+      cmakeFlags = [ 
         "-DAMDGPU_TARGETS=gfx1201"
         "-DGGML_HIP=ON"
         "-DGGML_HIP_UMA=OFF"
@@ -86,11 +85,13 @@
         "-DBUILD_SHARED_LIBS=ON"
         "-DLLAMA_BUILD_TESTS=OFF"
         "-DLLAMA_CURL=OFF"
+        "-DLLAMA_BUILD_UI=OFF"
+        "-DLLAMA_BUILD_WEBUI=OFF"
       ];
     });
 
     llama-cpp-nvidia = llama-cpp-packages.cuda.overrideAttrs (oldAttrs: {
-      cmakeFlags = (oldAttrs.cmakeFlags or []) ++ [ 
+      cmakeFlags = [ 
         "-DGGML_CUDA=ON"
         "-DGGML_CUDA_F16=ON"
         "-DCMAKE_CUDA_ARCHITECTURES=120"
@@ -121,13 +122,8 @@
       home-manager.users.cesar = import ./home-manager/home.nix;
       home-manager.sharedModules = [ inputs.niri.homeModules.niri ];
       home-manager.extraSpecialArgs = {
-        inherit inputs stylix unstablePkgs antigravity-nix llama-cpp-amd llama-cpp-nvidia;
+        inherit inputs stylix unstablePkgs antigravity-nix llama-cpp-amd llama-cpp-nvidia llmAgentsPkgs;
         desktopEnv = config.desktopEnv;
-        pkgsWithClaude = import inputs.nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-          overlays = [ claude-code.overlays.default ];
-        };
       };
     };
   in {

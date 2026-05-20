@@ -1,4 +1,4 @@
-{ pkgs, unstablePkgs, antigravity-nix, ... }:
+{ pkgs, unstablePkgs, antigravity-nix, llmAgentsPkgs, ... }:
 
 {
   home.packages = (with pkgs; [
@@ -27,7 +27,10 @@
     antigravity-nix.packages.x86_64-linux.default
     open-webui
   ]) ++ (with unstablePkgs; [
-    opencode
     feishin
+  ]) ++ (with llmAgentsPkgs; [
+    claude-code
+    opencode
+    pi
   ]);
 }

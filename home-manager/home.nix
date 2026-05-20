@@ -1,4 +1,4 @@
-{ config, pkgs, lib, stylix, unstablePkgs, antigravity-nix, desktopEnv, pkgsWithClaude, ... }@args:
+{ config, pkgs, lib, stylix, unstablePkgs, antigravity-nix, desktopEnv, ... }@args:
 
 let
   isGnome = desktopEnv == "gnome";
@@ -56,8 +56,4 @@ in
     enableSshSupport = true;
     pinentry.package = pkgs.pinentry-gnome3;
   };
-
-  home.packages = with pkgsWithClaude; [
-    claude-code
-  ];
 }
