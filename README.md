@@ -3,7 +3,7 @@
 [![NixOS](https://img.shields.io/badge/NixOS-25.11-blue?style=flat-square&logo=nixos)](https://nixos.org)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
-A premium, reproducible NixOS configuration featuring **Home Manager** and **GNOME**, built with modern Nix Flakes.
+A premium, reproducible NixOS configuration featuring **Home Manager** with **GNOME** or **Niri** desktop, built with modern Nix Flakes.
 
 ## 🎯 Philosophy
 
@@ -32,6 +32,7 @@ sudo nixos-install --flake /etc/nixos#<your-machine> --no-root-passwd
 - **Flakes enabled** (`experimental-features = flakes nix-command` in `/etc/nix/nix.conf`)
 - **Git** installed
 - **UEFI** boot system
+- **Secure Boot** (optional): Set up `sbctl` keys for lanzaboote
 
 ## 🛠️ Technology Stack
 
@@ -43,7 +44,8 @@ sudo nixos-install --flake /etc/nixos#<your-machine> --no-root-passwd
 
 ### Desktop Environment
 - **GNOME**: A polished, stable DE with customized extensions.
-- **Stylix**: Consistent system-wide theming.
+- **Niri**: A scrollable-tiling Wayland compositor with Noctalia shell UI.
+- **Stylix**: Consistent system-wide theming (supports both DEs).
 
 ### Shell & Tools
 - **Zsh**: Enhanced with **Starship** prompt.
@@ -62,13 +64,15 @@ This configuration supports multiple machines:
 
 | Machine | Description |
 |---------|-------------|
-| `desktop-amd` | AMD desktop (no NVIDIA) |
-| `laptop-nvidia` | Laptop with NVIDIA (includes power-saving specialization) |
+| `desktop-amd` | AMD desktop + GNOME |
+| `desktop-amd-niri` | AMD desktop + Niri compositor |
+| `laptop-nvidia` | Laptop with NVIDIA + GNOME (includes power-saving specialization) |
+| `laptop-nvidia-niri` | Laptop with NVIDIA + Niri compositor (includes power-saving specialization) |
 
 ### NVIDIA Power-Saving Mode
 
-The laptop has a specialization for power-saving mode:
-- Build once: `sudo nixos-rebuild switch --flake .#laptop-nvidia`
+The laptop configs have a specialization for power-saving mode:
+- Build once: `sudo nixos-rebuild switch --flake .#laptop-nvidia` (or `.#laptop-nvidia-niri`)
 - On reboot, select "NixOS, with on-the-go" from bootloader
 - No rebuild needed to switch between modes
 
@@ -112,9 +116,6 @@ sudo nixos-generate-config --show-hardware-config > nixos/machines/<your-machine
     ../../options.nix
     ./hardware-configuration.nix
   ];
-
-  # Set your hostname
-  networking.hostName = "your-machine";
 
   # Your username
   users.users.yourusername = {
@@ -174,21 +175,35 @@ The system includes a custom `random-bg` script that changes your wallpaper from
 .
 ├── flake.nix                    # Entry point
 ├── INSTALL.md                   # Installation guide
+├── README.md                    # This file
 ├── LICENSE                      # MIT License
 ├── nixos/
-│   ├── base.nix                 # Shared configuration
-│   ├── nvidia.nix               # NVIDIA-specific settings
-│   ├── options.nix              # Custom options
+│   ├── base.nix                 # Shared configuration (networking, services, packages)
+│   ├── gnome.nix                # GNOME display manager & desktop settings
+│   ├── niri.nix                 # Niri compositor config (greetd, portal)
+│   ├── nvidia.nix               # NVIDIA-specific settings (conditional)
+│   ├── options.nix              # Custom options (enableNvidia, enableNvidiaOffload, desktopEnv)
 │   └── machines/
 │       ├── desktop-amd/
 │       │   ├── configuration.nix
 │       │   └── hardware-configuration.nix
-│       └── laptop-nvidia/
+│       ├── desktop-amd-niri/
+│       │   ├── configuration.nix
+│       │   └── hardware-configuration.nix
+│       ├── laptop-nvidia/
+│       │   ├── configuration.nix
+│       │   └── hardware-configuration.nix
+│       └── laptop-nvidia-niri/
 │           ├── configuration.nix
 │           └── hardware-configuration.nix
 └── home-manager/
-    ├── home.nix                 # Main Home Manager entry
-    └── gnome.nix                # GNOME settings
+    ├── home.nix                 # Main Home Manager entry (conditionally imports per DE)
+    ├── gnome.nix                # GNOME settings & extensions
+    ├── apps.nix                 # User packages (Chrome, dev tools, antigravity)
+    ├── niri.nix                 # Niri WM user config + noctalia
+    ├── noctalia.nix             # Noctalia-shell settings (bar, control center)
+    ├── themes.nix               # Stylix theming (GTK, Qt, cursors, icons)
+    └── random-bg.nix            # Random wallpaper switcher script & autostart
 ```
 
 ---

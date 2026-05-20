@@ -6,16 +6,26 @@ Welcome! This repository contains a NixOS configuration built with Flakes and Ho
 
 - `flake.nix`: Entry point. Manages dependencies (inputs) and system configurations (outputs).
 - `INSTALL.md`: Step-by-step installation guide for fresh NixOS setups.
+- `README.md`: Project overview and quick start.
 - `nixos/`: System-level configuration (drivers, services, networking).
   - `base.nix`: Shared configuration for all machines.
+  - `gnome.nix`: GNOME display manager & desktop settings.
+  - `niri.nix`: Niri compositor configuration (greetd, portal, session vars).
   - `nvidia.nix`: NVIDIA-specific settings (conditional).
-  - `options.nix`: Custom option definitions.
+  - `options.nix`: Custom option definitions (`enableNvidia`, `enableNvidiaOffload`, `desktopEnv`).
   - `machines/`: Machine-specific configurations.
-    - `desktop-amd/`: AMD desktop configuration.
-    - `laptop-nvidia/`: Laptop with NVIDIA (includes specialization for power-saving mode).
+    - `desktop-amd/`: AMD desktop with GNOME.
+    - `desktop-amd-niri/`: AMD desktop with Niri compositor.
+    - `laptop-nvidia/`: Laptop with NVIDIA + GNOME (includes specialization for power-saving mode).
+    - `laptop-nvidia-niri/`: Laptop with NVIDIA + Niri compositor.
 - `home-manager/`: User-level configuration (dotfiles, app settings, shell).
-  - `home.nix`: Main Home Manager entry point.
+  - `home.nix`: Main Home Manager entry point (conditionally imports per desktop).
   - `gnome.nix`: GNOME settings & extensions.
+  - `apps.nix`: User packages (Chrome, Slack, Neovim, dev tools, antigravity).
+  - `niri.nix`: Niri window manager user config + Noctalia shell.
+  - `noctalia.nix`: Noctalia-shell plugin settings (bar, control center, widgets).
+  - `themes.nix`: Stylix theming (GTK, Qt, cursors, icons).
+  - `random-bg.nix`: Random wallpaper switcher script & autostart.
 
 ## ⚠️ Critical: Hardcoded Username
 
@@ -25,6 +35,11 @@ The username **`cesar`** is hardcoded throughout this repository. Before deployi
 2. Key files to update:
    - `home-manager/home.nix` - user name and home directory path
    - `home-manager/gnome.nix` - user-specific paths
+   - `home-manager/apps.nix` - user packages may reference home dir
+   - `home-manager/noctalia.nix` - location directory path
+   - `home-manager/niri.nix` - user-level niri config
+   - `home-manager/themes.nix` - Stylix user settings
+   - `home-manager/random-bg.nix` - autostart desktop file path
    - `flake.nix` - home-manager users.cesar → users.yourname
    - `nixos/machines/*/configuration.nix` - users.users.cesar
 
@@ -79,7 +94,7 @@ sudo NIX_SHOW_TRACE=1 nixos-rebuild dry-activate --flake .#desktop-amd  # Show t
 ### Module Arguments
 ```nix
 { config, pkgs, lib, inputs, ... }@args:  # Standard signature
-{ config, pkgs, lib, stylix, unstablePkgs, enableGnome, ... }:  # With custom args
+{ config, pkgs, lib, stylix, unstablePkgs, desktopEnv, ... }:  # With custom args
 ```
 
 ### Indentation & Attributes
@@ -111,7 +126,7 @@ desktopManager.gnome.enable = lib.mkDefault true;
 ```
 
 ### Custom Options
-Custom options are defined in `nixos/options.nix` (e.g., `enableNvidia`, `enableNvidiaOffload`). Import this file in machine configs to use them.
+Custom options are defined in `nixos/options.nix`: `enableNvidia`, `enableNvidiaOffload`, and `desktopEnv` (`"gnome"`, `"niri"`, or `""`). Machines set `desktopEnv` to conditionally load desktop-specific modules (GNOME vs Niri). Import this file in machine configs to use them.
 
 ### Package Lists
 ```nix
@@ -128,6 +143,11 @@ home.packages = with pkgs; [ neovim starship ] ++ [ unstablePkgs.opencode ];
 - Use `unstablePkgs` (passed from flake.nix) for packages from nixos-unstable
 - Use Stylix for theming - avoid hardcoding colors
 - **antigravity-nix**: Adds "Antigravity" desktop app for file search (see `home-manager/apps.nix`)
+- **lanzaboote**: Secure Boot via sbctl (used in all configurations)
+- **noctalia**: Noctalia-shell plugin ecosystem (niri desktop only)
+- **niri**: Niri compositor flake (niri desktop only)
+- **llama-cpp**: LLM inference with ROCm/CUDA variants (`llama-cpp-amd` / `llama-cpp-nvidia`)
+- **llm-agents**: Provides Claude Code, OpenCode, and pi CLI tools
 
 ## 🏗️ Common Tasks
 
