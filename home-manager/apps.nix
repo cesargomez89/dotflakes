@@ -26,6 +26,7 @@
     swww
     antigravity-nix.packages.x86_64-linux.default
     open-webui
+    obsidian
   ]) ++ (with unstablePkgs; [
     feishin
   ]) ++ (with llmAgentsPkgs; [
