@@ -1,8 +1,12 @@
-{ pkgs, unstablePkgs, antigravity-nix, llmAgentsPkgs, ... }:
+{ pkgs, lib, unstablePkgs, antigravity-nix, llmAgentsPkgs, ... }:
+
+let
+  isDarwin = pkgs.stdenv.isDarwin;
+  antigravity = antigravity-nix.packages.${pkgs.system}.default or antigravity-nix.packages.x86_64-linux.default;
+in
 
 {
   home.packages = (with pkgs; [
-    nautilus
     dbeaver-bin
     pinta
     google-chrome
@@ -21,12 +25,16 @@
     eza
     cava
     fum
+    open-webui
+    obsidian
+  ] ++ lib.optionals (!isDarwin) [
+    nautilus
     papirus-icon-theme
     bibata-cursors
     swww
-    antigravity-nix.packages.x86_64-linux.default
-    open-webui
-    obsidian
+    antigravity
+  ] ++ lib.optionals isDarwin [
+    antigravity
   ]) ++ (with unstablePkgs; [
     feishin
   ]) ++ (with llmAgentsPkgs; [

@@ -1,5 +1,5 @@
 {
-  description = "NixOS + GNOME dotfiles";
+  description = "NixOS + macOS dotfiles";
 
   inputs = {
     stylix.url = "github:danth/stylix/release-25.11";
@@ -32,6 +32,18 @@
       url = "github:ggml-org/llama.cpp";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    nix-darwin = {
+      url = "github:lnl7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    nix-homebrew = {
+      url = "github:zhaofengli-wip/nix-homebrew";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    mac-app-util = {
+      url = "github:hraban/mac-app-util";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   nixConfig = {
@@ -47,10 +59,13 @@
     home-manager,
     antigravity-nix,
     noctalia,
+    nix-darwin,
+    nix-homebrew,
+    mac-app-util,
     ...
   } @ inputs: let
     system = "x86_64-linux";
-    stdenvHostPlatform = { system = "x86_64-linux"; };
+    darwinSystem = "aarch64-darwin";
 
 
     pkgs = import nixpkgs {
@@ -126,12 +141,42 @@
         desktopEnv = config.desktopEnv;
       };
     };
+
+    makeDarwinConfiguration = name: configPath: nix-darwin.lib.darwinSystem {
+      system = darwinSystem;
+      specialArgs = {
+        inherit inputs llmAgentsPkgs;
+      };
+      modules = [
+        { nixpkgs.config.allowUnfree = true; }
+        inputs.stylix.darwinModules.stylix
+        inputs.mac-app-util.darwinModules.default
+        inputs.nix-homebrew.darwinModules.nix-homebrew
+        configPath
+        home-manager.darwinModules.home-manager
+        homeManagerDarwinModule
+      ];
+    };
+
+    homeManagerDarwinModule = { config, ... }: {
+      home-manager.useGlobalPkgs = true;
+      home-manager.useUserPackages = true;
+      home-manager.users.cesar = import ./home-manager/home.nix;
+      home-manager.extraSpecialArgs = {
+        inherit inputs stylix llmAgentsPkgs;
+        desktopEnv = "darwin";
+      };
+    };
   in {
     nixosConfigurations = {
       desktop-amd = makeNixosConfiguration "desktop-amd" ./nixos/machines/desktop-amd/configuration.nix;
       laptop-nvidia = makeNixosConfiguration "laptop-nvidia" ./nixos/machines/laptop-nvidia/configuration.nix;
       desktop-amd-niri = makeNixosConfiguration "desktop-amd-niri" ./nixos/machines/desktop-amd-niri/configuration.nix;
       laptop-nvidia-niri = makeNixosConfiguration "laptop-nvidia-niri" ./nixos/machines/laptop-nvidia-niri/configuration.nix;
+    };
+
+    darwinConfigurations = {
+      macbook-pro = makeDarwinConfiguration "macbook-pro" ./darwin/machines/macbook-pro/configuration.nix;
     };
   };
 }
