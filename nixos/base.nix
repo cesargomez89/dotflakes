@@ -166,5 +166,5 @@
     };
   };
 
-  system.stateVersion = lib.mkDefault "25.11";
+  system.stateVersion = lib.mkDefault "unstable";
 }

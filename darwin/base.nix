@@ -1,23 +1,23 @@
 { lib, config, pkgs, inputs, ... }:
 
 {
-  nix.settings = {
-    experimental-features = "nix-command flakes";
-    flake-registry = "";
-    auto-optimise-store = true;
-  };
-
-  nix.registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
-  nix.nixPath = lib.mapAttrsToList (key: value: "${key}=${value.toSourcePath or value}") inputs;
+  # Disabled to avoid conflict with Determinate Nix installer
+  nix.enable = false;
 
   time.timeZone = lib.mkDefault "America/Mexico_City";
-
-  system.defaults.NSGlobalDomain.AppleICUForce24HourTime = true;
 
   networking.hostName = lib.mkDefault "macbook-pro";
   networking.computerName = lib.mkDefault "MacBook Pro";
 
-  system.defaults.alf.allowdownloadsignedenabled = false;
+  system.primaryUser = "cesar";
+
+  networking.applicationFirewall.allowSignedApp = false;
+
+  system.defaults.NSGlobalDomain = {
+    AppleICUForce24HourTime = true;
+  };
+
+  services.mac-app-util.enable = true;
 
   nix-homebrew = {
     enable = true;
@@ -26,14 +26,68 @@
     autoMigrate = true;
   };
 
+  homebrew = {
+    enable = true;
+    onActivation = {
+      autoUpdate = true;
+      cleanup = "uninstall";
+    };
+    casks = [
+      "google-chrome"
+      "slack"
+      "kitty"
+      "zoom"
+      "postman"
+      "vlc"
+      "dbeaver-community"
+      "telegram"
+      "karabiner-elements"
+      "yt-music"
+      "okta-verify"
+    ];
+  };
+
   environment.systemPackages = with pkgs; [
-    pkg-config cmake gcc openssl.dev libxml2 libxslt libyaml zlib libgit2 heimdal krb5.dev
-    lsof wget curl zip unzip ripgrep btop fastfetch gh jq
-    kitty
-    awscli2 ngrok sqlite
-    pnpm bun nodejs_24
-    go golangci-lint python3
-    gettext rsync kubectl kustomize stylua lua-language-server
+    pkg-config
+    cmake
+    gcc
+    openssl.dev
+    libxml2
+    libxslt
+    libyaml
+    zlib
+    libgit2
+    heimdal
+    krb5.dev
+
+    lsof
+    wget
+    curl
+    zip
+    unzip
+    ripgrep
+    btop
+    fastfetch
+    gh
+    jq
+
+    awscli2
+    ngrok
+    sqlite
+
+    bun
+    go
+    golangci-lint
+    python3
+
+    gettext
+    rsync
+
+    kubectl
+    kustomize
+
+    stylua
+    lua-language-server
   ];
 
   fonts.packages = with pkgs; [
@@ -44,8 +98,8 @@
   programs.zsh.enable = true;
   programs.direnv.enable = true;
 
+  # Optional on macOS, but safe to keep.
   users.users.cesar = {
-    name = "cesar";
     home = "/Users/cesar";
     shell = pkgs.zsh;
   };

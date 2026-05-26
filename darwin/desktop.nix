@@ -15,6 +15,10 @@
       "/Applications/kitty.app"
       "/Applications/Google Chrome.app"
       "/Applications/Slack.app"
+      "/Applications/DBeaver.app"
+      "/Applications/Postman.app"
+      "/Applications/Telegram.app"
+      "/Applications/YouTube Music.app"
     ];
   };
 
@@ -93,13 +97,13 @@
     enable = true;
     skhdConfig = ''
       # Terminal
-      ctrl - return : open -a kitty
+      ctrl + alt - return : open -a kitty
       # Browser
-      ctrl - b : open -a "Google Chrome"
+      ctrl + alt - b : open -a "Google Chrome"
       # Finder
-      ctrl - e : open -a Finder
+      ctrl + alt - e : open -a Finder
       # Slack
-      ctrl - c : open -a Slack
+      ctrl + alt - c : open -a Slack
       # Close window
       ctrl - q : yabai -m window --close
       # Focus window (vim-style)
@@ -118,6 +122,12 @@
       alt - r : yabai -m space --rotate 90
       # Balance tree
       alt - 0 : yabai -m space --balance
+      # App shortcuts
+      ctrl + alt - d : open -a DBeaver
+      ctrl + alt - p : open -a Postman
+      ctrl + alt - t : open -a Telegram
+      ctrl + alt - y : open -a "YouTube Music"
+      ctrl + alt - r : $HOME/.local/bin/random-bg
     '';
   };
 }

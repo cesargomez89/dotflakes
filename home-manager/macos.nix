@@ -3,10 +3,10 @@
 {
   home.packages = with pkgs; [
     desktoppr
-    karabiner-elements
   ];
 
   home.file.".config/karabiner/karabiner.json" = {
+    force = true;
     text = builtins.toJSON {
       global = {
         check_for_updates_on_startup = false;
@@ -21,6 +21,10 @@
             {
               from = { key_code = "caps_lock"; };
               to = [{ key_code = "left_control"; }];
+            }
+            {
+              from = { key_code = "left_control"; };
+              to = [{ key_code = "caps_lock"; }];
             }
           ];
           virtual_hid_keyboard = {
