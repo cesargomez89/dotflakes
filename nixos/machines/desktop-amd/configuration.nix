@@ -1,4 +1,4 @@
-{ lib, pkgs, unstablePkgs, llama-cpp-amd, ... }:
+{ lib, pkgs, unstablePkgs, llama-cpp-vulkan, ... }:
 
 {
   imports = [
@@ -21,7 +21,8 @@
   environment.systemPackages = with pkgs; [
     amdgpu_top
     nvtopPackages.amd
-  ] ++ [ llama-cpp-amd ];
+    vulkan-tools
+  ] ++ [ llama-cpp-vulkan ];
 
   desktopEnv = "gnome";
 }

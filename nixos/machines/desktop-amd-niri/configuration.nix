@@ -1,4 +1,4 @@
-{ lib, unstablePkgs, llama-cpp-amd, ... }:
+{ lib, pkgs, unstablePkgs, llama-cpp-vulkan, ... }:
 
 {
   imports = [
@@ -21,6 +21,8 @@
       ];
     };
 
-    environment.systemPackages = [ llama-cpp-amd ];
+    environment.systemPackages = with pkgs; [
+      vulkan-tools
+    ] ++ [ llama-cpp-vulkan ];
   };
 }

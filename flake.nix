@@ -101,22 +101,23 @@
       llama-cpp-packages =
         inputs.llama-cpp.packages.${linuxSystem};
 
-      llama-cpp-amd =
-        llama-cpp-packages.rocm.overrideAttrs (_: {
+      llama-cpp-vulkan =
+        llama-cpp-packages.vulkan.overrideAttrs (_: {
           cmakeFlags = [
-            "-DAMDGPU_TARGETS=gfx1201"
-            "-DGGML_HIP=ON"
-            "-DGGML_HIP_UMA=OFF"
-            "-DGGML_HIP_GRAPHS=ON"
+            "-DGGML_VULKAN=ON"
             "-DGGML_NATIVE=ON"
             "-DGGML_OPENMP=ON"
             "-DGGML_FLASH_ATTN=ON"
+            "-DGGML_FMA=ON"
+            "-DGGML_F16C=ON"
+            "-DGGML_LTO=ON"
             "-DCMAKE_BUILD_TYPE=Release"
             "-DBUILD_SHARED_LIBS=ON"
             "-DLLAMA_BUILD_TESTS=OFF"
             "-DLLAMA_CURL=OFF"
             "-DLLAMA_BUILD_UI=OFF"
             "-DLLAMA_BUILD_WEBUI=OFF"
+            "-DGGML_CCACHE=OFF"
           ];
         });
 
@@ -151,7 +152,7 @@
               inputs
               stylix
               unstablePkgs
-              llama-cpp-amd
+              llama-cpp-vulkan
               llama-cpp-nvidia
               llmAgentsPkgs;
 
@@ -189,7 +190,7 @@
             inherit
               inputs
               unstablePkgs
-              llama-cpp-amd
+              llama-cpp-vulkan
               llama-cpp-nvidia;
           };
 
