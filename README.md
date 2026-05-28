@@ -1,6 +1,6 @@
 # ❄️ DotFlakes
 
-[![NixOS](https://img.shields.io/badge/NixOS-25.11-blue?style=flat-square&logo=nixos)](https://nixos.org)
+[![NixOS](https://img.shields.io/badge/NixOS-26.05-blue?style=flat-square&logo=nixos)](https://nixos.org)
 [![macOS](https://img.shields.io/badge/macOS-Sonoma+-orange?style=flat-square&logo=apple)](https://nix-darwin.org)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
@@ -44,7 +44,7 @@ nix run nix-darwin -- switch --flake .#macbook-pro
 ## 📋 Prerequisites
 
 ### For NixOS
-- **NixOS 25.11** or newer
+- **NixOS 26.05** or newer
 - **Flakes enabled** (`experimental-features = flakes nix-command` in `/etc/nix/nix.conf`)
 - **Git** installed
 - **UEFI** boot system
@@ -62,7 +62,7 @@ nix run nix-darwin -- switch --flake .#macbook-pro
 - **NixOS**: The foundation of the system.
 - **Flakes**: For reproducible and versioned configuration.
 - **Home Manager**: Declarative user environment management.
-- **Nix-Direnv**: Fast, automatic shell environments.
+- **direnv**: Fast, automatic shell environments.
 
 ### Desktop Environment
 - **GNOME**: A polished, stable DE with customized extensions.
@@ -233,19 +233,18 @@ The system includes a custom `random-bg` script that changes your wallpaper from
 │   ├── themes.nix               # Stylix theming (Catppuccin Mocha)
 │   ├── gnome.nix                # GNOME extensions & dconf (NixOS only)
 │   ├── niri.nix                 # Niri WM user config + noctalia (NixOS only)
+│   ├── niri/                    # Niri config files (config.kdl)
 │   ├── noctalia.nix             # Noctalia-shell settings (NixOS only)
 │   ├── random-bg.nix            # Random wallpaper (NixOS + swww)
 │   ├── macos.nix                # Karabiner, yabai config, wallpaper (macOS only)
 │   └── random-bg.sh             # Wallpaper script (shared logic)
-└── docs/
-    └── plans/                   # Design docs & implementation plans
 ```
 
 ---
 
 ## 🔧 Troubleshooting
 
-###flakes not enabled
+### Flakes not enabled
 
 Add to `/etc/nix/nix.conf`:
 ```
