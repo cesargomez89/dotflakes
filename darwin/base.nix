@@ -44,6 +44,8 @@
       "karabiner-elements"
       "yt-music"
       "okta-verify"
+      "rbenv"
+      "fnm"
     ];
   };
 
