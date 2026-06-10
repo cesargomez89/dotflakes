@@ -1,4 +1,4 @@
-{ pkgs, lib, unstablePkgs, llmAgentsPkgs, ... }:
+{ pkgs, lib, llmAgentsPkgs, ... }:
 
 let
   isDarwin = pkgs.stdenv.isDarwin;
@@ -39,7 +39,7 @@ in
       swww
     ])
 
-    ++ (with unstablePkgs; [
+    ++ (with pkgs; [
       feishin
     ])
 

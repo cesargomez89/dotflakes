@@ -8,13 +8,12 @@ NixOS configuration using Flakes and Home Manager.
 - `INSTALL.md`, `README.md` — install guide and overview.
 - `nixos/` — system config.
   - `base.nix` — shared across machines.
-  - `gnome.nix`, `niri.nix` — desktop modules.
-  - `nvidia.nix` — conditional NVIDIA config.
-  - `options.nix` — custom options: `enableNvidia`, `enableNvidiaOffload`, `desktopEnv` (`"gnome"`|`"niri"`|`""`).
-  - `machines/<host>/configuration.nix` — per-host config. Hosts: `desktop-amd`, `desktop-amd-niri`, `laptop-nvidia` (has power-saving specialization), `laptop-nvidia-niri`.
+  - `gnome.nix` — desktop module.
+  - `options.nix` — custom options: `desktopEnv` (`"gnome"`|`""`).
+  - `machines/<host>/configuration.nix` — per-host config. Hosts: `desktop-amd`.
 - `home-manager/` — user config.
   - `home.nix` — entry, conditionally imports per `desktopEnv`.
-  - `gnome.nix`, `niri.nix`, `noctalia.nix` — desktop-specific.
+  - `gnome.nix` — desktop-specific.
   - `apps.nix` — user packages.
   - `themes.nix` — Stylix theming.
   - `random-bg.nix` — wallpaper switcher.
@@ -37,16 +36,12 @@ nix develop                                                 # dev shell
 sudo NIX_SHOW_TRACE=1 nixos-rebuild dry-activate --flake .#<host>  # trace
 ```
 
-`laptop-nvidia` specialization: build once, then pick "NixOS, with on-the-go" at bootloader for offload mode.
-
 ## Code Style
 
 - 2-space indent, kebab-case names, trailing semicolons, attribute sets in `{ }`.
 - Module signature: `{ config, pkgs, lib, inputs, ... }@args:` (add `stylix`, `unstablePkgs`, `desktopEnv` as needed).
 - Conditionals:
   ```nix
-  imports = [ ./base.nix ] ++ lib.optional config.enableNvidia ./nvidia.nix;
-  hardware.nvidia = lib.mkIf config.enableNvidia { enable = true; };
   boot.loader.systemd-boot.enable = lib.mkForce false;
   desktopManager.gnome.enable = lib.mkDefault true;
   ```
@@ -58,7 +53,7 @@ sudo NIX_SHOW_TRACE=1 nixos-rebuild dry-activate --flake .#<host>  # trace
 ## Flake Inputs
 
 Use `inputs` attrset; `unstablePkgs` for nixos-unstable packages. Use Stylix, avoid hardcoded colors.
-Notable inputs: `antigravity-nix`, `lanzaboote` (Secure Boot), `noctalia` + `niri` (niri only), `llama-cpp` (`-amd`/`-nvidia`), `llm-agents` (Claude Code, OpenCode, pi).
+Notable inputs: `antigravity-nix`, `lanzaboote` (Secure Boot), `llama-cpp` (Vulkan), `llm-agents` (Claude Code, OpenCode, pi).
 
 ## Common Tasks
 

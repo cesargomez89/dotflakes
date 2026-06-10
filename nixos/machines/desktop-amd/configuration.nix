@@ -1,4 +1,4 @@
-{ lib, pkgs, unstablePkgs, llama-cpp-vulkan, ... }:
+{ lib, pkgs, llama-cpp-vulkan, ... }:
 
 {
   imports = [
@@ -10,7 +10,7 @@
 
   hardware.graphics = {
     enable = true;
-    extraPackages = with unstablePkgs; [
+    extraPackages = with pkgs; [
       rocmPackages.clr.icd
       rocmPackages.rocm-smi 
       rocmPackages.miopen

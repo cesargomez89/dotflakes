@@ -29,7 +29,7 @@ mv /mnt/etc/nixos /mnt/etc/nixos.backup
 git clone https://github.com/cesargomez89/dotflakes /mnt/etc/nixos
 
 # IMPORTANT: Copy your generated hardware configuration into the right machine directory
-# Replace <machine> with your target (e.g., desktop-amd, laptop-nvidia, desktop-amd-niri, laptop-nvidia-niri)
+# Replace <machine> with your target (e.g., desktop-amd)
 cp /mnt/etc/nixos.backup/hardware-configuration.nix /mnt/etc/nixos/nixos/machines/<machine>/
 ```
 
@@ -38,18 +38,18 @@ Before installing, ensure the following fields match your hardware and intended 
 
 | File | Setting | Requirement |
 | :--- | :--- | :--- |
-| `flake.nix` | `nixosConfigurations.<name>` | The config key (e.g., `desktop-amd`, `laptop-nvidia-niri`) |
-| `nixos/machines/<machine>/configuration.nix` | `desktopEnv` | Set to `"gnome"` or `"niri"` depending on your preference |
+| `flake.nix` | `nixosConfigurations.<name>` | The config key (e.g., `desktop-amd`) |
+| `nixos/machines/<machine>/configuration.nix` | `desktopEnv` | Set to `"gnome"` for GNOME desktop |
 | `nixos/machines/<machine>/configuration.nix` | `config.users.users.cesar` | Rename to your preferred username if needed |
 
 > [!IMPORTANT]
-> If you change the username, search and replace "cesar" across the entire repository (especially in `home.nix`, `gnome.nix`, `apps.nix`, `noctalia.nix`, `niri.nix`, `themes.nix`, `random-bg.nix`).
+> If you change the username, search and replace "cesar" across the entire repository (especially in `home.nix`, `gnome.nix`, `apps.nix`, `themes.nix`, `random-bg.nix`).
 
 ## 4. 🚀 Installation
 Run the installation command using the flake.
 
 ```bash
-# Replace <machine> with your configuration name (e.g., desktop-amd, laptop-nvidia-niri)
+# Replace <machine> with your configuration name (e.g., desktop-amd)
 nixos-install --flake /mnt/etc/nixos#<machine> --no-root-passwd
 ```
 
@@ -73,10 +73,10 @@ ls -l ~/.local/bin/random-bg
 ### NixOS
 - [ ] **Home Manager**: Verify your user environment is active.
 - [ ] **Wallpaper**: Run `random-bg` to test the background switcher.
-- [ ] **Desktop**: Check that your desktop (GNOME or Niri) starts correctly.
+- [ ] **Desktop**: Check that your desktop starts correctly.
 - [ ] **Stack**: Verify core tools like `kitty`, `zsh`, and `neovim` are available.
 
-> **Note**: This flake supports two desktop environments. Set `desktopEnv = "gnome"` for GNOME or `desktopEnv = "niri"` for the Niri compositor in your machine configuration. For Niri, the system uses `tuigreet` + `greetd` instead of GDM.
+> **Note**: This flake uses GNOME as the desktop environment. Set `desktopEnv = "gnome"` in your machine configuration.
 
 ---
 

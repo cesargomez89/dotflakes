@@ -4,7 +4,7 @@
 [![macOS](https://img.shields.io/badge/macOS-Sonoma+-orange?style=flat-square&logo=apple)](https://nix-darwin.org)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
-A premium, reproducible **NixOS + macOS** configuration featuring **Home Manager** with **GNOME** or **Niri** desktop (Linux) and **yabai** tiling WM (macOS), built with modern Nix Flakes.
+A premium, reproducible **NixOS + macOS** configuration featuring **Home Manager** with **GNOME** desktop (Linux) and **yabai** tiling WM (macOS), built with modern Nix Flakes.
 
 ## 🎯 Philosophy
 
@@ -66,8 +66,7 @@ nix run nix-darwin -- switch --flake .#macbook-pro
 
 ### Desktop Environment
 - **GNOME**: A polished, stable DE with customized extensions.
-- **Niri**: A scrollable-tiling Wayland compositor with Noctalia shell UI.
-- **Stylix**: Consistent system-wide theming (supports both DEs).
+- **Stylix**: Consistent system-wide theming.
 
 ### Shell & Tools
 - **Zsh**: Enhanced with **Starship** prompt.
@@ -87,17 +86,7 @@ This configuration supports both Linux and macOS machines:
 | Machine | Description |
 |---------|-------------|
 | `desktop-amd` | AMD desktop + GNOME |
-| `desktop-amd-niri` | AMD desktop + Niri compositor |
-| `laptop-nvidia` | Laptop with NVIDIA + GNOME (includes power-saving specialization) |
-| `laptop-nvidia-niri` | Laptop with NVIDIA + Niri compositor (includes power-saving specialization) |
 | `macbook-pro` | Apple Silicon Mac + yabai tiling WM (macOS) |
-
-### NVIDIA Power-Saving Mode
-
-The laptop configs have a specialization for power-saving mode:
-- Build once: `sudo nixos-rebuild switch --flake .#laptop-nvidia` (or `.#laptop-nvidia-niri`)
-- On reboot, select "NixOS, with on-the-go" from bootloader
-- No rebuild needed to switch between modes
 
 ---
 
@@ -214,14 +203,9 @@ The system includes a custom `random-bg` script that changes your wallpaper from
 ├── nixos/                       # Linux (NixOS) system configuration
 │   ├── base.nix                 # Shared configuration (networking, services, packages)
 │   ├── gnome.nix                # GNOME display manager & desktop settings
-│   ├── niri.nix                 # Niri compositor config (greetd, portal)
-│   ├── nvidia.nix               # NVIDIA-specific settings (conditional)
-│   ├── options.nix              # Custom options (enableNvidia, enableNvidiaOffload, desktopEnv)
+│   ├── options.nix              # Custom options (desktopEnv)
 │   └── machines/
-│       ├── desktop-amd/
-│       ├── desktop-amd-niri/
-│       ├── laptop-nvidia/
-│       └── laptop-nvidia-niri/
+│       └── desktop-amd/
 ├── darwin/                      # macOS (nix-darwin) system configuration
 │   ├── base.nix                 # macOS system config (packages, nix settings, homebrew)
 │   ├── desktop.nix              # Dock, finder, yabai tiling WM, skhd keybindings
@@ -232,9 +216,6 @@ The system includes a custom `random-bg` script that changes your wallpaper from
 │   ├── apps.nix                 # User packages (cross-platform)
 │   ├── themes.nix               # Stylix theming (Catppuccin Mocha)
 │   ├── gnome.nix                # GNOME extensions & dconf (NixOS only)
-│   ├── niri.nix                 # Niri WM user config + noctalia (NixOS only)
-│   ├── niri/                    # Niri config files (config.kdl)
-│   ├── noctalia.nix             # Noctalia-shell settings (NixOS only)
 │   ├── random-bg.nix            # Random wallpaper (NixOS + swww)
 │   ├── macos.nix                # Karabiner, yabai config, wallpaper (macOS only)
 │   └── random-bg.sh             # Wallpaper script (shared logic)
@@ -262,13 +243,6 @@ home-manager switch --flake .
 Ensure you're using `sudo` for system-level changes:
 ```bash
 sudo nixos-rebuild switch --flake .#<machine>
-```
-
-### NVIDIA issues
-
-Check that `enableNvidia` is set in your machine config:
-```nix
-enableNvidia = true;  # in nixos/machines/<machine>/configuration.nix
 ```
 
 ### Wallpaper script not working

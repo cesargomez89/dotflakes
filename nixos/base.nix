@@ -3,11 +3,11 @@
   config,
   pkgs,
   inputs,
-  unstablePkgs,
   ...
 }:
 
 {
+
   nixpkgs.config.allowUnfree = true;
 
   environment.sessionVariables = {
@@ -122,7 +122,6 @@
 
   networking.networkmanager.enable = true;
   networking.hostName = lib.mkDefault "nixos";
-  networking.wireless.iwd.enable = true;
   networking.nftables.enable = true;
   networking.firewall = {
     enable = true;
@@ -138,7 +137,7 @@
     adwaita-qt wl-clipboard lact sbctl lsof stylua lua-language-server
     wsdd wget curl zip unzip kitty ripgrep btop fastfetch awscli2 ngrok sqlite gh jq libnotify
     pnpm bun nodejs_24 (ruby.withPackages (p: [ p.ruby-lsp p.solargraph p.rubocop p.rugged ]))
-    go golangci-lint python3
+    go golangci-lint python3 uv
     gettext rsync inotify-tools kubectl kustomize
   ];
 
@@ -166,5 +165,5 @@
     };
   };
 
-  system.stateVersion = lib.mkDefault "unstable";
+  system.stateVersion = lib.mkDefault "26.05";
 }

@@ -1,4 +1,4 @@
-{ config, pkgs, lib, stylix, unstablePkgs, desktopEnv, llmAgentsPkgs, ... }@args:
+{ config, pkgs, lib, stylix, desktopEnv, llmAgentsPkgs, ... }@args:
 
 let
   isGnome = desktopEnv == "gnome";
@@ -12,8 +12,6 @@ in
   ] ++ lib.optionals isGnome [
     ./gnome.nix
     ./random-bg.nix
-  ] ++ lib.optionals (desktopEnv == "niri") [
-    ./niri.nix
   ] ++ lib.optionals isDarwin [
     ./macos.nix
   ];

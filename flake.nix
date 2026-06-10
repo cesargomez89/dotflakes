@@ -2,10 +2,9 @@
   description = "NixOS + macOS dotfiles";
 
   inputs = {
-    stylix.url = "github:danth/stylix/master";
+    stylix.url = "github:danth/stylix/release-26.05";
 
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.0.0";
@@ -13,17 +12,7 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/master";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-
-    niri = {
-      url = "github:sodiboo/niri-flake";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -31,27 +20,17 @@
 
     llama-cpp = {
       url = "github:ggml-org/llama.cpp";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nix-darwin = {
-      url = "github:lnl7/nix-darwin/master";
+      url = "github:lnl7/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
     mac-app-util.url = "github:hraban/mac-app-util";
-  };
-
-  nixConfig = {
-    extra-substituters = [
-      "https://noctalia.cachix.org"
-    ];
-
-    extra-trusted-public-keys = [
-      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
-    ];
   };
 
   outputs =
@@ -61,7 +40,6 @@
       stylix,
       lanzaboote,
       home-manager,
-      noctalia,
       nix-darwin,
       nix-homebrew,
       mac-app-util,
@@ -77,17 +55,7 @@
         config.allowUnfree = true;
       };
 
-      unstablePkgs = import inputs.nixpkgs-unstable {
-        system = linuxSystem;
-        config.allowUnfree = true;
-      };
-
       darwinPkgs = import nixpkgs {
-        system = darwinSystem;
-        config.allowUnfree = true;
-      };
-
-      unstableDarwinPkgs = import inputs.nixpkgs-unstable {
         system = darwinSystem;
         config.allowUnfree = true;
       };
@@ -121,19 +89,6 @@
           ];
         });
 
-      llama-cpp-nvidia =
-        llama-cpp-packages.cuda.overrideAttrs (_: {
-          cmakeFlags = [
-            "-DGGML_CUDA=ON"
-            "-DGGML_CUDA_F16=ON"
-            "-DCMAKE_CUDA_ARCHITECTURES=120"
-            "-DGGML_CUDA_FORCE_CUBLAS=ON"
-            "-DGGML_CUDA_FA_ALL_QUANTS=ON"
-            "-DCMAKE_BUILD_TYPE=Release"
-            "-DGGML_FLASH_ATTN=ON"
-          ];
-        });
-
       homeManagerModule =
         { config, ... }:
         {
@@ -143,17 +98,11 @@
           home-manager.users.cesar =
             import ./home-manager/home.nix;
 
-          home-manager.sharedModules = [
-            inputs.niri.homeModules.niri
-          ];
-
           home-manager.extraSpecialArgs = {
             inherit
               inputs
               stylix
-              unstablePkgs
               llama-cpp-vulkan
-              llama-cpp-nvidia
               llmAgentsPkgs;
 
             desktopEnv = config.desktopEnv;
@@ -174,7 +123,6 @@
               inputs
               stylix;
 
-            unstablePkgs = unstableDarwinPkgs;
             llmAgentsPkgs = llmAgentsDarwinPkgs;
 
             desktopEnv = "darwin";
@@ -189,9 +137,7 @@
           specialArgs = {
             inherit
               inputs
-              unstablePkgs
-              llama-cpp-vulkan
-              llama-cpp-nvidia;
+              llama-cpp-vulkan;
           };
 
           modules = [
@@ -212,7 +158,6 @@
             inherit
               inputs;
 
-            unstablePkgs = unstableDarwinPkgs;
             llmAgentsPkgs = llmAgentsDarwinPkgs;
           };
 
@@ -238,18 +183,6 @@
         desktop-amd =
           makeNixosConfiguration
             ./nixos/machines/desktop-amd/configuration.nix;
-
-        laptop-nvidia =
-          makeNixosConfiguration
-            ./nixos/machines/laptop-nvidia/configuration.nix;
-
-        desktop-amd-niri =
-          makeNixosConfiguration
-            ./nixos/machines/desktop-amd-niri/configuration.nix;
-
-        laptop-nvidia-niri =
-          makeNixosConfiguration
-            ./nixos/machines/laptop-nvidia-niri/configuration.nix;
       };
 
       darwinConfigurations = {
