@@ -1,40 +1,51 @@
-{ pkgs, unstablePkgs, antigravity-nix, ... }:
+{ pkgs, lib, llmAgentsPkgs, ... }:
+
+let
+  isDarwin = pkgs.stdenv.isDarwin;
+in
 
 {
-  home.packages = (with pkgs; [
-    dbeaver-bin
-    pinta
-    google-chrome
-    zoom-us
-    postman
-    slack
-    telegram-desktop
-    youtube-music
-    vlc
-    neovim
-    starship
-    luarocks
-    tmux
-    lazygit
-    lazydocker
-    eza
-    cava
-    fum
-    papirus-icon-theme
-    bibata-cursors
-    antigravity-nix.packages.x86_64-linux.default
-  ]) ++ (with unstablePkgs; [
-    opencode
-    feishin
-  ]);
+  home.packages =
+    (with pkgs; [
+      neovim
+      starship
+      luarocks
+      tmux
+      lazygit
+      lazydocker
+      git-lfs
+      eza
+      obsidian
+    ])
 
-  programs.obs-studio = {
-    enable = true;
-    plugins = with pkgs.obs-studio-plugins; [
-      wlrobs
-      input-overlay
-      obs-vaapi
-      obs-vkcapture
-    ];
-  };
+    # Linux-only packages
+    ++ lib.optionals (!isDarwin) (with pkgs; [
+      dbeaver-bin
+      pinta
+      google-chrome
+      zoom-us
+      postman
+      slack
+      telegram-desktop
+      pear-desktop
+      vlc
+      cava
+      fum
+      open-webui
+
+      nautilus
+      papirus-icon-theme
+      bibata-cursors
+      swww
+    ])
+
+    ++ (with pkgs; [
+      feishin
+    ])
+
+    ++ (with llmAgentsPkgs; [
+      claude-code
+      opencode
+      pi
+    ]);
 }

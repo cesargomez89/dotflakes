@@ -2,19 +2,21 @@
   lib,
   config,
   pkgs,
-  enableGnome,
   inputs,
   ...
 }:
 
 {
+
   nixpkgs.config.allowUnfree = true;
 
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
+    XDG_SESSION_TYPE = "wayland";
     PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
     OPENSSL_ROOT_DIR = "${pkgs.openssl.dev}";
     USE_HTTPS = "OpenSSL";
+    HSA_OVERRIDE_GFX_VERSION = "12.0.1";
   };
 
   nix = {
@@ -28,7 +30,7 @@
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.toSourcePath or value}") inputs;
   };
 
-  boot.kernelPackages = pkgs.linuxPackages;
+  boot.kernelPackages = pkgs.linuxPackages_7_0;
   boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.loader.efi.canTouchEfiVariables = lib.mkDefault true;
 
@@ -49,6 +51,7 @@
     ];
   };
 
+  services.gnome.gnome-keyring.enable = true;
   services.printing.enable = true;
   services.gvfs.enable = true;
   services.udisks2.enable = true;
@@ -65,26 +68,28 @@
     variant = "";
   };
 
-  services.desktopManager.gnome.enable = enableGnome;
-
   services.xserver = {
     enable = true;
     videoDrivers = [ "modesetting" ];
   };
 
-  services.displayManager = {
-    gdm.enable = true;
-    defaultSession = lib.mkDefault "gnome";
-  };
-
-  services.gnome = {
-    tinysparql.enable = false;
-    localsearch.enable = false;
-    core-developer-tools.enable = true;
-  };
-
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
+
+  security.pam.loginLimits = [
+    {
+      domain = "*";
+      type = "soft";
+      item = "memlock";
+      value = "unlimited";
+    }
+    {
+      domain = "*";
+      item = "memlock";
+      type = "hard";
+      value = "unlimited";
+    }
+  ];
 
   services.pipewire = {
     enable = true;
@@ -93,6 +98,13 @@
     pulse.enable = true;
     wireplumber.enable = true;
     jack.enable = true;
+  };
+
+  services.openvpn.servers.expressvpn = {
+    config = ''
+      config /etc/openvpn/expressvpn/los_angeles_3.ovpn
+      '';
+    autoStart = false;
   };
 
   hardware.bluetooth = {
@@ -110,26 +122,23 @@
 
   networking.networkmanager.enable = true;
   networking.hostName = lib.mkDefault "nixos";
-  networking.wireless.iwd.enable = true;
+  networking.nftables.enable = true;
+  networking.firewall = {
+    enable = true;
 
-  environment.gnome.excludePackages = lib.mkIf enableGnome (with pkgs; [
-    gnome-contacts
-    gnome-maps
-    gnome-music
-    gnome-tour
-    epiphany
-    totem
-    simple-scan
-    geary
-    yelp
-  ]);
+    allowPing = true;
+
+    allowedTCPPorts = [ 22 ];
+      allowedUDPPorts = [ ];
+  };
 
   environment.systemPackages = with pkgs; [
     pkg-config gnumake cmake openssl.dev libxml2 libxslt libyaml zlib libgit2 heimdal krb5.dev gcc
     adwaita-qt wl-clipboard lact sbctl lsof stylua lua-language-server
-    wsdd wget curl zip unzip kitty ripgrep btop fastfetch awscli ngrok sqlite
-    pnpm nodejs_24 (ruby.withPackages (p: [ p.ruby-lsp p.solargraph p.rubocop p.rugged ]))
-    go golangci-lint python3
+    wsdd wget curl zip unzip kitty ripgrep btop fastfetch awscli2 ngrok sqlite gh jq libnotify
+    pnpm bun nodejs_24 (ruby.withPackages (p: [ p.ruby-lsp p.solargraph p.rubocop p.rugged ]))
+    go golangci-lint python3 uv
+    gettext rsync inotify-tools kubectl kustomize
   ];
 
   fonts.packages = with pkgs; [
@@ -156,5 +165,5 @@
     };
   };
 
-  system.stateVersion = lib.mkDefault "25.11";
+  system.stateVersion = lib.mkDefault "26.05";
 }

@@ -12,5 +12,10 @@
       default = false;
       description = "Enable NVIDIA offload mode for power saving";
     };
+    desktopEnv = lib.mkOption {
+      type = lib.types.str;
+      default = "";
+      description = "Desktop environment: gnome, niri, or empty for none";
+    };
   };
 }
