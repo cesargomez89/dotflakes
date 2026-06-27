@@ -44,6 +44,9 @@
       "karabiner-elements"
       "yt-music"
       "okta-verify"
+    ];
+
+    brews = [
       "rbenv"
       "fnm"
     ];
