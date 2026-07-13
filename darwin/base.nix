@@ -42,8 +42,10 @@
       "dbeaver-community"
       "telegram"
       "karabiner-elements"
-      "yt-music"
       "okta-verify"
+      "expressvpn"
+      "obsidian"
+      "claude-code@latest"
     ];
 
     brews = [
@@ -70,11 +72,24 @@
     curl
     zip
     unzip
-    ripgrep
     btop
     fastfetch
-    gh
+
+    ripgrep
+    fd
     jq
+    yq
+    ast-grep
+    difftastic
+    shellcheck
+    just
+    gh
+    parallel
+    tmux
+    sqlite
+    sd
+    entr
+    hyperfine
 
     awscli2
     ngrok
