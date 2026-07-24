@@ -138,7 +138,7 @@
     wsdd wget curl zip unzip kitty ripgrep btop fastfetch awscli2 ngrok sqlite gh jq libnotify
     pnpm bun nodejs_24 (ruby.withPackages (p: [ p.ruby-lsp p.solargraph p.rubocop p.rugged ]))
     go golangci-lint python3 uv
-    gettext rsync inotify-tools kubectl kustomize
+    gettext rsync inotify-tools kubectl kustomize ffmpeg
   ];
 
   fonts.packages = with pkgs; [
