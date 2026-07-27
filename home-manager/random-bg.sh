@@ -7,7 +7,7 @@ WALLPAPER=$(find "$WALLPAPER_DIR" -type f \( -iname '*.jpg' -o -iname '*.jpeg' -
 if [[ "$(uname)" == "Darwin" ]]; then
   osascript -e "tell application \"Finder\" to set desktop picture to POSIX file \"$WALLPAPER\""
 elif [[ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]]; then
-  swww img "$WALLPAPER" --transition-type=center
+  awww img "$WALLPAPER" --transition-type=center
 elif [[ -n "$NIRI_SOCKET" ]]; then
   noctalia-shell ipc call wallpaper random
 else

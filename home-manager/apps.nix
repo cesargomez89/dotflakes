@@ -36,7 +36,7 @@ in
       nautilus
       papirus-icon-theme
       bibata-cursors
-      swww
+      awww
     ])
 
     ++ (with pkgs; [
