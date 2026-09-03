@@ -46,6 +46,7 @@
       "expressvpn"
       "obsidian"
       "claude-code@latest"
+      "docker"
     ];
 
     brews = [
@@ -108,6 +109,7 @@
 
     stylua
     lua-language-server
+    ffmpeg
   ];
 
   fonts.packages = with pkgs; [
