@@ -43,8 +43,11 @@ in
       feishin
     ])
 
-    ++ (with llmAgentsPkgs; [
+    ++ lib.optionals (!isDarwin) (with llmAgentsPkgs; [
       claude-code
+    ])
+
+    ++ (with llmAgentsPkgs; [
       opencode
       pi
     ]);

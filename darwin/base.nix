@@ -29,7 +29,7 @@
   homebrew = {
     enable = true;
     onActivation = {
-      autoUpdate = true;
+      autoUpdate = false;
       cleanup = "uninstall";
     };
     casks = [
@@ -49,9 +49,14 @@
       "docker"
     ];
 
+    taps = [
+      "koekeishiya/formulae"
+    ];
+
     brews = [
       "rbenv"
-      "fnm"
+      "koekeishiya/formulae/yabai"
+      "koekeishiya/formulae/skhd"
     ];
   };
 
@@ -67,49 +72,8 @@
     libgit2
     heimdal
     krb5.dev
-
-    lsof
-    wget
-    curl
-    zip
-    unzip
-    btop
-    fastfetch
-
-    ripgrep
-    fd
-    jq
-    yq
-    ast-grep
-    difftastic
-    shellcheck
-    just
-    gh
-    parallel
-    tmux
-    sqlite
-    sd
-    entr
-    hyperfine
-
-    awscli2
-    ngrok
-    sqlite
-
-    bun
-    go
-    golangci-lint
-    python3
-
     gettext
     rsync
-
-    kubectl
-    kustomize
-
-    stylua
-    lua-language-server
-    ffmpeg
   ];
 
   fonts.packages = with pkgs; [

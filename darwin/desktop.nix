@@ -43,14 +43,6 @@
     NSAutomaticWindowAnimationsEnabled = false;
     NSDocumentSaveNewDocumentsToCloud = false;
     NSTableViewDefaultSizeMode = 2;
-
-  };
-
-  system.defaults.menuExtraClock = {
-    Show24Hour = true;
-    ShowDate = 0;
-    ShowDayOfMonth = false;
-    ShowSeconds = false;
   };
 
   system.defaults.CustomUserPreferences = {
@@ -70,64 +62,67 @@
     };
   };
 
-  services.yabai = {
-    enable = true;
-    enableScriptingAddition = true;
-    config = {
-      auto_balance = "on";
-      layout = "bsp";
-      focus_follows_mouse = "autofocus";
-      mouse_follows_focus = "off";
-      window_placement = "second_child";
-      window_gap = 8;
-      window_topmost = "on";
-      top_padding = 8;
-      bottom_padding = 8;
-      left_padding = 8;
-      right_padding = 8;
+  # yabai and skhd are installed via Homebrew (koekeishiya/formulae) so the binary path
+  # /opt/homebrew/bin/ is stable across upgrades — macOS Accessibility permission persists.
+
+  environment.etc."skhdrc".text = ''
+    # Terminal
+    ctrl + alt - return : open -a kitty
+    # Browser
+    ctrl + alt - b : open -a "Google Chrome"
+    # Finder
+    ctrl + alt - e : open -a Finder
+    # Slack
+    ctrl + alt - c : open -a Slack
+    # Close window
+    ctrl - q : yabai -m window --close
+    # Focus window (vim-style)
+    alt - h : yabai -m window --focus west
+    alt - j : yabai -m window --focus south
+    alt - k : yabai -m window --focus north
+    alt - l : yabai -m window --focus east
+    # Move window
+    shift + alt - h : yabai -m window --warp west
+    shift + alt - j : yabai -m window --warp south
+    shift + alt - k : yabai -m window --warp north
+    shift + alt - l : yabai -m window --warp east
+    # Fullscreen
+    alt - f : yabai -m window --toggle zoom-fullscreen
+    # Rotate layout
+    alt - r : yabai -m space --rotate 90
+    # Balance tree
+    alt - 0 : yabai -m space --balance
+    # App shortcuts
+    ctrl + alt - d : open -a DBeaver
+    ctrl + alt - p : open -a Postman
+    ctrl + alt - t : open -a Telegram
+    ctrl + alt - y : open -a "YouTube Music"
+    ctrl + alt - r : $HOME/.local/bin/random-bg
+  '';
+
+  launchd.user.agents.skhd = {
+    serviceConfig = {
+      ProgramArguments = [ "/bin/sh" "-c" "sleep 5 && exec /opt/homebrew/bin/skhd -c /etc/skhdrc" ];
+      KeepAlive = true;
+      ProcessType = "Interactive";
+      RunAtLoad = true;
+      LimitLoadToSessionType = "Aqua";
+      EnvironmentVariables = {
+        PATH = "/opt/homebrew/bin:/etc/profiles/per-user/cesar/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+      };
     };
-    extraConfig = ''
-      yabai -m rule --add app="^System Settings$" manage=off
-      yabai -m rule --add app="^Calculator$" manage=off
-      yabai -m rule --add app="^System Information$" manage=off
-    '';
   };
 
-  services.skhd = {
-    enable = true;
-    skhdConfig = ''
-      # Terminal
-      ctrl + alt - return : open -a kitty
-      # Browser
-      ctrl + alt - b : open -a "Google Chrome"
-      # Finder
-      ctrl + alt - e : open -a Finder
-      # Slack
-      ctrl + alt - c : open -a Slack
-      # Close window
-      ctrl - q : yabai -m window --close
-      # Focus window (vim-style)
-      alt - h : yabai -m window --focus west
-      alt - j : yabai -m window --focus south
-      alt - k : yabai -m window --focus north
-      alt - l : yabai -m window --focus east
-      # Move window
-      shift + alt - h : yabai -m window --warp west
-      shift + alt - j : yabai -m window --warp south
-      shift + alt - k : yabai -m window --warp north
-      shift + alt - l : yabai -m window --warp east
-      # Fullscreen
-      alt - f : yabai -m window --toggle zoom-fullscreen
-      # Rotate layout
-      alt - r : yabai -m space --rotate 90
-      # Balance tree
-      alt - 0 : yabai -m space --balance
-      # App shortcuts
-      ctrl + alt - d : open -a DBeaver
-      ctrl + alt - p : open -a Postman
-      ctrl + alt - t : open -a Telegram
-      ctrl + alt - y : open -a "YouTube Music"
-      ctrl + alt - r : $HOME/.local/bin/random-bg
-    '';
+  launchd.user.agents.yabai = {
+    serviceConfig = {
+      ProgramArguments = [ "/bin/sh" "-c" "sleep 5 && exec /opt/homebrew/bin/yabai" ];
+      KeepAlive = true;
+      ProcessType = "Interactive";
+      RunAtLoad = true;
+      LimitLoadToSessionType = "Aqua";
+      EnvironmentVariables = {
+        PATH = "/opt/homebrew/bin:/etc/profiles/per-user/cesar/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+      };
+    };
   };
 }
