@@ -46,7 +46,7 @@
       "expressvpn"
       "obsidian"
       "claude-code@latest"
-      "docker"
+      "docker-desktop"
     ];
 
     taps = [
