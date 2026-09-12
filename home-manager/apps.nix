@@ -18,6 +18,50 @@ in
       obsidian
     ])
 
+    # Shared CLI tools (Linux + Darwin)
+    # Deduplicated from nixos/base.nix environment.systemPackages
+    # and home-manager/macos.nix home.packages
+    ++ (with pkgs; [
+      lsof
+      wget
+      curl
+      zip
+      unzip
+      btop
+      fastfetch
+
+      ripgrep
+      fd
+      jq
+      yq
+      ast-grep
+      difftastic
+      shellcheck
+      just
+      gh
+      parallel
+      sqlite
+      sd
+      entr
+      hyperfine
+
+      awscli2
+      ngrok
+
+      bun
+      go
+      golangci-lint
+      python3
+      uv
+
+      kubectl
+      kustomize
+
+      stylua
+      lua-language-server
+      ffmpeg
+    ])
+
     # Linux-only packages
     ++ lib.optionals (!isDarwin) (with pkgs; [
       dbeaver-bin
@@ -41,10 +85,14 @@ in
 
     ++ (with pkgs; [
       feishin
+      cliamp
+    ])
+
+    ++ lib.optionals (!isDarwin) (with llmAgentsPkgs; [
+      claude-code
     ])
 
     ++ (with llmAgentsPkgs; [
-      claude-code
       opencode
       pi
     ]);

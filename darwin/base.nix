@@ -11,6 +11,9 @@
 
   system.primaryUser = "cesar";
 
+  system.keyboard.enableKeyMapping = true;
+  system.keyboard.remapCapsLockToControl = true;
+
   networking.applicationFirewall.allowSignedApp = false;
 
   system.defaults.NSGlobalDomain = {
@@ -29,7 +32,7 @@
   homebrew = {
     enable = true;
     onActivation = {
-      autoUpdate = true;
+      autoUpdate = false;
       cleanup = "uninstall";
     };
     casks = [
@@ -41,11 +44,21 @@
       "vlc"
       "dbeaver-community"
       "telegram"
-      "karabiner-elements"
-      "yt-music"
       "okta-verify"
+      "expressvpn"
+      "obsidian"
+      "claude-code@latest"
+      "docker-desktop"
+    ];
+
+    taps = [
+      "koekeishiya/formulae"
+    ];
+
+    brews = [
       "rbenv"
-      "fnm"
+      "koekeishiya/formulae/yabai"
+      "koekeishiya/formulae/skhd"
     ];
   };
 
@@ -61,35 +74,8 @@
     libgit2
     heimdal
     krb5.dev
-
-    lsof
-    wget
-    curl
-    zip
-    unzip
-    ripgrep
-    btop
-    fastfetch
-    gh
-    jq
-
-    awscli2
-    ngrok
-    sqlite
-
-    bun
-    go
-    golangci-lint
-    python3
-
     gettext
     rsync
-
-    kubectl
-    kustomize
-
-    stylua
-    lua-language-server
   ];
 
   fonts.packages = with pkgs; [
