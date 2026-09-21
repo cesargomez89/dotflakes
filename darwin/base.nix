@@ -33,6 +33,7 @@
     enable = true;
     onActivation = {
       autoUpdate = false;
+      upgrade = true;
       cleanup = "uninstall";
     };
     casks = [
@@ -52,13 +53,13 @@
     ];
 
     taps = [
-      "koekeishiya/formulae"
+      "asmvik/formulae"
     ];
 
     brews = [
       "rbenv"
-      "koekeishiya/formulae/yabai"
-      "koekeishiya/formulae/skhd"
+      "asmvik/formulae/yabai"
+      "asmvik/formulae/skhd"
     ];
   };
 

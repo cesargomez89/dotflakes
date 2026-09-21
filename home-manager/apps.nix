@@ -44,6 +44,7 @@ in
       sd
       entr
       hyperfine
+      cloc
 
       awscli2
       ngrok
