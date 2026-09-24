@@ -4,5 +4,6 @@
       "Bash(systemctl --user is-active graphical-session.target)",
       "Bash(systemctl --user status graphical-session.target)"
     ]
-  }
+  },
+  "outputStyle": "Concise"
 }
