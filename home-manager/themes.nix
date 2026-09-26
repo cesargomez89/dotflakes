@@ -6,7 +6,7 @@
 }:
 
 let
-  inherit (pkgs.stdenv) isLinux;
+  inherit (pkgs.stdenv.hostPlatform) isLinux;
 in
 {
   # Imported here because system-level Stylix is disabled, so it doesn't auto-import.
@@ -28,6 +28,9 @@ in
   # GTK/Qt theming only on Linux
   stylix.targets.gtk.enable = isLinux;
   stylix.targets.qt.enable = isLinux;
+
+  # rofi isn't used; the target sets the renamed `programs.rofi.font` and warns.
+  stylix.targets.rofi.enable = false;
 
   stylix.targets.qt.platform = lib.mkIf isLinux (lib.mkForce "qtct");
 

@@ -1,11 +1,6 @@
 { pkgs, lib, ... }:
 
-lib.mkIf pkgs.stdenv.isDarwin {
-  home.packages = with pkgs; [
-    # Node version manager (macOS only; Linux uses system nodejs_24/pnpm/bun)
-    fnm
-  ];
-
+lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
   home.file.".config/yabai/yabairc" = {
     executable = true;
     text = ''

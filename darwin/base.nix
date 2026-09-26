@@ -62,25 +62,13 @@
     ];
 
     brews = [
-      "rbenv"
       "asmvik/formulae/yabai"
       "asmvik/formulae/skhd"
     ];
   };
 
+  # Project toolchains and build libraries live in per-project devenv.nix files.
   environment.systemPackages = with pkgs; [
-    pkg-config
-    cmake
-    gcc
-    openssl.dev
-    libxml2
-    libxslt
-    libyaml
-    zlib
-    libgit2
-    heimdal
-    krb5.dev
-    gettext
     rsync
   ];
 
@@ -99,4 +87,14 @@
   };
 
   system.stateVersion = 5;
+
+  # nix.enable = false (Determinate Nix manages nix.conf), so nix.settings is unavailable.
+  # Determinate Nix owns nix.conf but never overwrites nix.custom.conf (!include'd by nix.conf).
+  # Idempotently add the current user to trusted-users so devenv and flakes work correctly.
+  system.activationScripts.nixTrustedUsers.text = ''
+    if ! grep -q "trusted-users.*${username}" /etc/nix/nix.custom.conf 2>/dev/null; then
+      echo "trusted-users = root ${username}" >> /etc/nix/nix.custom.conf
+      launchctl kickstart -k system/systems.determinate.nix-daemon 2>/dev/null || true
+    fi
+  '';
 }

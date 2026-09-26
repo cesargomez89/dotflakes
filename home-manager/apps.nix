@@ -6,7 +6,7 @@
 }:
 
 let
-  inherit (pkgs.stdenv) isDarwin;
+  inherit (pkgs.stdenv.hostPlatform) isDarwin;
   llmAgentsPkgs = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
 in
 
@@ -56,9 +56,8 @@ in
       awscli2
       ngrok
 
-      bun
-      go
-      golangci-lint
+      # Global Node for npx/MCP servers and editor tooling; projects pin their own via devenv.
+      nodejs
       python3
       uv
 
