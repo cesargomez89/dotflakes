@@ -18,8 +18,8 @@ let
         findutils
         gawk
       ]
-      ++ lib.optionals stdenv.isDarwin [ desktoppr ]
-      ++ lib.optionals stdenv.isLinux [ glib ];
+      ++ lib.optionals stdenv.hostPlatform.isDarwin [ desktoppr ]
+      ++ lib.optionals stdenv.hostPlatform.isLinux [ glib ];
     text = builtins.readFile ./random-bg.sh;
   };
 

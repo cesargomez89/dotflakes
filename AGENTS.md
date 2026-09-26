@@ -18,7 +18,7 @@ NixOS + nix-darwin configuration using Flakes and Home Manager (as a system modu
 - `home-manager/`: user config, all modules imported on every platform.
   - `home.nix`: entry.
   - `gnome.nix`: gated on `osConfig.desktopEnv == "gnome"`.
-  - `macos.nix`: gated on `pkgs.stdenv.isDarwin`.
+  - `macos.nix`: gated on `pkgs.stdenv.hostPlatform.isDarwin`.
   - `apps.nix`: user packages.
   - `themes.nix`: Stylix theming.
   - `random-bg.nix`, `random-bg.sh`: wallpaper switcher (`writeShellApplication`).
@@ -47,13 +47,14 @@ sudo NIX_SHOW_TRACE=1 nixos-rebuild dry-activate --flake .#<host>  # trace
 - Formatted with `nixfmt` (run `nix fmt`). Must pass `statix` and `deadnix`.
 - kebab-case names.
 - Module signature: `{ config, pkgs, lib, inputs, ... }:`; add `username` or `osConfig` (HM) as needed.
-- Platform checks: `pkgs.stdenv.isDarwin` / `isLinux` in config, never in `imports`.
+- Platform checks: `pkgs.stdenv.hostPlatform.isDarwin` / `isLinux` in config, never in `imports`.
 - Gate whole modules with `lib.mkIf` instead of conditional imports.
 - Flake packages inside modules: `inputs.<input>.packages.${pkgs.stdenv.hostPlatform.system}`.
 
 ## Flake Inputs
 
 Use the `inputs` attrset. Use Stylix, avoid hardcoded colors. Add `inputs.nixpkgs.follows = "nixpkgs"` to new inputs unless they rely on their own binary cache.
+Tracks `nixos-unstable`; home-manager, nix-darwin and stylix track their main branches to match.
 Notable inputs: `lanzaboote` (Secure Boot), `llama-cpp` (Vulkan), `llm-agents` (Claude Code, OpenCode, pi; intentionally not following nixpkgs), `nix-homebrew`, `mac-app-util`.
 
 ## Common Tasks

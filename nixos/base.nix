@@ -13,15 +13,15 @@
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     XDG_SESSION_TYPE = "wayland";
-    PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig";
-    OPENSSL_ROOT_DIR = "${pkgs.openssl.dev}";
-    USE_HTTPS = "OpenSSL";
     HSA_OVERRIDE_GFX_VERSION = "12.0.1";
   };
 
   nix = {
     settings = {
-      experimental-features = "nix-command flakes";
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       flake-registry = "";
       auto-optimise-store = true;
     };
@@ -133,17 +133,8 @@
   };
 
   environment.systemPackages = with pkgs; [
-    pkg-config
+    # Compiler for nvim-treesitter parsers and luarocks; project toolchains live in devenv.
     gnumake
-    cmake
-    openssl.dev
-    libxml2
-    libxslt
-    libyaml
-    zlib
-    libgit2
-    heimdal
-    krb5.dev
     gcc
     adwaita-qt
     wl-clipboard
@@ -152,15 +143,6 @@
     wsdd
     kitty
     libnotify
-    pnpm
-    nodejs_24
-    (ruby.withPackages (p: [
-      p.ruby-lsp
-      p.solargraph
-      p.rubocop
-      p.rugged
-    ]))
-    gettext
     rsync
     inotify-tools
   ];
