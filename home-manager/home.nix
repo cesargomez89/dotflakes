@@ -1,38 +1,43 @@
-{ config, pkgs, lib, stylix, desktopEnv, llmAgentsPkgs, ... }@args:
+{
+  pkgs,
+  lib,
+  username,
+  ...
+}:
 
 let
-  isGnome = desktopEnv == "gnome";
-  isDarwin = desktopEnv == "darwin";
+  inherit (pkgs.stdenv) isDarwin;
 in
 
 {
   imports = [
     ./apps.nix
     ./themes.nix
-  ] ++ lib.optionals isGnome [
     ./gnome.nix
     ./random-bg.nix
-  ] ++ lib.optionals isDarwin [
     ./macos.nix
   ];
 
-  home.username = "cesar";
-  home.homeDirectory = if isDarwin then "/Users/cesar" else "/home/cesar";
-  home.stateVersion = "26.05";
+  home = {
+    inherit username;
+    homeDirectory = if isDarwin then "/Users/${username}" else "/home/${username}";
+    stateVersion = "26.05";
+
+    sessionPath = [ "$HOME/.local/bin" ];
+
+    sessionVariables = {
+      EDITOR = "nvim";
+      VISUAL = "nvim";
+    }
+    // lib.optionalAttrs (!isDarwin) {
+      BROWSER = "google-chrome-stable";
+      NIXOS_OZONE_WL = "1";
+      XDG_SESSION_TYPE = "wayland";
+    };
+  };
 
   programs.home-manager.enable = true;
   dconf.enable = !isDarwin;
-
-  home.sessionPath = [ "$HOME/.local/bin" ];
-
-  home.sessionVariables = {
-    EDITOR = "nvim";
-    VISUAL = "nvim";
-    BROWSER = "google-chrome-stable";
-  } // lib.optionalAttrs (!isDarwin) {
-    NIXOS_OZONE_WL = "1";
-    XDG_SESSION_TYPE = "wayland";
-  };
 
   programs.git = {
     enable = true;

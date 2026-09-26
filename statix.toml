@@ -1,0 +1,2 @@
+# repeated_keys: flat `services.foo = ...;` lines are the NixOS convention.
+disabled = [ "repeated_keys" ]

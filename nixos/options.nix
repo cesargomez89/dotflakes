@@ -2,20 +2,13 @@
 
 {
   options = {
-    enableNvidia = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable NVIDIA GPU support";
-    };
-    enableNvidiaOffload = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable NVIDIA offload mode for power saving";
-    };
     desktopEnv = lib.mkOption {
-      type = lib.types.str;
+      type = lib.types.enum [
+        ""
+        "gnome"
+      ];
       default = "";
-      description = "Desktop environment: gnome, niri, or empty for none";
+      description = "Desktop environment: gnome, or empty for none";
     };
   };
 }

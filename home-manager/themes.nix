@@ -1,17 +1,25 @@
-{ config, pkgs, lib, stylix, ... }:
+{
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 
 let
-  isLinux = pkgs.stdenv.isLinux;
+  inherit (pkgs.stdenv) isLinux;
 in
 {
-  imports = [ stylix.homeModules.stylix ];
+  # Imported here because system-level Stylix is disabled, so it doesn't auto-import.
+  imports = [ inputs.stylix.homeModules.stylix ];
 
   stylix.enable = true;
 
+  # Overlays can't apply with home-manager.useGlobalPkgs and trigger a warning.
+  stylix.overlays.enable = false;
+
   stylix.polarity = "dark";
 
-  stylix.base16Scheme =
-    "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
 
   stylix.opacity = {
     desktop = 0.2;
@@ -21,8 +29,7 @@ in
   stylix.targets.gtk.enable = isLinux;
   stylix.targets.qt.enable = isLinux;
 
-  stylix.targets.qt.platform =
-    lib.mkIf isLinux (lib.mkForce "qtct");
+  stylix.targets.qt.platform = lib.mkIf isLinux (lib.mkForce "qtct");
 
   # Linux-only icon theme
   stylix.icons = lib.mkIf isLinux {

@@ -1,6 +1,12 @@
-{ config, pkgs, lib, ... }:
-
 {
+  config,
+  osConfig,
+  pkgs,
+  lib,
+  ...
+}:
+
+lib.mkIf ((osConfig.desktopEnv or "") == "gnome") {
   home.packages = with pkgs; [
     dconf-editor
     gparted
@@ -19,7 +25,7 @@
 
   dconf.settings = {
     "org/gnome/mutter" = {
-        experimental-features = [ "scale-monitor-framebuffer" ];
+      experimental-features = [ "scale-monitor-framebuffer" ];
     };
     "org/gnome/desktop/input-sources" = {
       xkb-options = [ "ctrl:swapcaps" ];
@@ -31,7 +37,11 @@
       enable-animations = true;
     };
     "org/gnome/settings-daemon/plugins/media-keys" = {
-      custom-keybindings = lib.mkBefore (map (n: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom${toString n}/") (lib.range 0 6));
+      custom-keybindings = lib.mkBefore (
+        map (n: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom${toString n}/") (
+          lib.range 0 6
+        )
+      );
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
       name = "Chrome";
@@ -60,7 +70,7 @@
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom5" = {
       name = "Youtube Music";
-      command = "youtube-music";
+      command = "pear-desktop";
       binding = "<Super>y";
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom6" = {
@@ -69,10 +79,10 @@
       binding = "<Super>BackSpace";
     };
     "org/gnome/desktop/wm/keybindings" = {
-      close = ["<Super>q"];
+      close = [ "<Super>q" ];
     };
     "org/gnome/shell" = {
-      disabled-extensions = [];
+      disabled-extensions = [ ];
       disable-user-extensions = false;
       enabled-extensions = [
         "openbar@neuromorph"
@@ -110,7 +120,10 @@
       isalpha = 0.71999999999999997;
     };
     "org/gnome/shell/extensions/vitals" = {
-      hot-sensors = ["_processor_usage_" "_memory_usage_"];
+      hot-sensors = [
+        "_processor_usage_"
+        "_memory_usage_"
+      ];
       position-in-panel = 0;
       use-higher-precision = false;
       alphabetize = true;
@@ -122,7 +135,13 @@
       sigma = 2;
       opacity = 240;
       enable-all = true;
-      blacklist = ["Plank" "com.desktop.ding" "Conky" "kitty" "dconf-editor"];
+      blacklist = [
+        "Plank"
+        "com.desktop.ding"
+        "Conky"
+        "kitty"
+        "dconf-editor"
+      ];
     };
     "org/gnome/shell/extensions/blur-my-shell/panel" = {
       blur = false;

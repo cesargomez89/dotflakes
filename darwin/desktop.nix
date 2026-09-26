@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ username, ... }:
 
 {
   system.defaults.dock = {
@@ -62,7 +62,7 @@
     };
   };
 
-  # yabai and skhd are installed via Homebrew (koekeishiya/formulae) so the binary path
+  # yabai and skhd are installed via Homebrew (asmvik/formulae) so the binary path
   # /opt/homebrew/bin/ is stable across upgrades — macOS Accessibility permission persists.
 
   environment.etc."skhdrc".text = ''
@@ -102,26 +102,34 @@
 
   launchd.user.agents.skhd = {
     serviceConfig = {
-      ProgramArguments = [ "/bin/sh" "-c" "sleep 5 && exec /opt/homebrew/bin/skhd -c /etc/skhdrc" ];
+      ProgramArguments = [
+        "/bin/sh"
+        "-c"
+        "sleep 5 && exec /opt/homebrew/bin/skhd -c /etc/skhdrc"
+      ];
       KeepAlive = true;
       ProcessType = "Interactive";
       RunAtLoad = true;
       LimitLoadToSessionType = "Aqua";
       EnvironmentVariables = {
-        PATH = "/opt/homebrew/bin:/etc/profiles/per-user/cesar/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+        PATH = "/opt/homebrew/bin:/etc/profiles/per-user/${username}/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/bin:/bin:/usr/sbin:/sbin";
       };
     };
   };
 
   launchd.user.agents.yabai = {
     serviceConfig = {
-      ProgramArguments = [ "/bin/sh" "-c" "sleep 5 && exec /opt/homebrew/bin/yabai" ];
+      ProgramArguments = [
+        "/bin/sh"
+        "-c"
+        "sleep 5 && exec /opt/homebrew/bin/yabai"
+      ];
       KeepAlive = true;
       ProcessType = "Interactive";
       RunAtLoad = true;
       LimitLoadToSessionType = "Aqua";
       EnvironmentVariables = {
-        PATH = "/opt/homebrew/bin:/etc/profiles/per-user/cesar/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+        PATH = "/opt/homebrew/bin:/etc/profiles/per-user/${username}/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/bin:/bin:/usr/sbin:/sbin";
       };
     };
   };

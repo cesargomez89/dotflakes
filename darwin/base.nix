@@ -1,4 +1,9 @@
-{ lib, config, pkgs, inputs, ... }:
+{
+  lib,
+  pkgs,
+  username,
+  ...
+}:
 
 {
   # Disabled to avoid conflict with Determinate Nix installer
@@ -9,7 +14,7 @@
   networking.hostName = lib.mkDefault "macbook-pro";
   networking.computerName = lib.mkDefault "MacBook Pro";
 
-  system.primaryUser = "cesar";
+  system.primaryUser = username;
 
   system.keyboard.enableKeyMapping = true;
   system.keyboard.remapCapsLockToControl = true;
@@ -25,7 +30,7 @@
   nix-homebrew = {
     enable = true;
     enableRosetta = true;
-    user = "cesar";
+    user = username;
     autoMigrate = true;
   };
 
@@ -88,8 +93,8 @@
   programs.direnv.enable = true;
 
   # Optional on macOS, but safe to keep.
-  users.users.cesar = {
-    home = "/Users/cesar";
+  users.users.${username} = {
+    home = "/Users/${username}";
     shell = pkgs.zsh;
   };
 

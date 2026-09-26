@@ -1,7 +1,13 @@
-{ pkgs, lib, llmAgentsPkgs, ... }:
+{
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 
 let
-  isDarwin = pkgs.stdenv.isDarwin;
+  inherit (pkgs.stdenv) isDarwin;
+  llmAgentsPkgs = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
 in
 
 {
@@ -38,6 +44,7 @@ in
       difftastic
       shellcheck
       just
+      devenv
       gh
       parallel
       sqlite
@@ -64,34 +71,40 @@ in
     ])
 
     # Linux-only packages
-    ++ lib.optionals (!isDarwin) (with pkgs; [
-      dbeaver-bin
-      pinta
-      google-chrome
-      zoom-us
-      postman
-      slack
-      telegram-desktop
-      pear-desktop
-      vlc
-      cava
-      fum
-      open-webui
+    ++ lib.optionals (!isDarwin) (
+      with pkgs;
+      [
+        dbeaver-bin
+        pinta
+        google-chrome
+        zoom-us
+        postman
+        slack
+        telegram-desktop
+        pear-desktop
+        vlc
+        cava
+        fum
+        open-webui
 
-      nautilus
-      papirus-icon-theme
-      bibata-cursors
-      awww
-    ])
+        nautilus
+        papirus-icon-theme
+        bibata-cursors
+        awww
+      ]
+    )
 
     ++ (with pkgs; [
       feishin
       cliamp
     ])
 
-    ++ lib.optionals (!isDarwin) (with llmAgentsPkgs; [
-      claude-code
-    ])
+    ++ lib.optionals (!isDarwin) (
+      with llmAgentsPkgs;
+      [
+        claude-code
+      ]
+    )
 
     ++ (with llmAgentsPkgs; [
       opencode

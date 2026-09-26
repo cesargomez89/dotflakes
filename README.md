@@ -94,18 +94,13 @@ This configuration supports both Linux and macOS machines:
 
 ### 1. Rename the Username
 
-The username `cesar` is hardcoded throughout. To use your own username:
+The username is defined once in `flake.nix`:
 
-```bash
-# Search and replace all occurrences
-cd /path/to/dotflakes
-grep -rl "cesar" . | xargs sed -i 's/cesar/yourusername/g'
+```nix
+username = "cesar";
 ```
 
-Files to check manually:
-- `home-manager/home.nix` (user name, home directory)
-- `home-manager/gnome.nix` (user paths)
-- `flake.nix` (if referenced)
+Change it there; every module receives it via `specialArgs`.
 
 ### 2. Add a New Machine
 
@@ -212,12 +207,12 @@ The system includes a custom `random-bg` script that changes your wallpaper from
 │   └── machines/
 │       └── macbook-pro/
 ├── home-manager/                # Shared user-level configuration (both platforms)
-│   ├── home.nix                 # Main entry (conditionally imports per platform)
+│   ├── home.nix                 # Main entry (modules gate themselves per platform)
 │   ├── apps.nix                 # User packages (cross-platform)
 │   ├── themes.nix               # Stylix theming (Catppuccin Mocha)
 │   ├── gnome.nix                # GNOME extensions & dconf (NixOS only)
-│   ├── random-bg.nix            # Random wallpaper (NixOS + swww)
-│   ├── macos.nix                # Karabiner, yabai config, wallpaper (macOS only)
+│   ├── random-bg.nix            # Random wallpaper (writeShellApplication, both platforms)
+│   ├── macos.nix                # yabai config (macOS only)
 │   └── random-bg.sh             # Wallpaper script (shared logic)
 ```
 
@@ -234,9 +229,7 @@ experimental-features = flakes nix-command
 
 ### Home Manager not applying
 
-```bash
-home-manager switch --flake .
-```
+Home Manager runs as a system module, so it is applied by `nixos-rebuild switch` / `darwin-rebuild switch`.
 
 ### Build fails with permission error
 

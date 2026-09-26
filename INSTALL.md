@@ -40,10 +40,8 @@ Before installing, ensure the following fields match your hardware and intended 
 | :--- | :--- | :--- |
 | `flake.nix` | `nixosConfigurations.<name>` | The config key (e.g., `desktop-amd`) |
 | `nixos/machines/<machine>/configuration.nix` | `desktopEnv` | Set to `"gnome"` for GNOME desktop |
-| `nixos/machines/<machine>/configuration.nix` | `config.users.users.cesar` | Rename to your preferred username if needed |
-
-> [!IMPORTANT]
-> If you change the username, search and replace "cesar" across the entire repository (especially in `home.nix`, `gnome.nix`, `apps.nix`, `themes.nix`, `random-bg.nix`).
+| `nixos/machines/<machine>/configuration.nix` | `networking.hostName` | Must match the `nixosConfigurations` key |
+| `flake.nix` | `username` | Rename to your preferred username if needed |
 
 ## 4. 🚀 Installation
 Run the installation command using the flake.
@@ -104,8 +102,7 @@ softwareupdate --install-rosetta --agree-to-license
 git clone https://github.com/cesargomez89/dotflakes ~/dotflakes
 cd ~/dotflakes
 
-# IMPORTANT: Rename username if needed
-# grep -rl "cesar" . | xargs sed -i 's/cesar/yourusername/g'
+# IMPORTANT: Rename username if needed: edit `username` in flake.nix
 
 # Generate hardware configuration
 nix run nix-darwin -- --show-hardware-config > darwin/machines/macbook-pro/hardware-configuration.nix
@@ -119,8 +116,7 @@ Review the following files before installing:
 | :--- | :--- | :--- |
 | `darwin/base.nix` | `networking.hostName` | Your Mac's network name |
 | `darwin/base.nix` | `networking.computerName` | Your Mac's display name |
-| `darwin/base.nix` | `users.users.cesar` | Rename username if needed |
-| `darwin/base.nix` | `nix-homebrew.user` | Must match your username |
+| `flake.nix` | `username` | Rename username if needed |
 | `darwin/machines/macbook-pro/hardware-configuration.nix` | Hardware-specific | Generated in step 2 |
 
 ## 4. 🚀 Installation

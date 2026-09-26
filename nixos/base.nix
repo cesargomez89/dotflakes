@@ -1,8 +1,8 @@
 {
   lib,
-  config,
   pkgs,
   inputs,
+  username,
   ...
 }:
 
@@ -103,7 +103,7 @@
   services.openvpn.servers.expressvpn = {
     config = ''
       config /etc/openvpn/expressvpn/los_angeles_3.ovpn
-      '';
+    '';
     autoStart = false;
   };
 
@@ -118,7 +118,7 @@
   };
 
   systemd.packages = with pkgs; [ lact ];
-  systemd.services.lactd.wantedBy = ["multi-user.target"];
+  systemd.services.lactd.wantedBy = [ "multi-user.target" ];
 
   networking.networkmanager.enable = true;
   networking.hostName = lib.mkDefault "nixos";
@@ -129,15 +129,40 @@
     allowPing = true;
 
     allowedTCPPorts = [ 22 ];
-      allowedUDPPorts = [ ];
+    allowedUDPPorts = [ ];
   };
 
   environment.systemPackages = with pkgs; [
-    pkg-config gnumake cmake openssl.dev libxml2 libxslt libyaml zlib libgit2 heimdal krb5.dev gcc
-    adwaita-qt wl-clipboard lact sbctl
-    wsdd kitty libnotify
-    pnpm nodejs_24 (ruby.withPackages (p: [ p.ruby-lsp p.solargraph p.rubocop p.rugged ]))
-    gettext rsync inotify-tools
+    pkg-config
+    gnumake
+    cmake
+    openssl.dev
+    libxml2
+    libxslt
+    libyaml
+    zlib
+    libgit2
+    heimdal
+    krb5.dev
+    gcc
+    adwaita-qt
+    wl-clipboard
+    lact
+    sbctl
+    wsdd
+    kitty
+    libnotify
+    pnpm
+    nodejs_24
+    (ruby.withPackages (p: [
+      p.ruby-lsp
+      p.solargraph
+      p.rubocop
+      p.rugged
+    ]))
+    gettext
+    rsync
+    inotify-tools
   ];
 
   fonts.packages = with pkgs; [
@@ -157,10 +182,18 @@
   users.defaultUserShell = pkgs.zsh;
 
   users.users = {
-    cesar = {
+    ${username} = {
       isNormalUser = true;
-      openssh.authorizedKeys.keys = [];
-      extraGroups = ["wheel" "networkmanager" "audio" "bluetooth" "docker" "video" "render"];
+      openssh.authorizedKeys.keys = [ ];
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+        "audio"
+        "bluetooth"
+        "docker"
+        "video"
+        "render"
+      ];
     };
   };
 

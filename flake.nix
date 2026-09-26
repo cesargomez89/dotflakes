@@ -2,7 +2,10 @@
   description = "NixOS + macOS dotfiles";
 
   inputs = {
-    stylix.url = "github:danth/stylix/release-26.05";
+    stylix = {
+      url = "github:danth/stylix/release-26.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
@@ -16,6 +19,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Not following nixpkgs on purpose: keeps hits on the numtide binary cache.
     llm-agents.url = "github:numtide/llm-agents.nix";
 
     llama-cpp = {
@@ -30,12 +34,14 @@
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
-    mac-app-util.url = "github:hraban/mac-app-util";
+    mac-app-util = {
+      url = "github:hraban/mac-app-util";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     {
-      self,
       nixpkgs,
       stylix,
       lanzaboote,
@@ -47,98 +53,23 @@
     }@inputs:
 
     let
-      linuxSystem = "x86_64-linux";
-      darwinSystem = "aarch64-darwin";
+      username = "cesar";
 
-      pkgs = import nixpkgs {
-        system = linuxSystem;
-        config.allowUnfree = true;
-      };
+      specialArgs = { inherit inputs username; };
 
-      darwinPkgs = import nixpkgs {
-        system = darwinSystem;
-        config.allowUnfree = true;
-      };
-
-      llmAgentsPkgs =
-        inputs.llm-agents.packages.${linuxSystem};
-
-      llmAgentsDarwinPkgs =
-        inputs.llm-agents.packages.${darwinSystem};
-
-      llama-cpp-packages =
-        inputs.llama-cpp.packages.${linuxSystem};
-
-      llama-cpp-vulkan =
-        llama-cpp-packages.vulkan.overrideAttrs (_: {
-          cmakeFlags = [
-            "-DGGML_VULKAN=ON"
-            "-DGGML_NATIVE=ON"
-            "-DGGML_OPENMP=ON"
-            "-DGGML_FLASH_ATTN=ON"
-            "-DGGML_FMA=ON"
-            "-DGGML_F16C=ON"
-            "-DGGML_LTO=ON"
-            "-DCMAKE_BUILD_TYPE=Release"
-            "-DBUILD_SHARED_LIBS=ON"
-            "-DLLAMA_BUILD_TESTS=OFF"
-            "-DLLAMA_CURL=OFF"
-            "-DLLAMA_BUILD_UI=OFF"
-            "-DLLAMA_BUILD_WEBUI=OFF"
-            "-DGGML_CCACHE=OFF"
-          ];
-        });
-
-      homeManagerModule =
-        { config, ... }:
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-
-          home-manager.users.cesar =
-            import ./home-manager/home.nix;
-
-          home-manager.extraSpecialArgs = {
-            inherit
-              inputs
-              stylix
-              llama-cpp-vulkan
-              llmAgentsPkgs;
-
-            desktopEnv = config.desktopEnv;
-          };
+      homeManagerModule = {
+        home-manager = {
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          users.${username} = import ./home-manager/home.nix;
+          extraSpecialArgs = specialArgs;
         };
-
-      homeManagerDarwinModule =
-        { ... }:
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-
-          home-manager.users.cesar =
-            import ./home-manager/home.nix;
-
-          home-manager.extraSpecialArgs = {
-            inherit
-              inputs
-              stylix;
-
-            llmAgentsPkgs = llmAgentsDarwinPkgs;
-
-            desktopEnv = "darwin";
-          };
-        };
+      };
 
       makeNixosConfiguration =
         configPath:
         nixpkgs.lib.nixosSystem {
-          system = linuxSystem;
-
-          specialArgs = {
-            inherit
-              inputs
-              llama-cpp-vulkan;
-          };
+          inherit specialArgs;
 
           modules = [
             stylix.nixosModules.stylix
@@ -152,43 +83,36 @@
       makeDarwinConfiguration =
         configPath:
         nix-darwin.lib.darwinSystem {
-          system = darwinSystem;
-
-          specialArgs = {
-            inherit
-              inputs;
-
-            llmAgentsPkgs = llmAgentsDarwinPkgs;
-          };
+          inherit specialArgs;
 
           modules = [
-            {
-              nixpkgs.config.allowUnfree = true;
-            }
+            { nixpkgs.config.allowUnfree = true; }
 
             stylix.darwinModules.stylix
             nix-homebrew.darwinModules.nix-homebrew
             mac-app-util.darwinModules.default
 
             home-manager.darwinModules.home-manager
-            homeManagerDarwinModule
+            homeManagerModule
 
             configPath
           ];
         };
 
+      forAllSystems = nixpkgs.lib.genAttrs [
+        "x86_64-linux"
+        "aarch64-darwin"
+      ];
     in
     {
       nixosConfigurations = {
-        desktop-amd =
-          makeNixosConfiguration
-            ./nixos/machines/desktop-amd/configuration.nix;
+        desktop-amd = makeNixosConfiguration ./nixos/machines/desktop-amd/configuration.nix;
       };
 
       darwinConfigurations = {
-        macbook-pro =
-          makeDarwinConfiguration
-            ./darwin/machines/macbook-pro/configuration.nix;
+        macbook-pro = makeDarwinConfiguration ./darwin/machines/macbook-pro/configuration.nix;
       };
+
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
     };
 }

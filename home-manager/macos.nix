@@ -1,9 +1,7 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
 
-{
+lib.mkIf pkgs.stdenv.isDarwin {
   home.packages = with pkgs; [
-    desktoppr
-
     # Node version manager (macOS only; Linux uses system nodejs_24/pnpm/bun)
     fnm
   ];
@@ -18,43 +16,14 @@
       yabai -m config mouse_follows_focus     off
       yabai -m config window_placement        second_child
       yabai -m config window_gap              8
-      yabai -m config window_topmost          on
       yabai -m config top_padding             8
       yabai -m config bottom_padding          8
       yabai -m config left_padding            8
       yabai -m config right_padding           8
-      yabai -m config window_border           on
-      yabai -m config window_border_width     2
-      yabai -m config active_window_border_color  0xff89b4fa
-      yabai -m config normal_window_border_color  0xff313244
-      yabai -m config window_opacity          on
-      yabai -m config active_window_opacity   1.0
-      yabai -m config normal_window_opacity   0.85
-      yabai -m config window_opacity_duration 0.15
-      yabai -m config window_shadow           float
 
       yabai -m rule --add app="^System Settings$"    manage=off
       yabai -m rule --add app="^Calculator$"         manage=off
       yabai -m rule --add app="^System Information$" manage=off
     '';
-  };
-
-  home.file.".local/bin/random-bg" = {
-    text = ''
-      #!/usr/bin/env bash
-      set -euo pipefail
-
-      WALLPAPER_DIR="$HOME/Pictures/Wallpapers/"
-      WALLPAPER=$(find "$WALLPAPER_DIR" -type f ! -name "*.md" | shuf -n 1)
-
-      if command -v desktoppr &> /dev/null; then
-        desktoppr "$WALLPAPER"
-      fi
-    '';
-    executable = true;
-  };
-
-  home.sessionVariables = {
-    BROWSER = "google-chrome-stable";
   };
 }
