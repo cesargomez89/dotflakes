@@ -61,73 +61,68 @@
     };
   };
 
-  # yabai and skhd are installed via Homebrew (asmvik/formulae) so the binary path
-  # /opt/homebrew/bin/ is stable across upgrades — macOS Accessibility permission persists.
-
-  environment.etc."skhdrc".text = ''
-    # Terminal
-    ctrl + alt - return : open -a kitty
-    # Browser
-    ctrl + alt - b : open -a "Google Chrome"
-    # Finder
-    ctrl + alt - e : open -a Finder
-    # Slack
-    ctrl + alt - c : open -a Slack
-    # Close window
-    ctrl - q : yabai -m window --close
-    # Focus window (vim-style)
-    ctrl + alt - h : yabai -m window --focus west
-    ctrl + alt - j : yabai -m window --focus south
-    ctrl + alt - k : yabai -m window --focus north
-    ctrl + alt - l : yabai -m window --focus east
-    # Move window
-    ctrl + shift + alt - h : yabai -m window --warp west
-    ctrl + shift + alt - j : yabai -m window --warp south
-    ctrl + shift + alt - k : yabai -m window --warp north
-    ctrl + shift + alt - l : yabai -m window --warp east
-    # Fullscreen
-    ctrl + alt - f : yabai -m window --toggle zoom-fullscreen
-    # Rotate layout
-    ctrl + alt - space : yabai -m space --rotate 90
-    # Balance tree
-    ctrl + alt - 0 : yabai -m space --balance
-    # App shortcuts
-    ctrl + alt - d : open -a DBeaver
-    ctrl + alt - p : open -a Postman
-    ctrl + alt - t : open -a Telegram
-    ctrl + alt - r : $HOME/.local/bin/random-bg
-  '';
-
-  launchd.user.agents.skhd = {
-    serviceConfig = {
-      ProgramArguments = [
-        "/bin/sh"
-        "-c"
-        "sleep 5 && exec /opt/homebrew/bin/skhd -c /etc/skhdrc"
-      ];
-      KeepAlive = true;
-      ProcessType = "Interactive";
-      RunAtLoad = true;
-      LimitLoadToSessionType = "Aqua";
-      EnvironmentVariables = {
-        PATH = "/opt/homebrew/bin:/etc/profiles/per-user/${username}/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+  services.aerospace = {
+    enable = true;
+    settings = {
+      gaps = {
+        inner.horizontal = 8;
+        inner.vertical = 8;
+        outer.left = 8;
+        outer.right = 8;
+        outer.top = 8;
+        outer.bottom = 8;
       };
-    };
-  };
 
-  launchd.user.agents.yabai = {
-    serviceConfig = {
-      ProgramArguments = [
-        "/bin/sh"
-        "-c"
-        "sleep 5 && exec /opt/homebrew/bin/yabai"
-      ];
-      KeepAlive = true;
-      ProcessType = "Interactive";
-      RunAtLoad = true;
-      LimitLoadToSessionType = "Aqua";
-      EnvironmentVariables = {
-        PATH = "/opt/homebrew/bin:/etc/profiles/per-user/${username}/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+      mode.main.binding = {
+        # App launchers
+        "ctrl-alt-enter" = "exec-and-forget open -a kitty";
+        "ctrl-alt-b" = "exec-and-forget open -a 'Google Chrome'";
+        "ctrl-alt-e" = "exec-and-forget open -a Finder";
+        "ctrl-alt-c" = "exec-and-forget open -a Slack";
+        "ctrl-alt-d" = "exec-and-forget open -a DBeaver";
+        "ctrl-alt-p" = "exec-and-forget open -a Postman";
+        "ctrl-alt-t" = "exec-and-forget open -a Telegram";
+        "ctrl-alt-r" = "exec-and-forget $HOME/.local/bin/random-bg";
+
+        # Window management
+        "ctrl-q" = "close";
+        "ctrl-alt-f" = "fullscreen";
+        "ctrl-alt-0" = "balance-sizes";
+        "ctrl-alt-space" = "layout tiles horizontal vertical";
+
+        # Focus (vim-style)
+        "ctrl-alt-h" = "focus left";
+        "ctrl-alt-j" = "focus down";
+        "ctrl-alt-k" = "focus up";
+        "ctrl-alt-l" = "focus right";
+
+        # Move window
+        "ctrl-shift-alt-h" = "move left";
+        "ctrl-shift-alt-j" = "move down";
+        "ctrl-shift-alt-k" = "move up";
+        "ctrl-shift-alt-l" = "move right";
+
+        # Workspaces
+        "ctrl-alt-1" = "workspace 1";
+        "ctrl-alt-2" = "workspace 2";
+        "ctrl-alt-3" = "workspace 3";
+        "ctrl-alt-4" = "workspace 4";
+        "ctrl-alt-5" = "workspace 5";
+        "ctrl-alt-6" = "workspace 6";
+        "ctrl-alt-7" = "workspace 7";
+        "ctrl-alt-8" = "workspace 8";
+        "ctrl-alt-9" = "workspace 9";
+
+        # Move window to workspace
+        "ctrl-shift-alt-1" = "move-node-to-workspace 1";
+        "ctrl-shift-alt-2" = "move-node-to-workspace 2";
+        "ctrl-shift-alt-3" = "move-node-to-workspace 3";
+        "ctrl-shift-alt-4" = "move-node-to-workspace 4";
+        "ctrl-shift-alt-5" = "move-node-to-workspace 5";
+        "ctrl-shift-alt-6" = "move-node-to-workspace 6";
+        "ctrl-shift-alt-7" = "move-node-to-workspace 7";
+        "ctrl-shift-alt-8" = "move-node-to-workspace 8";
+        "ctrl-shift-alt-9" = "move-node-to-workspace 9";
       };
     };
   };

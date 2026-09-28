@@ -25,6 +25,8 @@
     AppleICUForce24HourTime = true;
   };
 
+  system.defaults.NSGlobalDomain._HIHideMenuBar = false;
+
   services.mac-app-util.enable = true;
 
   nix-homebrew = {
@@ -50,14 +52,9 @@
       "docker-desktop"
     ];
 
-    taps = [
-      "asmvik/formulae"
-    ];
+    taps = [ ];
 
-    brews = [
-      "asmvik/formulae/yabai"
-      "asmvik/formulae/skhd"
-    ];
+    brews = [ ];
   };
 
   # Project toolchains and build libraries live in per-project devenv.nix files.
