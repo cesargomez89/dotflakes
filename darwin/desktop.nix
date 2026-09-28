@@ -45,6 +45,8 @@
   };
 
   system.defaults.CustomUserPreferences = {
+    # macOS 26: "Show menu bar background" (solid instead of transparent menu bar)
+    NSGlobalDomain.SLSMenuBarUseBlurredAppearance = true;
     "com.apple.desktopservices" = {
       DSDontWriteNetworkStores = true;
       DSDontWriteUSBStores = true;
@@ -64,6 +66,27 @@
   services.aerospace = {
     enable = true;
     settings = {
+      after-startup-command = [
+        "exec-and-forget sketchybar"
+        "exec-and-forget borders active_color=0xff89b4fa inactive_color=0xff45475a width=5.0"
+      ];
+
+      exec-on-workspace-change = [
+        "/bin/bash"
+        "-c"
+        "/opt/homebrew/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE"
+      ];
+
+      config-version = 2;
+
+      persistent-workspaces = [
+        "1"
+        "2"
+        "3"
+        "4"
+        "5"
+      ];
+
       gaps = {
         inner.horizontal = 8;
         inner.vertical = 8;
@@ -108,10 +131,6 @@
         "ctrl-alt-3" = "workspace 3";
         "ctrl-alt-4" = "workspace 4";
         "ctrl-alt-5" = "workspace 5";
-        "ctrl-alt-6" = "workspace 6";
-        "ctrl-alt-7" = "workspace 7";
-        "ctrl-alt-8" = "workspace 8";
-        "ctrl-alt-9" = "workspace 9";
 
         # Move window to workspace
         "ctrl-shift-alt-1" = "move-node-to-workspace 1";
@@ -119,10 +138,6 @@
         "ctrl-shift-alt-3" = "move-node-to-workspace 3";
         "ctrl-shift-alt-4" = "move-node-to-workspace 4";
         "ctrl-shift-alt-5" = "move-node-to-workspace 5";
-        "ctrl-shift-alt-6" = "move-node-to-workspace 6";
-        "ctrl-shift-alt-7" = "move-node-to-workspace 7";
-        "ctrl-shift-alt-8" = "move-node-to-workspace 8";
-        "ctrl-shift-alt-9" = "move-node-to-workspace 9";
       };
     };
   };

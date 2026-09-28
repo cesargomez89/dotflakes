@@ -25,7 +25,7 @@
     AppleICUForce24HourTime = true;
   };
 
-  system.defaults.NSGlobalDomain._HIHideMenuBar = false;
+  system.defaults.NSGlobalDomain._HIHideMenuBar = true;
 
   services.mac-app-util.enable = true;
 
@@ -50,11 +50,21 @@
       "expressvpn"
       "claude-code@latest"
       "docker-desktop"
+      "sozercan/repo/kaset"
     ];
 
-    taps = [ ];
+    taps = [
+      {
+        name = "FelixKratz/formulae";
+        trusted = true;
+      }
+    ];
 
-    brews = [ ];
+    brews = [
+      "sketchybar"
+      "borders"
+      "nowplaying-cli"
+    ];
   };
 
   # Project toolchains and build libraries live in per-project devenv.nix files.
