@@ -22,6 +22,11 @@ in
       git-lfs
       eza
       obsidian
+      dbeaver-bin
+      google-chrome
+      zoom-us
+      postman
+      slack
     ])
 
     # Shared CLI tools (Linux + Darwin)
@@ -69,16 +74,14 @@ in
       ffmpeg
     ])
 
+    # Darwin-only packages
+    ++ lib.optionals isDarwin (with pkgs; [ kitty ])
+
     # Linux-only packages
     ++ lib.optionals (!isDarwin) (
       with pkgs;
       [
-        dbeaver-bin
         pinta
-        google-chrome
-        zoom-us
-        postman
-        slack
         telegram-desktop
         pear-desktop
         vlc
@@ -98,12 +101,7 @@ in
       cliamp
     ])
 
-    ++ lib.optionals (!isDarwin) (
-      with llmAgentsPkgs;
-      [
-        claude-code
-      ]
-    )
+    ++ lib.optionals (!isDarwin) (with llmAgentsPkgs; [ claude-code ])
 
     ++ (with llmAgentsPkgs; [
       opencode

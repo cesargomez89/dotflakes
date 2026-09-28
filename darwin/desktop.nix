@@ -12,13 +12,12 @@
     orientation = "bottom";
     minimize-to-application = true;
     persistent-apps = [
-      "/Applications/kitty.app"
-      "/Applications/Google Chrome.app"
-      "/Applications/Slack.app"
-      "/Applications/DBeaver.app"
-      "/Applications/Postman.app"
+      "/Users/${username}/Applications/Home Manager Apps/kitty.app"
+      "/Users/${username}/Applications/Home Manager Apps/Google Chrome.app"
+      "/Users/${username}/Applications/Home Manager Apps/Slack.app"
+      "/Users/${username}/Applications/Home Manager Apps/dbeaver.app"
+      "/Users/${username}/Applications/Home Manager Apps/Postman.app"
       "/Applications/Telegram.app"
-      "/Applications/YouTube Music.app"
     ];
   };
 
@@ -96,7 +95,6 @@
     ctrl + alt - d : open -a DBeaver
     ctrl + alt - p : open -a Postman
     ctrl + alt - t : open -a Telegram
-    ctrl + alt - y : open -a "YouTube Music"
     ctrl + alt - r : $HOME/.local/bin/random-bg
   '';
 

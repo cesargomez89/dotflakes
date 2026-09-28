@@ -42,17 +42,10 @@
       cleanup = "uninstall";
     };
     casks = [
-      "google-chrome"
-      "slack"
-      "kitty"
-      "zoom"
-      "postman"
       "vlc"
-      "dbeaver-community"
       "telegram"
       "okta-verify"
       "expressvpn"
-      "obsidian"
       "claude-code@latest"
       "docker-desktop"
     ];
