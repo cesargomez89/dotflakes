@@ -6,19 +6,20 @@
   ...
 }:
 
+let
+  barEnhanced = import ./bar-enhanced.nix { inherit pkgs lib; };
+in
+
 lib.mkIf ((osConfig.desktopEnv or "") == "gnome") {
   home.packages = with pkgs; [
     dconf-editor
     gparted
     # GNOME Extensions
-    gnomeExtensions.open-bar
-    gnomeExtensions.media-controls
-    gnomeExtensions.vitals
+    barEnhanced
     gnomeExtensions.user-themes
     gnomeExtensions.appindicator
     gnomeExtensions.blur-my-shell
     gnomeExtensions.tiling-shell
-    gnomeExtensions.kimpanel
   ];
 
   stylix.targets.gnome.enable = true;
@@ -85,14 +86,11 @@ lib.mkIf ((osConfig.desktopEnv or "") == "gnome") {
       disabled-extensions = [ ];
       disable-user-extensions = false;
       enabled-extensions = [
-        "openbar@neuromorph"
-        "mediacontrols@cliffniff.github.com"
+        "bar-enhanced@mrvanguardia"
         "user-theme@gnome-shell-extensions.gcampax.github.com"
-        "Vitals@CoreCoding.com"
         "appindicatorsupport@rgcjonas.gmail.com"
         "blur-my-shell@aunetx"
         "tilingshell@ferrarodomenico.com"
-        "kimpanel@kde.org"
       ];
       favorite-apps = [
         "kitty.desktop"
@@ -106,28 +104,15 @@ lib.mkIf ((osConfig.desktopEnv or "") == "gnome") {
         "random-wallpaper.desktop"
       ];
     };
-    "org/gnome/shell/extensions/openbar" = {
-      autotheme-dark = "Dark";
-      autotheme-light = "Dark";
-      bartype = "Islands";
-      dashdock-style = "Bar";
-      autotheme-refresh = true;
-      trigger-autotheme = true;
-      margin = 1.0;
-      height = 35.0;
-      bradius = 5.0;
-      dbradius = 5.0;
-      isalpha = 0.71999999999999997;
+    "org/gnome/shell/extensions/bar-enhanced" = {
+      vitals-enabled = true;
+      music-pill-enabled = true;
     };
     "org/gnome/shell/extensions/vitals" = {
-      hot-sensors = [
-        "_processor_usage_"
-        "_memory_usage_"
-      ];
       position-in-panel = 0;
-      use-higher-precision = false;
-      alphabetize = true;
-      hide-zeros = false;
+    };
+    "org/gnome/shell/extensions/bar-enhanced/gdm/top-bar" = {
+      disable-rounded-corners = false;
     };
     "org/gnome/shell/extensions/blur-my-shell/applications" = {
       blur = true;

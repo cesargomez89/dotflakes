@@ -61,6 +61,7 @@
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
+          backupFileExtension = "bak";
           users.${username} = import ./home-manager/home.nix;
           extraSpecialArgs = specialArgs;
         };
