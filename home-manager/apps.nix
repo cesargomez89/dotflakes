@@ -61,8 +61,6 @@ in
       awscli2
       ngrok
 
-      # Global Node for npx/MCP servers and editor tooling; projects pin their own via devenv.
-      nodejs
       python3
       uv
 
@@ -87,7 +85,6 @@ in
         vlc
         cava
         fum
-        open-webui
 
         nautilus
         papirus-icon-theme
