@@ -98,10 +98,15 @@ in
       cliamp
     ])
 
-    ++ lib.optionals (!isDarwin) (with llmAgentsPkgs; [ claude-code ])
+    ++ lib.optionals (!isDarwin) (
+      with llmAgentsPkgs;
+      [
+        claude-code
+        antigravity-cli
+      ]
+    )
 
     ++ (with llmAgentsPkgs; [
       opencode
-      pi
     ]);
 }

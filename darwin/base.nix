@@ -51,6 +51,7 @@
       "claude-code@latest"
       "docker-desktop"
       "sozercan/repo/kaset"
+      "antigravity-cli"
     ];
 
     taps = [
