@@ -65,6 +65,10 @@
       "sketchybar"
       "borders"
       "nowplaying-cli"
+      "kubectl"
+      "kustomize"
+      "awscli"
+      "gettext"
     ];
   };
 

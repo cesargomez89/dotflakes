@@ -58,14 +58,10 @@ in
       hyperfine
       cloc
 
-      awscli2
       ngrok
 
       python3
       uv
-
-      kubectl
-      kustomize
 
       stylua
       lua-language-server
@@ -79,6 +75,10 @@ in
     ++ lib.optionals (!isDarwin) (
       with pkgs;
       [
+        kubectl
+        kustomize
+        awscli2
+
         pinta
         telegram-desktop
         pear-desktop
