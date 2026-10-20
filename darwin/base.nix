@@ -69,13 +69,13 @@
       "kustomize"
       "awscli"
       "gettext"
+      "rsync"
+      "watchman"
     ];
   };
 
   # Project toolchains and build libraries live in per-project devenv.nix files.
   environment.systemPackages = with pkgs; [
-    rsync
-    watchman
   ];
 
   fonts.packages = with pkgs; [

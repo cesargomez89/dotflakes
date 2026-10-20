@@ -143,7 +143,6 @@
     wsdd
     kitty
     libnotify
-    rsync
     inotify-tools
   ];
 

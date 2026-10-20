@@ -78,6 +78,7 @@ in
         kubectl
         kustomize
         awscli2
+        rsync
 
         pinta
         telegram-desktop
