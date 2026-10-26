@@ -52,6 +52,7 @@
       "docker-desktop"
       "sozercan/repo/kaset"
       "antigravity-cli"
+      "paseo"
     ];
 
     taps = [
