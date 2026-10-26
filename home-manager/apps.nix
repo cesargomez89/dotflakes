@@ -91,6 +91,8 @@ in
         papirus-icon-theme
         bibata-cursors
         awww
+        node
+        paseo
       ]
     )
 

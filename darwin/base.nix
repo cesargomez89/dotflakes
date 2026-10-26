@@ -72,6 +72,7 @@
       "gettext"
       "rsync"
       "watchman"
+      "node"
     ];
   };
 
