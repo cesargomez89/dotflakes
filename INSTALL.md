@@ -134,8 +134,8 @@ This single command will:
 - Install system packages (kitty, neovim, ripgrep, etc.)
 - Install Homebrew and manage casks via `nix-homebrew`
 - Set up Home Manager (zsh, git, starship, dev tools)
-- Install and configure yabai (tiling window manager) + skhd (hotkeys)
-- Deploy Karabiner-Elements config (Caps Lock → Ctrl)
+- Install and configure AeroSpace (tiling window manager and hotkeys)
+- Remap Caps Lock to Ctrl
 - Deploy Stylix theming (Catppuccin Mocha)
 - Deploy wallpaper script
 
@@ -159,22 +159,7 @@ random-bg
 
 After first reboot, grant permissions:
 
-1. **Karabiner-Elements** → Open the app, grant Input Monitoring when prompted
-2. **yabai** → Grant Accessibility access in System Settings → Privacy & Security
-3. **skhd** → Grant Accessibility access (same as yabai)
-
-### SIP Configuration (for yabai)
-
-yabai requires partial SIP disable for window transparency features:
-
-```bash
-# Reboot into Recovery Mode (hold Cmd+R at startup)
-# Open Terminal from Utilities menu
-csrutil enable --without fs --without debug --without nvram
-# Reboot
-```
-
-Alternatively, yabai works without SIP changes — just without transparent window titles.
+1. **AeroSpace** -> Grant Accessibility access in System Settings -> Privacy & Security
 
 ### Verify Installation
 
@@ -185,11 +170,8 @@ darwin-rebuild --version
 # Check Home Manager
 home-manager --version
 
-# Check yabai
-yabai --version
-
-# Check Karabiner config
-cat ~/.config/karabiner/karabiner.json | head -20
+# Check AeroSpace
+aerospace --version
 
 # Verify system packages are available
 which kitty nvim rg
@@ -199,9 +181,8 @@ which kitty nvim rg
 - [ ] **Hardware config**: Generated and placed in `darwin/machines/macbook-pro/`
 - [ ] **System activated**: `darwin-rebuild switch --flake .#macbook-pro` completes
 - [ ] **Wallpaper**: `random-bg` works via `desktoppr`
-- [ ] **yabai**: Window tiling is active after reboot
-- [ ] **skhd**: Keybindings work (`Ctrl + Return` opens kitty)
-- [ ] **Karabiner**: Caps Lock functions as Ctrl
+- [ ] **AeroSpace**: Window tiling and hotkeys are active after reboot
+- [ ] **Keyboard**: Caps Lock functions as Ctrl
 - [ ] **Homebrew**: Casks can be installed
 - [ ] **Home Manager**: Zsh, git, starship, direnv are configured
 - [ ] **Stack**: `kitty`, `neovim`, `ripgrep`, `btop` available in PATH

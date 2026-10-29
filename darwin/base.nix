@@ -25,7 +25,7 @@
     AppleICUForce24HourTime = true;
   };
 
-  system.defaults.NSGlobalDomain._HIHideMenuBar = true;
+  system.defaults.NSGlobalDomain._HIHideMenuBar = false;
 
   services.mac-app-util.enable = true;
 
@@ -63,9 +63,7 @@
     ];
 
     brews = [
-      "sketchybar"
       "borders"
-      "nowplaying-cli"
       "kubectl"
       "kustomize"
       "awscli"

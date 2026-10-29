@@ -67,14 +67,7 @@
     enable = true;
     settings = {
       after-startup-command = [
-        "exec-and-forget sketchybar"
         "exec-and-forget borders active_color=0xff89b4fa inactive_color=0xff45475a width=5.0"
-      ];
-
-      exec-on-workspace-change = [
-        "/bin/bash"
-        "-c"
-        "/opt/homebrew/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE"
       ];
 
       config-version = 2;

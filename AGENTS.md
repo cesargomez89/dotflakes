@@ -13,7 +13,7 @@ NixOS + nix-darwin configuration using Flakes and Home Manager (as a system modu
   - `options.nix`: custom options: `desktopEnv` (`"gnome"`|`""`).
   - `machines/<host>/configuration.nix`: per-host config. Hosts: `desktop-amd`.
 - `darwin/`: nix-darwin system config.
-  - `base.nix`, `desktop.nix`: shared macOS config (Homebrew, defaults, yabai/skhd).
+  - `base.nix`, `desktop.nix`: shared macOS config (Homebrew, defaults, AeroSpace).
   - `machines/<host>/configuration.nix`: per-host config. Hosts: `macbook-pro`.
 - `home-manager/`: user config, all modules imported on every platform.
   - `home.nix`: entry.

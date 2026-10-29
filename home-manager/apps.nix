@@ -98,7 +98,6 @@ in
     )
 
     ++ (with pkgs; [
-      feishin
       cliamp
     ])
 

@@ -4,7 +4,7 @@
 [![macOS](https://img.shields.io/badge/macOS-Sonoma+-orange?style=flat-square&logo=apple)](https://nix-darwin.org)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
-A premium, reproducible **NixOS + macOS** configuration featuring **Home Manager** with **GNOME** desktop (Linux) and **yabai** tiling WM (macOS), built with modern Nix Flakes.
+A premium, reproducible **NixOS + macOS** configuration featuring **Home Manager** with **GNOME** desktop (Linux) and **AeroSpace** tiling WM (macOS), built with modern Nix Flakes.
 
 ## 🎯 Philosophy
 
@@ -86,7 +86,7 @@ This configuration supports both Linux and macOS machines:
 | Machine | Description |
 |---------|-------------|
 | `desktop-amd` | AMD desktop + GNOME |
-| `macbook-pro` | Apple Silicon Mac + yabai tiling WM (macOS) |
+| `macbook-pro` | Apple Silicon Mac + AeroSpace tiling WM (macOS) |
 
 ---
 
@@ -159,17 +159,19 @@ your-machine = makeNixosConfiguration "your-machine" ./nixos/machines/your-machi
 | `<Super> + Q` | Close Window |
 | `<Super> + Backspace` | Log Out |
 
-### macOS (yabai + skhd)
+### macOS (AeroSpace)
 | Key | Action |
 | :--- | :--- |
-| `<Ctrl> + Return` | Open Terminal (Kitty) |
-| `<Ctrl> + B` | Open Browser (Chrome) |
-| `<Ctrl> + E` | Open Finder |
-| `<Ctrl> + C` | Open Chat (Slack) |
-| `<Ctrl> + Q` | Close Window |
-| `<Alt> + H/J/K/L` | Focus window (vim-style) |
-| `<Alt> + F` | Toggle fullscreen |
-| `<Caps Lock>` → `Ctrl` | Karabiner remap |
+| `<Ctrl> + <Alt> + Return` | Open Terminal (Kitty) |
+| `<Ctrl> + <Alt> + B` | Open Browser (Chrome) |
+| `<Ctrl> + <Alt> + E` | Open Finder |
+| `<Ctrl> + <Alt> + C` | Open Chat (Slack) |
+| `<Ctrl> + <Alt> + Q` | Close Window |
+| `<Ctrl> + <Alt> + H/J/K/L` | Focus window (vim-style) |
+| `<Ctrl> + <Alt> + F` | Toggle fullscreen |
+| `<Ctrl> + <Alt> + 1-5` | Switch workspace |
+| `<Ctrl> + <Shift> + <Alt> + 1-5` | Move window to workspace |
+| `<Caps Lock>` -> `Ctrl` | Native macOS remap |
 
 ---
 
@@ -203,7 +205,7 @@ The system includes a custom `random-bg` script that changes your wallpaper from
 │       └── desktop-amd/
 ├── darwin/                      # macOS (nix-darwin) system configuration
 │   ├── base.nix                 # macOS system config (packages, nix settings, homebrew)
-│   ├── desktop.nix              # Dock, finder, yabai tiling WM, skhd keybindings
+│   ├── desktop.nix              # Dock, finder, AeroSpace tiling WM and keybindings
 │   └── machines/
 │       └── macbook-pro/
 ├── home-manager/                # Shared user-level configuration (both platforms)
@@ -212,7 +214,7 @@ The system includes a custom `random-bg` script that changes your wallpaper from
 │   ├── themes.nix               # Stylix theming (Catppuccin Mocha)
 │   ├── gnome.nix                # GNOME extensions & dconf (NixOS only)
 │   ├── random-bg.nix            # Random wallpaper (writeShellApplication, both platforms)
-│   ├── macos.nix                # yabai config (macOS only)
+│   ├── macos.nix                # macOS user config (macOS only)
 │   └── random-bg.sh             # Wallpaper script (shared logic)
 ```
 
