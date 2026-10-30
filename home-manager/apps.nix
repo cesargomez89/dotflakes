@@ -65,6 +65,7 @@ in
 
       stylua
       lua-language-server
+      tree-sitter
       ffmpeg
     ])
 
