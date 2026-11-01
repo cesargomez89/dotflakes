@@ -8,6 +8,7 @@
 let
   inherit (pkgs.stdenv.hostPlatform) isDarwin;
   llmAgentsPkgs = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
+  hexPkgs = inputs.hex.packages.${pkgs.stdenv.hostPlatform.system} or { };
 in
 
 {
@@ -109,6 +110,10 @@ in
         antigravity-cli
       ]
     )
+
+    ++ lib.optionals (!isDarwin) [
+      hexPkgs.default
+    ]
 
     ++ (with llmAgentsPkgs; [
       opencode

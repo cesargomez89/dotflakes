@@ -53,6 +53,7 @@
       "sozercan/repo/kaset"
       "antigravity-cli"
       "paseo"
+      "anomalyco/tap/hex"
     ];
 
     taps = [

@@ -27,6 +27,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    hex = {
+      url = "github:anomalyco/hex";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
