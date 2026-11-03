@@ -52,6 +52,7 @@ in
       just
       devenv
       gh
+      databricks-cli
       parallel
       sqlite
       sd
