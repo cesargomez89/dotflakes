@@ -109,6 +109,7 @@ in
       [
         claude-code
         antigravity-cli
+        claude-desktop
       ]
     )
 
