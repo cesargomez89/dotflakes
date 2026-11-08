@@ -45,8 +45,8 @@
   };
 
   system.defaults.CustomUserPreferences = {
-    # macOS 26: "Show menu bar background" (solid instead of transparent menu bar)
-    NSGlobalDomain.SLSMenuBarUseBlurredAppearance = true;
+    # macOS: "Show menu bar background" (false = transparent menu bar)
+    NSGlobalDomain.SLSMenuBarUseBlurredAppearance = false;
     "com.apple.desktopservices" = {
       DSDontWriteNetworkStores = true;
       DSDontWriteUSBStores = true;
@@ -124,6 +124,9 @@
         "ctrl-alt-3" = "workspace 3";
         "ctrl-alt-4" = "workspace 4";
         "ctrl-alt-5" = "workspace 5";
+        "ctrl-alt-6" = "workspace 6";
+        "ctrl-alt-7" = "workspace 7";
+        "ctrl-alt-8" = "workspace 8";
 
         # Move window to workspace
         "ctrl-shift-alt-1" = "move-node-to-workspace 1";
@@ -131,6 +134,9 @@
         "ctrl-shift-alt-3" = "move-node-to-workspace 3";
         "ctrl-shift-alt-4" = "move-node-to-workspace 4";
         "ctrl-shift-alt-5" = "move-node-to-workspace 5";
+        "ctrl-shift-alt-6" = "move-node-to-workspace 6";
+        "ctrl-shift-alt-7" = "move-node-to-workspace 7";
+        "ctrl-shift-alt-8" = "move-node-to-workspace 8";
       };
     };
   };
