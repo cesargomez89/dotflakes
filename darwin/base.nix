@@ -54,6 +54,7 @@
       "antigravity-cli"
       "paseo"
       "anomalyco/tap/hex"
+      "herdr-app"
     ];
 
     taps = [

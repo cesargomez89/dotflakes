@@ -110,6 +110,8 @@ in
         claude-code
         antigravity-cli
         claude-desktop
+        herdr-core
+        herdr-app
       ]
     )
 
