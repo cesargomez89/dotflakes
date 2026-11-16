@@ -6,16 +6,11 @@
   ...
 }:
 
-let
-  barEnhanced = import ./bar-enhanced.nix { inherit pkgs lib; };
-in
-
 lib.mkIf ((osConfig.desktopEnv or "") == "gnome") {
   home.packages = with pkgs; [
     dconf-editor
     gparted
     # GNOME Extensions
-    barEnhanced
     gnomeExtensions.user-themes
     gnomeExtensions.appindicator
     gnomeExtensions.blur-my-shell
@@ -86,7 +81,6 @@ lib.mkIf ((osConfig.desktopEnv or "") == "gnome") {
       disabled-extensions = [ ];
       disable-user-extensions = false;
       enabled-extensions = [
-        "bar-enhanced@mrvanguardia"
         "user-theme@gnome-shell-extensions.gcampax.github.com"
         "appindicatorsupport@rgcjonas.gmail.com"
         "blur-my-shell@aunetx"
@@ -103,16 +97,6 @@ lib.mkIf ((osConfig.desktopEnv or "") == "gnome") {
         "org.telegram.desktop.desktop"
         "random-wallpaper.desktop"
       ];
-    };
-    "org/gnome/shell/extensions/bar-enhanced" = {
-      vitals-enabled = true;
-      music-pill-enabled = true;
-    };
-    "org/gnome/shell/extensions/vitals" = {
-      position-in-panel = 0;
-    };
-    "org/gnome/shell/extensions/bar-enhanced/gdm/top-bar" = {
-      disable-rounded-corners = false;
     };
     "org/gnome/shell/extensions/blur-my-shell/applications" = {
       blur = true;
