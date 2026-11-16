@@ -112,6 +112,7 @@ in
         claude-desktop
         herdr-core
         herdr-app
+        pi
       ]
     )
 

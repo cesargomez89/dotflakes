@@ -73,6 +73,7 @@
       "rsync"
       "watchman"
       "node"
+      "pi-coding-agent"
     ];
   };
 
