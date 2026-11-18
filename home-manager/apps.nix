@@ -8,7 +8,6 @@
 let
   inherit (pkgs.stdenv.hostPlatform) isDarwin;
   llmAgentsPkgs = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
-  hexPkgs = inputs.hex.packages.${pkgs.stdenv.hostPlatform.system} or { };
 in
 
 {
@@ -52,6 +51,7 @@ in
       just
       devenv
       gh
+      sentry-cli
       databricks-cli
       parallel
       sqlite
@@ -117,7 +117,7 @@ in
     )
 
     ++ lib.optionals (!isDarwin) [
-      hexPkgs.default
+      pkgs.anomaly-hex
     ]
 
     ++ (with llmAgentsPkgs; [

@@ -55,7 +55,7 @@ sudo NIX_SHOW_TRACE=1 nixos-rebuild dry-activate --flake .#<host>  # trace
 
 Use the `inputs` attrset. Use Stylix, avoid hardcoded colors. Add `inputs.nixpkgs.follows = "nixpkgs"` to new inputs unless they rely on their own binary cache.
 Tracks `nixos-unstable`; home-manager, nix-darwin and stylix track their main branches to match.
-Notable inputs: `lanzaboote` (Secure Boot), `llama-cpp` (Vulkan), `llm-agents` (Claude Code, OpenCode, pi; intentionally not following nixpkgs), `nix-homebrew`, `mac-app-util`.
+Notable inputs: `lanzaboote` (Secure Boot), `llm-agents` (Claude Code, OpenCode, pi; intentionally not following nixpkgs), `nix-homebrew`, `mac-app-util`.
 
 ## Common Tasks
 
