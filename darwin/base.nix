@@ -74,6 +74,7 @@
       "watchman"
       "node"
       "pi-coding-agent"
+      "can1357/tap/omp"
     ];
   };
 

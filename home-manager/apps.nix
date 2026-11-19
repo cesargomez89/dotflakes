@@ -97,6 +97,7 @@ in
         nodejs
         paseo
         paseo-desktop
+        omp
       ]
     )
 
