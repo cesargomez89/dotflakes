@@ -22,11 +22,6 @@
     # Not following nixpkgs on purpose: keeps hits on the numtide binary cache.
     llm-agents.url = "github:numtide/llm-agents.nix";
 
-    # llama-cpp = {
-    #   url = "github:ggml-org/llama.cpp";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
     hex = {
       url = "github:anomalyco/hex";
       inputs.nixpkgs.follows = "nixpkgs";
